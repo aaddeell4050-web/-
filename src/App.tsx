@@ -21,7 +21,7 @@ import {
 import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttributes } from 'react';
 
 const CONTACT_NUMBER = "0536429445";
-const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}`;
+const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات تسديد القروض')}`;
 
 export default function App() {
   return (
@@ -61,24 +61,24 @@ function Layout({ children }: { children: ReactNode }) {
         }`}
       >
         <div className="container mx-auto flex justify-between items-center text-right">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-700 rounded-lg flex items-center justify-center shadow-lg shadow-blue-200">
-              <ShieldCheck className="text-white w-6 h-6" />
+          <Link to="/" className="flex items-center gap-2 md:gap-3">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-700 rounded-lg flex items-center justify-center shadow-lg shadow-blue-200">
+              <ShieldCheck className="text-white w-5 h-5 md:w-6 md:h-6" />
             </div>
-            <span className="text-2xl font-bold tracking-tight text-blue-900 hidden sm:block">
+            <span className="text-lg md:text-2xl font-bold tracking-tight text-blue-900 block">
               عادل لتسديد القروض
             </span>
           </Link>
           
-          <div className="flex items-center gap-4 md:gap-8">
+          <div className="flex items-center gap-2 md:gap-8">
             <div className="hidden lg:flex items-center gap-6 text-slate-600 font-bold ml-8">
               <Link to="/" className="hover:text-blue-700 transition-colors">الرئيسية</Link>
               <Link to="/services" className="hover:text-blue-700 transition-colors">خدماتنا</Link>
               <Link to="/contact" className="hover:text-blue-700 transition-colors">تواصل معنا</Link>
             </div>
-            <a href={`tel:${CONTACT_NUMBER}`} className="bg-blue-700 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-800 transition-all shadow-md active:scale-95 leading-none h-fit flex items-center gap-2">
-              <Phone className="w-4 h-4" />
-              <span className="hidden sm:inline">اتصل الآن</span>
+            <a href={`tel:${CONTACT_NUMBER}`} className="bg-blue-700 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold hover:bg-blue-800 transition-all shadow-md active:scale-95 leading-none h-fit flex items-center gap-2 text-sm md:text-base">
+              <Phone className="w-3.5 h-3.5 md:w-4 h-4" />
+              <span>اتصل الآن</span>
             </a>
           </div>
         </div>
@@ -148,15 +148,18 @@ function Layout({ children }: { children: ReactNode }) {
       </footer>
 
       {/* Floating Buttons */}
-      <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-[99]">
+      <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-[99] items-end">
         <motion.a 
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           href={WHATSAPP_URL}
           target="_blank"
-          className="bg-green-600 text-white p-4 rounded-full shadow-2xl shadow-green-500/30 hover:bg-green-700 transition-all flex items-center justify-center"
+          className="bg-green-600 text-white pl-6 pr-4 py-3 rounded-full shadow-2xl shadow-green-500/30 hover:bg-green-700 transition-all flex items-center gap-3 group"
         >
-          <MessageCircle className="w-7 h-7" />
+          <span className="font-bold text-sm md:text-base">تواصل واتساب</span>
+          <div className="bg-white/20 p-2 rounded-full">
+            <MessageCircle className="w-5 h-5 md:w-6 md:h-6" />
+          </div>
         </motion.a>
       </div>
     </div>
@@ -250,6 +253,27 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* Services Section */}
+      <section className="py-24 px-6 md:px-12 bg-white">
+        <div className="container mx-auto text-right">
+          <h2 className="text-4xl font-black text-slate-900 mb-12">خدماتنا</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <DetailServiceCard                
+              title="تسديد القروض البنكية"
+              content="نقوم بسداد مديونياتك الحالية في جميع البنوك السعودية لتمكينك من البدء من جديد بنظام ائتماني نظيف."
+            />
+            <DetailServiceCard 
+              title="فك إيقاف الخدمات"
+              content="حلول سريعة لرفع إيقاف الخدمات الحكومية الناتج عن الالتزامات المالية المتعثرة."
+            />
+            <DetailServiceCard 
+              title="تحديث سمة"
+              content="إجراءات قانونية لتحديث سجلك في شركة سمة الائتمانية ورفع الحظر عنك."
+            />
+          </div>
+        </div>
+      </section>
     </>
   );
 }
@@ -290,16 +314,39 @@ function ServicesPage() {
   );
 }
 
+
+
 function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
     setStatus('loading');
-    // Simulate server call
-    setTimeout(() => {
+    try {
+      // Use absolute URL if configured, otherwise fallback to relative
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      
+      if (!response.ok) throw new Error(result.message || 'Failed to send request');
+      
       setStatus('success');
-    }, 1500);
+      form.reset();
+    } catch (error) {
+      console.error("Error sending request:", error);
+      setStatus('error');
+    }
   };
 
   return (
@@ -335,13 +382,35 @@ function ContactPage() {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <Input label="الاسم الكامل" placeholder="أدخل اسمك" required />
-                <Input label="رقم الجوال" placeholder="05xxxxxxxx" type="tel" required />
+                <Input label="الاسم الكامل" name="fullName" placeholder="أدخل اسمك" required />
+                <Input label="رقم الجوال" name="phone" placeholder="05xxxxxxxx" type="tel" required />
+                <div className="space-y-2 text-right">
+                  <label className="text-sm font-bold text-slate-700 block text-right">نوع البنك</label>
+                  <select 
+                    name="bankType"
+                    required
+                    className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all font-medium appearance-none cursor-pointer"
+                  >
+                    <option value="">اختر البنك...</option>
+                    <option value="الراجحي">الراجحي</option>
+                    <option value="الأهلي">الأهلي</option>
+                    <option value="الإنماء">الإنماء</option>
+                    <option value="الرياض">الرياض</option>
+                    <option value="العربي">العربي</option>
+                    <option value="ساب">ساب</option>
+                    <option value="الجزيرة">الجزيرة</option>
+                    <option value="البلاد">البلاد</option>
+                    <option value="الفرنسي">الفرنسي</option>
+                    <option value="السعودي الأول للاستثمار">السعودي الأول للاستثمار</option>
+                  </select>
+                </div>
+                <Input label="الراتب" name="salary" placeholder="أدخل راتبك" type="tel" pattern="[0-9]*" inputMode="numeric" required />
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700 block text-right">رسالتك أو تفاصيل الطلب</label>
                   <textarea 
+                    name="message"
                     className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all h-32"
-                    placeholder="اشرح مديونيتك أو البنك الحالي..."
+                    placeholder="اشرح مديونيتك..."
                   ></textarea>
                 </div>
                 <button 
@@ -447,11 +516,12 @@ function ContactInfo({ icon, label, value }: { icon: ReactNode, label: string, v
   );
 }
 
-function Input({ label, ...props }: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
+function Input({ label, name, ...props }: { label: string, name: string } & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div className="space-y-2">
       <label className="text-sm font-bold text-slate-700 block text-right">{label}</label>
       <input 
+        name={name}
         {...props}
         className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all font-medium"
       />
