@@ -9,7 +9,17 @@ import { readFileSync } from "fs";
 import { config } from "dotenv";
 import cors from "cors";
 
-config();
+app.use(cors({
+  origin: [
+    'https://adel-loans.com',
+    'https://www.adel-loans.com',
+    'https://gen-lang-client-0199928401.web.app',
+    'https://gen-lang-client-0199928401.firebaseapp.com'
+  ],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
