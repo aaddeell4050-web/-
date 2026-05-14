@@ -9,17 +9,7 @@ import { readFileSync } from "fs";
 import { config } from "dotenv";
 import cors from "cors";
 
-app.use(cors({
-  origin: [
-    'https://adel-loans.com',
-    'https://www.adel-loans.com',
-    'https://gen-lang-client-0199928401.web.app',
-    'https://gen-lang-client-0199928401.firebaseapp.com'
-  ],
-  methods: ['GET', 'POST'],
-  credentials: true
-}));
-
+config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -68,9 +58,16 @@ async function startServer() {
 
     // API Route - Handling contact form submission
     expressApp.post("/api/contact", async (req, res) => {
+      console.log("--- CONTACT API CALLED ---", req.body);
       try {
         const { fullName, phone, bankType, salary, message } = req.body;
-        console.log("Contact Request Received:", { fullName, phone, bankType, salary, message });
+        
+        if (!fullName || !phone || !bankType || !salary) {
+            console.error("Missing required fields", req.body);
+            return res.status(400).json({ success: false, message: "Missing required fields" });
+        }
+
+        console.log("Contact Request Processing:", { fullName, phone, bankType, salary, message });
 
         // 1. Save to Firestore
         await addDoc(collection(db, "requests"), {
@@ -86,15 +83,17 @@ async function startServer() {
         const transporter = getTransporter();
         let emailSent = false;
         if (transporter) {
+          console.log("Attempting to send email via SMTP, user:", process.env.SMTP_USER);
           try {
             await transporter.sendMail({
               from: `"موقع عادل" <${process.env.SMTP_USER}>`, 
               to: process.env.SMTP_USER, 
               subject: "طلب تواصل جديد من موقع عادل لتسديد القروض", 
               text: `تنبيه: طلب جديد وصل للموقع\n\nاسم العميل: ${fullName}\nرقم الجوال: ${phone}\nنوع البنك: ${bankType}\nالراتب: ${salary}\nالرسالة: ${message}`, 
-              replyTo: phone, // Optional: useful if it was an email, but it's a phone
+              replyTo: phone,
             });
             emailSent = true;
+            console.log("Email sent successfully!");
           } catch (mailError) {
             console.error("Failed to send email via SMTP:", mailError);
             // We still have the data in Firestore, but notice the failure
@@ -107,12 +106,9 @@ async function startServer() {
           res.json({ success: true, message: "تم إرسال طلبك بنجاح. سنتواصل معك." });
         } else {
           // If Firestore worked but email didn't, we still return successfully to user 
-          // but maybe with a hint if we want, or just log it properly.
-          // For now, let's keep it success but log the error on server.
           res.json({ 
             success: true, 
             message: "تم استلام طلبك بنجاح (تنبيه: تعذر إرسال الإشعار البريدي حالياً ولكن طلبك محفوظ).",
-            debug: process.env.NODE_ENV !== 'production' ? 'Email skipped or failed' : undefined
           });
         }
       } catch (error) {

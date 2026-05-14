@@ -16,7 +16,8 @@ import {
   Mail,
   Scale,
   Lock,
-  ChevronRight
+  ChevronRight,
+  Banknote
 } from 'lucide-react';
 import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttributes } from 'react';
 
@@ -175,68 +176,33 @@ function Home() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full -mr-64 -mt-64 blur-3xl -z-10 pointer-events-none"></div>
       
       {/* Hero */}
-      <section className="relative pt-20 pb-16 lg:pt-32 lg:pb-24 px-6 md:px-12">
+      <section className="relative pt-20 pb-16 lg:pt-32 lg:pb-24 px-6 md:px-12 text-center">
         <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+          <div className="flex flex-col items-center gap-12">
             <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-right"
+              className="max-w-3xl"
             >
               <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold text-slate-900 leading-[1.2] mb-6">
-                نسدد قروضكم البنكية <br/>
-                <span className="text-blue-700">بأقل هامش ربح</span> وخلال وقت قياسي
+                تمويل يصل إلى 36 راتب <br/>
+                <span className="text-blue-700">عادل السداد - حلولك المالية بين يديك</span>
               </h1>
-              <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed max-w-xl ml-auto">
-                نوفر أفضل الحلول المالية لسداد القروض والتعثرات في جميع البنوك السعودية، مع إمكانية استخراج أعلى تمويل جديد لتغطية كافة احتياجاتك.
+              <p className="text-lg md:text-xl text-slate-600 mb-6 leading-relaxed mx-auto max-w-2xl">
+                نقدم لك حلولاً مالية مبتكرة تشمل تسديد القروض البنكية حتى 36 راتب، رفع التعثرات من سمة، سداد البطاقات الائتمانية، واستخراج قروض لجميع البنوك بسرعة وسهولة.
               </p>
               
-              <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 justify-end max-w-lg ml-auto">
-                <div className="order-2 sm:order-1 text-center sm:text-right">
-                  <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-1 text-right">للتواصل والاستفسار المباشر</p>
-                  <p className="text-3xl font-black text-slate-900 tracking-wider font-mono">{CONTACT_NUMBER}</p>
-                </div>
-                <div className="order-1 sm:order-2 w-14 h-14 bg-green-50 rounded-full flex items-center justify-center text-green-600 flex-shrink-0">
-                  <Phone className="w-8 h-8" />
-                </div>
+              <div className="flex gap-4 justify-center">
+                  <a href={`tel:${CONTACT_NUMBER}`} className="bg-blue-700 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-800 transition-all flex items-center gap-2">
+                      <Phone className="w-5 h-5" />
+                      اتصل الآن
+                  </a>
+                  <a href={WHATSAPP_URL} target="_blank" className="bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700 transition-all flex items-center gap-2">
+                      <MessageCircle className="w-5 h-5" />
+                      واتساب
+                  </a>
               </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-            >
-              <SleekServiceCard 
-                icon={<CreditCard className="w-6 h-6" />}
-                bgClass="bg-blue-50"
-                textClass="text-blue-700"
-                title="سداد القروض"
-                description="تسديد كافة القروض الشخصية لجميع البنوك."
-              />
-              <SleekServiceCard 
-                icon={<ShieldCheck className="w-6 h-6" />}
-                bgClass="bg-amber-50"
-                textClass="text-amber-700"
-                title="فك إيقاف الخدمات"
-                description="معالجة المتعثرات لفك تجميد الخدمات."
-              />
-              <SleekServiceCard 
-                icon={<TrendingUp className="w-6 h-6" />}
-                bgClass="bg-indigo-50"
-                textClass="text-indigo-700"
-                title="تحديث تقرير سمة"
-                description="تحديث فوري لبيانات الائتمان في سمة."
-              />
-              <SleekServiceCard 
-                icon={<ArrowLeft className="w-6 h-6" />}
-                bgClass="bg-green-50"
-                textClass="text-green-700"
-                title="أعلى سقف تمويل"
-                description="استخراج تمويلات كبرى مع أقل نسبة فائدة."
-              />
             </motion.div>
           </div>
         </div>
@@ -320,16 +286,20 @@ function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: FormEvent) => {
+    console.log("Form submitted, attempting API fetch...");
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
+    
+    if (!data.bankType) {
+        alert("يرجى اختيار البنك");
+        return;
+    }
 
     setStatus('loading');
     try {
-      // Use absolute URL if configured, otherwise fallback to relative
-      const apiUrl = import.meta.env.VITE_API_URL || '';
-      const response = await fetch(`${apiUrl}/api/contact`, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -388,7 +358,6 @@ function ContactPage() {
                   <label className="text-sm font-bold text-slate-700 block text-right">نوع البنك</label>
                   <select 
                     name="bankType"
-                    required
                     className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all font-medium appearance-none cursor-pointer"
                   >
                     <option value="">اختر البنك...</option>
@@ -414,8 +383,9 @@ function ContactPage() {
                   ></textarea>
                 </div>
                 <button 
+                  type="submit"
                   disabled={status === 'loading'}
-                  className="w-full bg-blue-700 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-800 transition-all disabled:opacity-50"
+                  className="w-full bg-blue-700 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-800 transition-all disabled:opacity-50 relative z-50"
                 >
                   {status === 'loading' ? 'جاري الإرسال...' : 'إرسال الطلب'}
                 </button>
