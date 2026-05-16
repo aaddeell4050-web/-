@@ -61,7 +61,25 @@ function Layout({ children }: { children: ReactNode }) {
     // Track TikTok Page View and ViewContent on every route change
     if (window.ttq) {
       window.ttq.page();
-      window.ttq.track('ViewContent');
+      
+      const contentName = location.pathname === '/' ? 'Home' : 
+                          location.pathname === '/services' ? 'Services' : 
+                          location.pathname === '/contact' ? 'Contact' : 'Legal';
+      
+      window.ttq.track('ViewContent', {
+        content_name: contentName,
+        content_type: 'product',
+        content_id: 'loans_service'
+      });
+
+      // Track InitiateCheckout when visiting the contact (order) form
+      if (location.pathname === '/contact') {
+        window.ttq.track('InitiateCheckout', {
+          content_name: 'Lead Form',
+          content_type: 'product',
+          content_id: 'loans_service'
+        });
+      }
     }
 
     return () => window.removeEventListener('scroll', handleScroll);
@@ -313,21 +331,36 @@ function ContactPage() {
 
     setStatus('loading');
     try {
-      const response = await fetch('/api/contact', {
+      // Generate unique event ID for TikTok deduplication
+      const eventId = `event_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      
+      // Get test event code from URL if present
+      const urlParams = new URLSearchParams(window.location.search);
+      const testEventCode = urlParams.get('test_event_code');
+
+      const response = await fetch(`/api/contact${testEventCode ? `?test_event_code=${testEventCode}` : ''}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, eventId }),
       });
 
       const result = await response.json();
       
       if (!response.ok) throw new Error(result.message || 'Failed to send request');
       
-      // Track TikTok Event on the client side
+      // Track TikTok Events on the client side with the SAME eventId for deduplication
       if (window.ttq) {
-        window.ttq.track('CompleteRegistration');
+        const conversionEvents = ['CompleteRegistration', 'Contact', 'Purchase'];
+        conversionEvents.forEach(evt => {
+          window.ttq.track(evt, {
+            event_id: eventId,
+            content_name: 'Lead Form Success',
+            content_type: 'product',
+            content_id: 'loans_service'
+          });
+        });
       }
 
       setStatus('success');
@@ -473,7 +506,15 @@ function DetailServiceCard({ title, content }: { title: string, content: string 
       <h3 className="text-2xl font-bold text-blue-900 mb-4">{title}</h3>
       <p className="text-slate-600 leading-relaxed text-sm">{content}</p>
       <div className="mt-auto pt-6 flex justify-end">
-        <Link to="/contact" className="text-blue-700 font-bold flex items-center gap-2 group">
+        <Link 
+          to="/contact" 
+          onClick={() => {
+            if (window.ttq) {
+              window.ttq.track('InitiateCheckout');
+            }
+          }}
+          className="text-blue-700 font-bold flex items-center gap-2 group"
+        >
           <span>طلب الخدمة</span>
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
         </Link>

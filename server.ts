@@ -8,6 +8,7 @@ import { readFileSync, existsSync } from "fs";
 import { config } from "dotenv";
 import cors from "cors";
 import crypto from "crypto";
+import cookieParser from "cookie-parser";
 
 config();
 
@@ -16,8 +17,23 @@ function sha256(data: string) {
   return crypto.createHash("sha256").update(data.trim().toLowerCase()).digest("hex");
 }
 
+// Normalize phone to E.164 (Saudi Arabia)
+function normalizePhone(phone: string) {
+  let cleaned = phone.replace(/\D/g, "");
+  if (cleaned.startsWith("05") && cleaned.length === 10) {
+    return "+966" + cleaned.substring(1);
+  }
+  if (cleaned.startsWith("5") && cleaned.length === 9) {
+    return "+966" + cleaned;
+  }
+  if (cleaned.startsWith("966") && (cleaned.length === 12 || cleaned.length === 11)) {
+    return "+" + cleaned;
+  }
+  return cleaned; // Fallback
+}
+
 // TikTok CAPI Function
-async function sendTikTokEvent(event: string, userData: { phone?: string; email?: string }, req: express.Request) {
+async function sendTikTokEvent(event: string, userData: { phone?: string; email?: string }, req: express.Request, eventId?: string) {
   // Use environment variables if set, otherwise fallback to the provided IDs
   const pixelId = process.env.TIKTOK_PIXEL_ID || "D84DP5BC77U6NFPBOU0G";
   const accessToken = process.env.TIKTOK_ACCESS_TOKEN || "7d682ecba6ea6642572a95511609debf6c7262c0";
@@ -28,24 +44,28 @@ async function sendTikTokEvent(event: string, userData: { phone?: string; email?
   }
 
   // Extract client IP and OS info
-  const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "";
+  const clientIp = (req.headers["x-forwarded-for"] as string || req.socket.remoteAddress || "").split(',')[0].trim();
   const userAgent = req.headers["user-agent"] || "";
   const pageUrl = req.headers.referer || process.env.APP_URL || "https://adel-loans.com";
+  
+  // Get _ttp cookie from request
+  const ttp = (req as any).cookies?._ttp || "";
 
   const payload = {
     event: event,
-    event_id: `event_${Date.now()}_${Math.random().toString(36).substring(7)}`,
+    event_id: eventId || `event_${Date.now()}_${Math.random().toString(36).substring(7)}`,
     event_time: Math.floor(Date.now() / 1000),
     test_event_code: req.query.test_event_code || undefined, // Support for TikTok Test Events
     context: {
       ad: {
-        callback: req.query.ttclid // TikTok Click ID if present in current request
+        callback: req.query.ttclid as string // TikTok Click ID if present in current request
       },
       user: {
-        phone_sha256: userData.phone ? sha256(userData.phone) : undefined,
+        phone_sha256: userData.phone ? sha256(normalizePhone(userData.phone)) : undefined,
         email_sha256: userData.email ? sha256(userData.email) : undefined,
         ip_address: clientIp,
-        user_agent: userAgent
+        user_agent: userAgent,
+        ttp: ttp
       },
       page: {
         url: pageUrl
@@ -115,19 +135,20 @@ async function startServer() {
     // Middleware
     expressApp.use(cors()); // Allow all origins for the API to work across domains
     expressApp.use(express.json());
+    expressApp.use(cookieParser());
 
     // API Route - Handling contact form submission
     expressApp.post("/api/contact", async (req, res) => {
       console.log("--- CONTACT API CALLED ---", req.body);
       try {
-        const { fullName, phone, bankType, salary, message } = req.body;
+        const { fullName, phone, bankType, salary, message, eventId } = req.body;
         
         if (!fullName || !phone || !bankType || !salary) {
             console.error("Missing required fields", req.body);
             return res.status(400).json({ success: false, message: "Missing required fields" });
         }
 
-        console.log("Contact Request Processing:", { fullName, phone, bankType, salary, message });
+        console.log("Contact Request Processing:", { fullName, phone, bankType, salary, message, eventId });
 
         // 1. Save to Firestore
         await addDoc(collection(db, "requests"), {
@@ -137,11 +158,16 @@ async function startServer() {
           salary,
           message,
           createdAt: new Date().toISOString(),
+          eventId: eventId || null
         });
 
-        // 2. Track TikTok Lead Event (Server-side)
+        // 2. Track TikTok Events (Server-side)
         // Fire and forget to avoid delaying the response
-        sendTikTokEvent("CompleteRegistration", { phone }, req).catch(err => console.error("TikTok Event Error:", err));
+        // We send multiple events to help the vertical funnel optimization
+        const leadEvents = ["CompleteRegistration", "Contact", "Purchase"];
+        leadEvents.forEach(evt => {
+          sendTikTokEvent(evt, { phone }, req, eventId).catch(err => console.error(`TikTok Event Error (${evt}):`, err));
+        });
 
         // 3. Send Email
         const transporter = getTransporter();
