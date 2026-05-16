@@ -85,10 +85,9 @@ async function sendTikTokEvent(event: string, userData: { phone?: string; email?
   try {
     const requestBody = {
       pixel_code: pixelId,
-      pixel_id: pixelId,
       event_source_id: pixelId,
       event_source: "web",
-      events: [payload],
+      data: [payload], // Changed from 'events' to 'data' to match Payload Helper exactly
       test_event_code: testEventCode 
     };
 
