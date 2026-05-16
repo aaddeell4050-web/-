@@ -57,6 +57,13 @@ function Layout({ children }: { children: ReactNode }) {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     window.scrollTo(0, 0); // Scroll to top on route change
+
+    // Track TikTok Page View and ViewContent on every route change
+    if (window.ttq) {
+      window.ttq.page();
+      window.ttq.track('ViewContent');
+    }
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, [location]);
 

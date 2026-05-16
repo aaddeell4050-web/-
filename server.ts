@@ -18,35 +18,38 @@ function sha256(data: string) {
 
 // TikTok CAPI Function
 async function sendTikTokEvent(event: string, userData: { phone?: string; email?: string }, req: express.Request) {
-  const pixelId = process.env.TIKTOK_PIXEL_ID;
-  const accessToken = process.env.TIKTOK_ACCESS_TOKEN;
+  // Use environment variables if set, otherwise fallback to the provided IDs
+  const pixelId = process.env.TIKTOK_PIXEL_ID || "D84DP5BC77U6NFPBOU0G";
+  const accessToken = process.env.TIKTOK_ACCESS_TOKEN || "7d682ecba6ea6642572a95511609debf6c7262c0";
 
   if (!pixelId || !accessToken) {
     console.log("TikTok Pixel ID or Access Token missing, skipping CAPI event.");
     return;
   }
 
+  // Extract client IP and OS info
+  const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "";
+  const userAgent = req.headers["user-agent"] || "";
+  const pageUrl = req.headers.referer || process.env.APP_URL || "https://adel-loans.com";
+
   const payload = {
     event: event,
     event_id: `event_${Date.now()}_${Math.random().toString(36).substring(7)}`,
-    timestamp: new Date().toISOString(),
+    event_time: Math.floor(Date.now() / 1000),
+    test_event_code: req.query.test_event_code || undefined, // Support for TikTok Test Events
     context: {
       ad: {
-        callback: req.query.ttclid // TikTok Click ID if present
+        callback: req.query.ttclid // TikTok Click ID if present in current request
       },
       user: {
         phone_sha256: userData.phone ? sha256(userData.phone) : undefined,
         email_sha256: userData.email ? sha256(userData.email) : undefined,
-      },
-      library: {
-        name: "node-server",
-        version: "1.0.0"
+        ip_address: clientIp,
+        user_agent: userAgent
       },
       page: {
-        url: req.headers.referer || process.env.APP_URL || ""
-      },
-      user_agent: req.headers["user-agent"],
-      ip: req.ip
+        url: pageUrl
+      }
     }
   };
 
@@ -63,9 +66,9 @@ async function sendTikTokEvent(event: string, userData: { phone?: string; email?
       })
     });
     const result = await response.json();
-    console.log("TikTok CAPI Response:", JSON.stringify(result));
+    console.log(`TikTok CAPI (${event}) Response:`, JSON.stringify(result));
   } catch (error) {
-    console.error("Error sending TikTok CAPI event:", error);
+    console.error(`Error sending TikTok CAPI event (${event}):`, error);
   }
 }
 
