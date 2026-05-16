@@ -65,20 +65,20 @@ async function sendTikTokEvent(event: string, userData: { phone?: string; email?
     event: event,
     event_id: eventId || `event_${Date.now()}_${Math.random().toString(36).substring(7)}`,
     event_time: Math.floor(Date.now() / 1000),
-    context: {
-      ad: {
-        callback: req.query.ttclid as string || (req.body.ttclid as string)
-      },
-      user: {
-        phone_sha256: userData.phone ? sha256(normalizePhone(userData.phone)) : undefined,
-        email_sha256: userData.email ? sha256(userData.email) : undefined,
-        ip_address: clientIp,
-        user_agent: userAgent,
-        ttp: ttp
-      },
-      page: {
-        url: currentUrl
-      }
+    user: {
+      phone_sha256: userData.phone ? sha256(normalizePhone(userData.phone)) : undefined,
+      email_sha256: userData.email ? sha256(userData.email) : undefined,
+      ip_address: clientIp,
+      user_agent: userAgent,
+      ttp: ttp,
+      ttclid: req.query.ttclid as string || (req.body.ttclid as string)
+    },
+    page: {
+      url: currentUrl
+    },
+    properties: {
+      currency: "SAR",
+      value: 0
     }
   };
 
@@ -86,6 +86,8 @@ async function sendTikTokEvent(event: string, userData: { phone?: string; email?
     const requestBody = {
       pixel_code: pixelId,
       pixel_id: pixelId,
+      event_source_id: pixelId,
+      event_source: "web",
       events: [payload],
       test_event_code: testEventCode 
     };
