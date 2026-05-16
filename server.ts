@@ -1,23 +1,80 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
-import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { readFileSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import { config } from "dotenv";
 import cors from "cors";
+import crypto from "crypto";
 
 config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Helper to hash data for TikTok (SHA-256)
+function sha256(data: string) {
+  return crypto.createHash("sha256").update(data.trim().toLowerCase()).digest("hex");
+}
+
+// TikTok CAPI Function
+async function sendTikTokEvent(event: string, userData: { phone?: string; email?: string }, req: express.Request) {
+  const pixelId = process.env.TIKTOK_PIXEL_ID;
+  const accessToken = process.env.TIKTOK_ACCESS_TOKEN;
+
+  if (!pixelId || !accessToken) {
+    console.log("TikTok Pixel ID or Access Token missing, skipping CAPI event.");
+    return;
+  }
+
+  const payload = {
+    event: event,
+    event_id: `event_${Date.now()}_${Math.random().toString(36).substring(7)}`,
+    timestamp: new Date().toISOString(),
+    context: {
+      ad: {
+        callback: req.query.ttclid // TikTok Click ID if present
+      },
+      user: {
+        phone_sha256: userData.phone ? sha256(userData.phone) : undefined,
+        email_sha256: userData.email ? sha256(userData.email) : undefined,
+      },
+      library: {
+        name: "node-server",
+        version: "1.0.0"
+      },
+      page: {
+        url: req.headers.referer || process.env.APP_URL || ""
+      },
+      user_agent: req.headers["user-agent"],
+      ip: req.ip
+    }
+  };
+
+  try {
+    const response = await fetch(`https://business-api.tiktok.com/open_api/v1.3/event/track/`, {
+      method: "POST",
+      headers: {
+        "Access-Token": accessToken,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        pixel_code: pixelId,
+        events: [payload]
+      })
+    });
+    const result = await response.json();
+    console.log("TikTok CAPI Response:", JSON.stringify(result));
+  } catch (error) {
+    console.error("Error sending TikTok CAPI event:", error);
+  }
+}
 
 // Initialize Firebase
 let firebaseConfig;
 try {
-  firebaseConfig = JSON.parse(readFileSync(path.join(__dirname, "firebase-applet-config.json"), "utf-8"));
+  const configPath = path.join(process.cwd(), "firebase-applet-config.json");
+  console.log("Reading firebase config from:", configPath);
+  firebaseConfig = JSON.parse(readFileSync(configPath, "utf-8"));
 } catch (error) {
   console.error("Critical error reading firebase-applet-config.json:", error);
   process.exit(1);
@@ -79,7 +136,11 @@ async function startServer() {
           createdAt: new Date().toISOString(),
         });
 
-        // 2. Send Email
+        // 2. Track TikTok Lead Event (Server-side)
+        // Fire and forget to avoid delaying the response
+        sendTikTokEvent("CompleteRegistration", { phone }, req).catch(err => console.error("TikTok Event Error:", err));
+
+        // 3. Send Email
         const transporter = getTransporter();
         let emailSent = false;
         if (transporter) {

@@ -24,6 +24,13 @@ import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttr
 const CONTACT_NUMBER = "0536429445";
 const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات تسديد القروض')}`;
 
+// Types for TikTok Pixel
+declare global {
+  interface Window {
+    ttq: any;
+  }
+}
+
 export default function App() {
   return (
     <Router>
@@ -311,6 +318,11 @@ function ContactPage() {
       
       if (!response.ok) throw new Error(result.message || 'Failed to send request');
       
+      // Track TikTok Event on the client side
+      if (window.ttq) {
+        window.ttq.track('CompleteRegistration');
+      }
+
       setStatus('success');
       form.reset();
     } catch (error) {
