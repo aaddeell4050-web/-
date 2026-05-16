@@ -62,6 +62,9 @@ function Layout({ children }: { children: ReactNode }) {
     if (window.ttq) {
       window.ttq.page();
       
+      const urlParams = new URLSearchParams(window.location.search);
+      const testEventCode = urlParams.get('test_event_code');
+      
       const contentName = location.pathname === '/' ? 'Home' : 
                           location.pathname === '/services' ? 'Services' : 
                           location.pathname === '/contact' ? 'Contact' : 'Legal';
@@ -69,7 +72,8 @@ function Layout({ children }: { children: ReactNode }) {
       window.ttq.track('ViewContent', {
         content_name: contentName,
         content_type: 'product',
-        content_id: 'loans_service'
+        content_id: 'loans_service',
+        test_event_code: testEventCode || undefined
       });
 
       // Track InitiateCheckout when visiting the contact (order) form
@@ -77,7 +81,8 @@ function Layout({ children }: { children: ReactNode }) {
         window.ttq.track('InitiateCheckout', {
           content_name: 'Lead Form',
           content_type: 'product',
-          content_id: 'loans_service'
+          content_id: 'loans_service',
+          test_event_code: testEventCode || undefined
         });
       }
     }
@@ -358,7 +363,8 @@ function ContactPage() {
             event_id: eventId,
             content_name: 'Lead Form Success',
             content_type: 'product',
-            content_id: 'loans_service'
+            content_id: 'loans_service',
+            test_event_code: testEventCode || undefined
           });
         });
       }
@@ -510,7 +516,11 @@ function DetailServiceCard({ title, content }: { title: string, content: string 
           to="/contact" 
           onClick={() => {
             if (window.ttq) {
-              window.ttq.track('InitiateCheckout');
+              const urlParams = new URLSearchParams(window.location.search);
+              const testEventCode = urlParams.get('test_event_code');
+              window.ttq.track('InitiateCheckout', {
+                test_event_code: testEventCode || undefined
+              });
             }
           }}
           className="text-blue-700 font-bold flex items-center gap-2 group"

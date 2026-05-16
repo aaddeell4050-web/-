@@ -46,7 +46,11 @@ async function sendTikTokEvent(event: string, userData: { phone?: string; email?
   // Extract client IP and OS info
   const clientIp = (req.headers["x-forwarded-for"] as string || req.socket.remoteAddress || "").split(',')[0].trim();
   const userAgent = req.headers["user-agent"] || "";
-  const pageUrl = req.headers.referer || process.env.APP_URL || "https://adel-loans.com";
+  
+  // Use the Host header to construct the URL if referer is missing, to ensure Studio URL is caught
+  const host = req.headers.host || "";
+  const protocol = req.headers["x-forwarded-proto"] || "http";
+  const currentUrl = req.headers.referer || `${protocol}://${host}${req.url}`;
   
   // Get _ttp cookie from request
   const ttp = (req as any).cookies?._ttp || "";
@@ -55,7 +59,6 @@ async function sendTikTokEvent(event: string, userData: { phone?: string; email?
     event: event,
     event_id: eventId || `event_${Date.now()}_${Math.random().toString(36).substring(7)}`,
     event_time: Math.floor(Date.now() / 1000),
-    test_event_code: req.query.test_event_code || undefined, // Support for TikTok Test Events
     context: {
       ad: {
         callback: req.query.ttclid as string // TikTok Click ID if present in current request
@@ -65,28 +68,36 @@ async function sendTikTokEvent(event: string, userData: { phone?: string; email?
         email_sha256: userData.email ? sha256(userData.email) : undefined,
         ip_address: clientIp,
         user_agent: userAgent,
-        ttp: ttp
+        ttp: ttp,
+        ttclid: req.query.ttclid as string
       },
       page: {
-        url: pageUrl
+        url: currentUrl
       }
     }
   };
 
   try {
+    const testEventCode = req.query.test_event_code as string;
+    const requestBody = {
+      pixel_code: pixelId,
+      pixel_id: pixelId,
+      events: [payload],
+      test_event_code: testEventCode 
+    };
+
+    console.log(`TikTok CAPI Sending (${event}) with test_code: ${testEventCode || "none"}`);
+
     const response = await fetch(`https://business-api.tiktok.com/open_api/v1.3/event/track/`, {
       method: "POST",
       headers: {
         "Access-Token": accessToken,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        pixel_code: pixelId,
-        events: [payload]
-      })
+      body: JSON.stringify(requestBody)
     });
     const result = await response.json();
-    console.log(`TikTok CAPI (${event}) Response:`, JSON.stringify(result));
+    console.log(`TikTok CAPI (${event}) Final Response:`, JSON.stringify(result, null, 2));
   } catch (error) {
     console.error(`Error sending TikTok CAPI event (${event}):`, error);
   }
