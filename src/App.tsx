@@ -60,16 +60,30 @@ function Layout({ children }: { children: ReactNode }) {
 
     // Track TikTok Page View and ViewContent on every route change
     if (window.ttq) {
-      window.ttq.page();
-      
       const urlParams = new URLSearchParams(window.location.search);
       const testEventCode = urlParams.get('test_event_code');
+      // Use the pixel ID provided by the user
+      const pixelId = 'D84DP5BC77U6NFPBOU0G';
+      
+      // Ensure we are working with the correct instance
+      const tt = window.ttq.instance(pixelId);
+
+      if (testEventCode) {
+        try {
+          tt.set('test_event_code', testEventCode);
+          console.log("TikTok Test Code Set:", testEventCode);
+        } catch (e) {
+          console.warn("Could not set test_event_code on instance", e);
+        }
+      }
+
+      tt.page();
       
       const contentName = location.pathname === '/' ? 'Home' : 
                           location.pathname === '/services' ? 'Services' : 
                           location.pathname === '/contact' ? 'Contact' : 'Legal';
       
-      window.ttq.track('ViewContent', {
+      tt.track('ViewContent', {
         content_name: contentName,
         content_type: 'product',
         content_id: 'loans_service',
@@ -78,7 +92,7 @@ function Layout({ children }: { children: ReactNode }) {
 
       // Track InitiateCheckout when visiting the contact (order) form
       if (location.pathname === '/contact') {
-        window.ttq.track('InitiateCheckout', {
+        tt.track('InitiateCheckout', {
           content_name: 'Lead Form',
           content_type: 'product',
           content_id: 'loans_service',
@@ -348,7 +362,12 @@ function ContactPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...data, eventId }),
+        body: JSON.stringify({ 
+          ...data, 
+          eventId, 
+          test_event_code: testEventCode,
+          pageUrl: window.location.href 
+        }),
       });
 
       const result = await response.json();
@@ -357,9 +376,13 @@ function ContactPage() {
       
       // Track TikTok Events on the client side with the SAME eventId for deduplication
       if (window.ttq) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const testEventCode = urlParams.get('test_event_code');
+        const tt = window.ttq.instance('D84DP5BC77U6NFPBOU0G');
+        
         const conversionEvents = ['CompleteRegistration', 'Contact', 'Purchase'];
         conversionEvents.forEach(evt => {
-          window.ttq.track(evt, {
+          tt.track(evt, {
             event_id: eventId,
             content_name: 'Lead Form Success',
             content_type: 'product',
@@ -518,7 +541,7 @@ function DetailServiceCard({ title, content }: { title: string, content: string 
             if (window.ttq) {
               const urlParams = new URLSearchParams(window.location.search);
               const testEventCode = urlParams.get('test_event_code');
-              window.ttq.track('InitiateCheckout', {
+              window.ttq.instance('D84DP5BC77U6NFPBOU0G').track('InitiateCheckout', {
                 test_event_code: testEventCode || undefined
               });
             }
