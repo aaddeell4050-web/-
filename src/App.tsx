@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttributes } from 'react';
 import LeadsPage from './components/LeadsPage';
+// heroGraphic removed - using static public asset for SEO persistence
 
 const CONTACT_NUMBER = "0536429445";
 const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات تسديد القروض')}`;
@@ -279,11 +280,11 @@ function Home() {
             transition={{ duration: 0.8 }}
             className="mb-6 relative"
           >
-            <div className="relative z-10 max-w-[440px] mx-auto">
+            <div className="relative z-10 max-w-[600px] mx-auto">
                <img 
-                 src="/src/assets/images/adel_saddad_hero_matching_bg_1779020600844.png" 
-                 alt="36 راتب - عادل السداد" 
-                 className="w-full h-auto hover:rotate-2 hover:scale-110 transition-all duration-700 brightness-105"
+                 src="/og-image.png" 
+                 alt="عادل السداد لتسديد القروض - 36 راتب ومميزات بنكية" 
+                 className="w-full h-auto hover:rotate-1 hover:scale-105 transition-all duration-700 mix-blend-multiply"
                  referrerPolicy="no-referrer"
                />
             </div>
