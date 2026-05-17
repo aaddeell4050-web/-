@@ -36,7 +36,7 @@ function normalizePhone(phone: string) {
 }
 
 // TikTok CAPI Function
-async function sendTikTokEvent(event: string, userData: { phone?: string; email?: string; pageUrl?: string }, req: express.Request, eventId?: string) {
+async function sendTikTokEvent(event: string, userData: { phone?: string; email?: string; pageUrl?: string; fullName?: string; bankType?: string; salary?: string }, req: express.Request, eventId?: string) {
   // Use environment variables if set, otherwise fallback to the provided IDs
   const pixelId = process.env.TIKTOK_PIXEL_ID || "D84DP5BC77U6NFPBOU0G";
   // Fallback to the token shown in user's recent screenshot (Image 8)
@@ -65,29 +65,42 @@ async function sendTikTokEvent(event: string, userData: { phone?: string; email?
     event: event,
     event_id: eventId || `event_${Date.now()}_${Math.random().toString(36).substring(7)}`,
     event_time: Math.floor(Date.now() / 1000),
-    user: {
-      phone_sha256: userData.phone ? sha256(normalizePhone(userData.phone)) : undefined,
-      email_sha256: userData.email ? sha256(userData.email) : undefined,
-      ip_address: clientIp,
-      user_agent: userAgent,
-      ttp: ttp,
-      ttclid: req.query.ttclid as string || (req.body.ttclid as string)
-    },
-    page: {
-      url: currentUrl
+    context: {
+      ad: {
+        callback: req.query.ttclid as string || (req.body.ttclid as string)
+      },
+      user: {
+        phone_sha256: userData.phone ? sha256(normalizePhone(userData.phone)) : undefined,
+        email_sha256: userData.email ? sha256(userData.email) : undefined,
+        ip_address: clientIp,
+        user_agent: userAgent,
+        ttp: ttp
+      },
+      page: {
+        url: currentUrl
+      }
     },
     properties: {
       currency: "SAR",
-      value: 0
+      value: 0,
+      content_name: 'Lead Form Success',
+      content_type: 'product',
+      content_id: 'loans_service',
+      // Added custom properties for visibility in TikTok Events Manager
+      customer_name: userData.fullName,
+      phone_number: userData.phone,
+      bank: userData.bankType,
+      monthly_salary: userData.salary
     }
   };
 
   try {
     const requestBody = {
       pixel_code: pixelId,
-      event_source_id: pixelId,
+      pixel_id: pixelId, // Included for backward compatibility
       event_source: "web",
-      data: [payload], // Changed from 'events' to 'data' to match Payload Helper exactly
+      event_source_id: pixelId, // Matches help screenshot
+      events: [payload], // Standard TikTok CAPI key
       test_event_code: testEventCode 
     };
 
@@ -188,7 +201,7 @@ async function startServer() {
         const leadEvents = ["CompleteRegistration", "Contact", "Purchase"];
         const pageUrl = (req.body.pageUrl as string) || req.headers.referer;
         leadEvents.forEach(evt => {
-          sendTikTokEvent(evt, { phone, pageUrl }, req, eventId).catch(err => console.error(`TikTok Event Error (${evt}):`, err));
+          sendTikTokEvent(evt, { phone, pageUrl, fullName, bankType, salary }, req, eventId).catch(err => console.error(`TikTok Event Error (${evt}):`, err));
         });
 
         // 3. Send Email
@@ -226,6 +239,20 @@ async function startServer() {
       } catch (error) {
         console.error("Error processing contact form:", error);
         res.status(500).json({ success: false, message: "حدث خطأ أثناء إرسال الطلب. يرجى المحاولة لاحقاً." });
+      }
+    });
+
+    // API Route - Get all leads (Secured by a simple check or just public for now for dev)
+    expressApp.get("/api/leads", async (req, res) => {
+      try {
+        const { getDocs, query, orderBy } = await import("firebase/firestore");
+        const q = query(collection(db, "requests"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+        const leads = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        res.json(leads);
+      } catch (error) {
+        console.error("Error fetching leads:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch leads" });
       }
     });
 

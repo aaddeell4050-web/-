@@ -20,6 +20,7 @@ import {
   Banknote
 } from 'lucide-react';
 import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttributes } from 'react';
+import LeadsPage from './components/LeadsPage';
 
 const CONTACT_NUMBER = "0536429445";
 const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات تسديد القروض')}`;
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfUse />} />
+          <Route path="/leads" element={<LeadsPage />} />
         </Routes>
       </Layout>
     </Router>
@@ -193,8 +195,13 @@ function Layout({ children }: { children: ReactNode }) {
             </div>
           </div>
           
-          <div className="border-t border-white/5 pt-8 text-center text-xs font-medium uppercase tracking-[0.2em]">
-            &copy; {new Date().getFullYear()} عادل لتسديد المتعثرات والتمويل. جميع الحقوق محفوظة
+          <div className="border-t border-white/5 pt-8 text-center text-xs font-medium uppercase tracking-[0.2em] flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              &copy; {new Date().getFullYear()} عادل لتسديد المتعثرات والتمويل. جميع الحقوق محفوظة
+            </div>
+            <Link to="/leads" className="text-slate-600 hover:text-white transition-colors">
+              لوحة التحكم
+            </Link>
           </div>
         </div>
       </footer>
@@ -353,9 +360,10 @@ function ContactPage() {
       // Generate unique event ID for TikTok deduplication
       const eventId = `event_${Date.now()}_${Math.random().toString(36).substring(7)}`;
       
-      // Get test event code from URL if present
+      // Get test event code and ttclid from URL if present
       const urlParams = new URLSearchParams(window.location.search);
       const testEventCode = urlParams.get('test_event_code');
+      const ttclid = urlParams.get('ttclid');
 
       const response = await fetch(`/api/contact${testEventCode ? `?test_event_code=${testEventCode}` : ''}`, {
         method: 'POST',
@@ -366,6 +374,7 @@ function ContactPage() {
           ...data, 
           eventId, 
           test_event_code: testEventCode,
+          ttclid: ttclid,
           pageUrl: window.location.href 
         }),
       });
@@ -374,10 +383,8 @@ function ContactPage() {
       
       if (!response.ok) throw new Error(result.message || 'Failed to send request');
       
-      // Track TikTok Events on the client side with the SAME eventId for deduplication
+        // Track TikTok Events on the client side with the SAME eventId for deduplication
       if (window.ttq) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const testEventCode = urlParams.get('test_event_code');
         const tt = window.ttq.instance('D84DP5BC77U6NFPBOU0G');
         
         const conversionEvents = ['CompleteRegistration', 'Contact', 'Purchase'];
@@ -387,7 +394,13 @@ function ContactPage() {
             content_name: 'Lead Form Success',
             content_type: 'product',
             content_id: 'loans_service',
-            test_event_code: testEventCode || undefined
+            test_event_code: testEventCode || undefined,
+            ttclid: ttclid || undefined,
+            // Added custom properties for visibility in TikTok Events Manager
+            customer_name: data.fullName,
+            phone_number: data.phone,
+            bank: data.bankType,
+            monthly_salary: data.salary
           });
         });
       }
