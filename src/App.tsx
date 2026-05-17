@@ -600,26 +600,90 @@ function ServicesPage() {
 
 
 function ContactPage() {
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus('loading');
+    
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      fullName: formData.get('fullName'),
+      phone: formData.get('phone'),
+      bankType: formData.get('bankType'),
+      salary: formData.get('salary'),
+      message: formData.get('message'),
+      pageUrl: window.location.href,
+      eventId: `event_${Date.now()}`
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setStatus('success');
+        if (window.ttq) {
+           window.ttq.instance('D84DP5BC77U6NFPBOU0G').track('Contact', {
+             test_event_code: new URLSearchParams(window.location.search).get('test_event_code') || undefined
+           });
+        }
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'حدث خطأ غير متوقع');
+      setStatus('error');
+    }
+  };
+
   return (
     <div className="py-24 px-6 md:px-12 bg-white">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-16">
           <h1 className="text-4xl font-black text-slate-900 mb-4">تواصل معنا الآن</h1>
-          <p className="text-slate-500">نحن هنا للإجابة على استفساراتك وتقديم أفضل الحلول المالية عبر الاتصال أو الواتساب.</p>
+          <p className="text-slate-500">أكمل النموذج أدناه أو تواصل معنا مباشرة عبر الاتصال أو الواتساب.</p>
         </div>
 
-        <div className="flex justify-center">
-          <div className="bg-slate-50 p-10 rounded-3xl text-right w-full max-w-lg">
-            <h3 className="text-2xl font-bold mb-8 text-center">معلومات التواصل</h3>
-            <div className="space-y-6">
-              <ContactInfo icon={<Phone className="w-5 h-5" />} label="اتصال مباشر" value={CONTACT_NUMBER} />
-              <ContactInfo icon={<MessageCircle className="w-5 h-5 text-green-500" />} label="واتساب" value="متاح 24/7" />
-              <ContactInfo icon={<ShieldCheck className="w-5 h-5 text-blue-600" />} label="المنطقة" value="جميع أنحاء المملكة" />
-            </div>
-            
-            <div className="mt-12 p-6 bg-blue-900 text-white rounded-2xl text-center">
-              <p className="text-sm opacity-70 mb-2 font-bold uppercase tracking-wider">هل أنت مستعجل؟</p>
-              <a href={`tel:${CONTACT_NUMBER}`} className="text-2xl font-black block hover:text-blue-200 transition-colors">اتصل الآن ضغطة واحدة</a>
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          <div className="order-2 md:order-1">
+            {status === 'success' ? (
+              <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-green-50 p-8 rounded-3xl border border-green-100 text-center h-full flex flex-col justify-center">
+                <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">تم استلام طلبك!</h3>
+                <p className="text-slate-600">سنتواصل معك في أقرب وقت ممكن عبر رقم الجوال المسجل.</p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4 bg-slate-50 p-8 rounded-3xl border border-slate-100">
+                <Input label="الاسم الكامل" name="fullName" required placeholder="أدخل اسمك الثلاثي" />
+                <Input label="رقم الجوال" name="phone" required type="tel" placeholder="05xxxxxxxx" />
+                <Input label="اسم البنك الحالي" name="bankType" required placeholder="مثلاً: الراجحي، الأهلي..." />
+                <Input label="صافي الراتب" name="salary" required type="number" placeholder="أدخل راتبك الشهري" />
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700 block text-right">الرسالة أو نوع الخدمة</label>
+                  <textarea name="message" className="w-full bg-white border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all min-h-[100px]" placeholder="مثلاً: تسديد قرض الراجحي واستخراج جديد"></textarea>
+                </div>
+                {status === 'error' && <p className="text-red-600 text-sm text-right font-bold">{errorMessage}</p>}
+                <button disabled={status === 'loading'} className="w-full bg-blue-700 text-white py-4 rounded-xl font-black text-lg hover:bg-blue-800 transition-all shadow-lg active:scale-95 disabled:opacity-50">
+                  {status === 'loading' ? 'جاري الإرسال...' : 'إرسال الطلب الآن'}
+                </button>
+              </form>
+            )}
+          </div>
+
+          <div className="order-1 md:order-2 space-y-8">
+            <div className="bg-white p-8 rounded-3xl border border-slate-100 text-right shadow-sm">
+              <h3 className="text-2xl font-bold mb-6 text-slate-900">معلومات التواصل</h3>
+              <div className="space-y-6">
+                <ContactInfo icon={<Phone className="w-5 h-5" />} label="اتصال مباشر" value={CONTACT_NUMBER} />
+                <ContactInfo icon={<MessageCircle className="w-5 h-5 text-green-500" />} label="واتساب" value="متاح 24/7" />
+                <ContactInfo icon={<ShieldCheck className="w-5 h-5 text-blue-600" />} label="المنطقة" value="جميع أنحاء المملكة" />
+              </div>
             </div>
             <div className="mt-6 flex justify-center">
                 <a href={WHATSAPP_URL} target="_blank" className="text-xl font-black text-green-600 block hover:text-green-700 transition-colors">تواصل واتساب</a>
