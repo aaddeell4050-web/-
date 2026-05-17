@@ -341,150 +341,30 @@ function ServicesPage() {
 
 
 function ContactPage() {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-  const handleSubmit = async (e: FormEvent) => {
-    console.log("Form submitted, attempting API fetch...");
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    
-    if (!data.bankType) {
-        alert("يرجى اختيار البنك");
-        return;
-    }
-
-    setStatus('loading');
-    try {
-      // Generate unique event ID for TikTok deduplication
-      const eventId = `event_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-      
-      // Get test event code and ttclid from URL if present
-      const urlParams = new URLSearchParams(window.location.search);
-      const testEventCode = urlParams.get('test_event_code');
-      const ttclid = urlParams.get('ttclid');
-
-      const response = await fetch(`/api/contact${testEventCode ? `?test_event_code=${testEventCode}` : ''}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          ...data, 
-          eventId, 
-          test_event_code: testEventCode,
-          ttclid: ttclid,
-          pageUrl: window.location.href 
-        }),
-      });
-
-      const result = await response.json();
-      
-      if (!response.ok) throw new Error(result.message || 'Failed to send request');
-      
-        // Track TikTok Events on the client side with the SAME eventId for deduplication
-      if (window.ttq) {
-        const tt = window.ttq.instance('D84DP5BC77U6NFPBOU0G');
-        
-        const conversionEvents = ['CompleteRegistration', 'Contact', 'Purchase'];
-        conversionEvents.forEach(evt => {
-          tt.track(evt, {
-            event_id: eventId,
-            content_name: 'Lead Form Success',
-            content_type: 'product',
-            content_id: 'loans_service',
-            test_event_code: testEventCode || undefined,
-            ttclid: ttclid || undefined,
-            // Added custom properties for visibility in TikTok Events Manager
-            customer_name: data.fullName,
-            phone_number: data.phone,
-            bank: data.bankType,
-            monthly_salary: data.salary
-          });
-        });
-      }
-
-      setStatus('success');
-      form.reset();
-    } catch (error) {
-      console.error("Error sending request:", error);
-      setStatus('error');
-    }
-  };
-
   return (
     <div className="py-24 px-6 md:px-12 bg-white">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-16">
           <h1 className="text-4xl font-black text-slate-900 mb-4">تواصل معنا الآن</h1>
-          <p className="text-slate-500">نحن هنا للإجابة على استفساراتك وتقديم أفضل الحلول المالية.</p>
+          <p className="text-slate-500">نحن هنا للإجابة على استفساراتك وتقديم أفضل الحلول المالية عبر الاتصال أو الواتساب.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="bg-slate-50 p-10 rounded-3xl text-right">
-            <h3 className="text-2xl font-bold mb-8">معلومات التواصل</h3>
+        <div className="flex justify-center">
+          <div className="bg-slate-50 p-10 rounded-3xl text-right w-full max-w-lg">
+            <h3 className="text-2xl font-bold mb-8 text-center">معلومات التواصل</h3>
             <div className="space-y-6">
               <ContactInfo icon={<Phone className="w-5 h-5" />} label="اتصال مباشر" value={CONTACT_NUMBER} />
               <ContactInfo icon={<MessageCircle className="w-5 h-5 text-green-500" />} label="واتساب" value="متاح 24/7" />
               <ContactInfo icon={<ShieldCheck className="w-5 h-5 text-blue-600" />} label="المنطقة" value="جميع أنحاء المملكة" />
             </div>
             
-            <div className="mt-12 p-6 bg-blue-900 text-white rounded-2xl">
+            <div className="mt-12 p-6 bg-blue-900 text-white rounded-2xl text-center">
               <p className="text-sm opacity-70 mb-2 font-bold uppercase tracking-wider">هل أنت مستعجل؟</p>
-              <a href={`tel:${CONTACT_NUMBER}`} className="text-2xl font-black block">اتصل الآن ضغطة واحدة</a>
+              <a href={`tel:${CONTACT_NUMBER}`} className="text-2xl font-black block hover:text-blue-200 transition-colors">اتصل الآن ضغطة واحدة</a>
             </div>
-          </div>
-
-          <div className="text-right">
-            {status === 'success' ? (
-              <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-green-50 p-8 rounded-3xl border border-green-100 text-center">
-                <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-green-900 mb-2">تم الإرسال بنجاح</h3>
-                <p className="text-green-700">سنتواصل معك في أقرب وقت ممكن.</p>
-                <button onClick={() => setStatus('idle')} className="mt-6 text-green-900 font-bold underline">إرسال طلب آخر</button>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Input label="الاسم الكامل" name="fullName" placeholder="أدخل اسمك" required />
-                <Input label="رقم الجوال" name="phone" placeholder="05xxxxxxxx" type="tel" required />
-                <div className="space-y-2 text-right">
-                  <label className="text-sm font-bold text-slate-700 block text-right">نوع البنك</label>
-                  <select 
-                    name="bankType"
-                    className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all font-medium appearance-none cursor-pointer"
-                  >
-                    <option value="">اختر البنك...</option>
-                    <option value="الراجحي">الراجحي</option>
-                    <option value="الأهلي">الأهلي</option>
-                    <option value="الإنماء">الإنماء</option>
-                    <option value="الرياض">الرياض</option>
-                    <option value="العربي">العربي</option>
-                    <option value="ساب">ساب</option>
-                    <option value="الجزيرة">الجزيرة</option>
-                    <option value="البلاد">البلاد</option>
-                    <option value="الفرنسي">الفرنسي</option>
-                    <option value="السعودي الأول للاستثمار">السعودي الأول للاستثمار</option>
-                  </select>
-                </div>
-                <Input label="الراتب" name="salary" placeholder="أدخل راتبك" type="tel" pattern="[0-9]*" inputMode="numeric" required />
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700 block text-right">رسالتك أو تفاصيل الطلب</label>
-                  <textarea 
-                    name="message"
-                    className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all h-32"
-                    placeholder="اشرح مديونيتك..."
-                  ></textarea>
-                </div>
-                <button 
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="w-full bg-blue-700 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-800 transition-all disabled:opacity-50 relative z-50"
-                >
-                  {status === 'loading' ? 'جاري الإرسال...' : 'إرسال الطلب'}
-                </button>
-              </form>
-            )}
+            <div className="mt-6 flex justify-center">
+                <a href={WHATSAPP_URL} target="_blank" className="text-xl font-black text-green-600 block hover:text-green-700 transition-colors">تواصل واتساب</a>
+            </div>
           </div>
         </div>
       </div>
