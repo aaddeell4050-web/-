@@ -25,7 +25,7 @@ import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttr
 import LeadsPage from './components/LeadsPage';
 // heroGraphic removed - using static public asset for SEO persistence
 
-const CONTACT_NUMBER = "0536429445";
+const CONTACT_NUMBER = "0555381525";
 const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات تسديد القروض')}`;
 
 // Types for TikTok Pixel
