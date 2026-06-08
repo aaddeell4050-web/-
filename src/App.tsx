@@ -25,8 +25,15 @@ import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttr
 import LeadsPage from './components/LeadsPage';
 // heroGraphic removed - using static public asset for SEO persistence
 
-const CONTACT_NUMBER = "0555381525";
-const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات تسديد القروض')}`;
+const trackTikTokClick = (buttonName: string) => {
+  if (window.ttq) {
+     window.ttq.instance('D84DP5BC77U6NFPBOU0G').track('ClickButton', {
+       button_name: buttonName,
+       content_id: 'loans_service',
+       content_type: 'product'
+     });
+  }
+};
 
 // Types for TikTok Pixel
 declare global {
@@ -136,7 +143,7 @@ function Layout({ children }: { children: ReactNode }) {
               <a href="#about" className="hover:text-blue-700 transition-colors">من نحن</a>
               <a href="#faq" className="hover:text-blue-700 transition-colors">الدعم</a>
             </div>
-            <a href={`tel:${CONTACT_NUMBER}`} className="bg-blue-700 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold hover:bg-blue-800 transition-all shadow-md active:scale-95 leading-none h-fit flex items-center gap-2 text-sm md:text-base">
+            <a href={`tel:${CONTACT_NUMBER}`} onClick={() => trackTikTokClick('Call')} className="bg-blue-700 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold hover:bg-blue-800 transition-all shadow-md active:scale-95 leading-none h-fit flex items-center gap-2 text-sm md:text-base">
               <Phone className="w-3.5 h-3.5 md:w-4 h-4" />
               <span>اتصل الآن</span>
             </a>
@@ -220,6 +227,7 @@ function Layout({ children }: { children: ReactNode }) {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           href={WHATSAPP_URL}
+          onClick={() => trackTikTokClick('WhatsApp')}
           target="_blank"
           className="bg-green-600 text-white pl-6 pr-4 py-3 rounded-full shadow-2xl shadow-green-500/30 hover:bg-green-700 transition-all flex items-center gap-3 group"
         >
@@ -304,11 +312,11 @@ function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <a href={WHATSAPP_URL} target="_blank" className="bg-green-600 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-xl shadow-green-200">
+                <a href={WHATSAPP_URL} onClick={() => trackTikTokClick('WhatsApp')} target="_blank" className="bg-green-600 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-xl shadow-green-200">
                     <MessageCircle className="w-6 h-6" />
                     تواصل عبر الواتساب
                 </a>
-                <a href={`tel:${CONTACT_NUMBER}`} className="bg-white border-2 border-slate-200 text-slate-900 px-10 py-5 rounded-2xl font-black text-xl hover:bg-slate-50 transition-all flex items-center justify-center gap-3">
+                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => trackTikTokClick('Call')} className="bg-white border-2 border-slate-200 text-slate-900 px-10 py-5 rounded-2xl font-black text-xl hover:bg-slate-50 transition-all flex items-center justify-center gap-3">
                     <Phone className="w-6 h-6 text-blue-700" />
                     اتصل بنا الآن
                 </a>
@@ -503,11 +511,11 @@ function Home() {
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 leading-tight font-sans">جاهز تبدأ؟ تواصل معنا الآن!</h2>
             <p className="text-xl text-slate-500 mb-12 max-w-2xl mx-auto italic">فريقنا المتخصص جاهز لمساعدتك في حل جميع مشاكلك المالية. لا تتردد في التواصل معنا اليوم.</p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <a href={WHATSAPP_URL} target="_blank" className="bg-green-600 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-xl shadow-green-100">
+                <a href={WHATSAPP_URL} onClick={() => trackTikTokClick('WhatsApp')} target="_blank" className="bg-green-600 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-xl shadow-green-100">
                     <MessageCircle className="w-6 h-6" />
                     تواصل عبر الواتساب
                 </a>
-                <a href={`tel:${CONTACT_NUMBER}`} className="bg-blue-700 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-800 transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-100">
+                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => trackTikTokClick('Call')} className="bg-blue-700 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-800 transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-100">
                     <Phone className="w-6 h-6" />
                     اتصل بنا الآن
                 </a>
@@ -616,10 +624,10 @@ function ContactPage() {
             
             <div className="mt-12 p-6 bg-blue-900 text-white rounded-2xl text-center">
               <p className="text-sm opacity-70 mb-2 font-bold uppercase tracking-wider">هل أنت مستعجل؟</p>
-              <a href={`tel:${CONTACT_NUMBER}`} className="text-2xl font-black block hover:text-blue-200 transition-colors">اتصل الآن ضغطة واحدة</a>
+              <a href={`tel:${CONTACT_NUMBER}`} onClick={() => trackTikTokClick('Call')} className="text-2xl font-black block hover:text-blue-200 transition-colors">اتصل الآن ضغطة واحدة</a>
             </div>
             <div className="mt-6 flex justify-center">
-                <a href={WHATSAPP_URL} target="_blank" className="text-xl font-black text-green-600 block hover:text-green-700 transition-colors">تواصل واتساب</a>
+                <a href={WHATSAPP_URL} onClick={() => trackTikTokClick('WhatsApp')} target="_blank" className="text-xl font-black text-green-600 block hover:text-green-700 transition-colors">تواصل واتساب</a>
             </div>
           </div>
         </div>
