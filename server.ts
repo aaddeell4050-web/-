@@ -164,7 +164,7 @@ const getTransporter = () => {
 async function startServer() {
   try {
     const expressApp = express();
-    const PORT = Number(process.env.PORT || 3000);
+    const PORT = 3000;
 
     // Middleware
     expressApp.use(cors()); // Allow all origins for the API to work across domains
