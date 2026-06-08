@@ -284,7 +284,8 @@ async function startServer() {
       });
     }
 
-    expressApp.listen(PORT, "0.0.0.0", () => {
+expressApp.listen (Number (process.env. PORT_I|
+8080), "0.0.0.0", () = {
       console.log(`Standalone Site Running at http://localhost:${PORT}`);
     });
   } catch (err) {
