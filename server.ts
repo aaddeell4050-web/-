@@ -59,6 +59,11 @@ async function startServer() {
     expressApp.use(express.json());
     expressApp.use(cookieParser());
     
+    // Health check endpoint
+    expressApp.get("/health", (req, res) => {
+      res.status(200).send("OK");
+    });
+
     // API Route - Handling contact form submission
     expressApp.post("/api/contact", async (req, res) => {
       console.log("--- CONTACT API CALLED ---", req.body);
