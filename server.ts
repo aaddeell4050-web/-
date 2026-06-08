@@ -51,13 +51,14 @@ const getTransporter = () => {
 async function startServer() {
   try {
     const expressApp = express();
-    const PORT = Number(process.env.PORT || 3000);
+    const portEnv = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+    const PORT = isNaN(portEnv) ? 3000 : portEnv;
 
     // Middleware
     expressApp.use(cors()); // Allow all origins for the API to work across domains
     expressApp.use(express.json());
     expressApp.use(cookieParser());
-
+    
     // API Route - Handling contact form submission
     expressApp.post("/api/contact", async (req, res) => {
       console.log("--- CONTACT API CALLED ---", req.body);
@@ -162,9 +163,10 @@ async function startServer() {
       });
     }
 
-    expressApp.listen(PORT, "0.0.0.0", () => {
-      console.log(`Standalone Site Running at http://localhost:${PORT}`);
+    const serverInstance = expressApp.listen(PORT, "0.0.0.0", () => {
+      console.log(`Standalone Site Running on port ${PORT}`);
     });
+    console.log("Server listening call completed successfully.");
   } catch (err) {
     console.error("Failed to start server:", err);
     process.exit(1);
