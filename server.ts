@@ -164,7 +164,7 @@ const getTransporter = () => {
 async function startServer() {
   try {
     const expressApp = express();
-    const PORT = 3000;
+    const PORT = Number(process.env.PORT || 8080);
 
     // Middleware
     expressApp.use(cors()); // Allow all origins for the API to work across domains
@@ -285,7 +285,7 @@ async function startServer() {
     }
 
     expressApp.listen(PORT, "0.0.0.0", () => {
-      console.log(`Standalone Site Running at http://localhost:${PORT}`);
+      console.log(`Standalone Site Running at port ${PORT}`);
     });
   } catch (err) {
     console.error("Failed to start server:", err);
