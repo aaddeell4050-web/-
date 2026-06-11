@@ -41,6 +41,11 @@ const track = (event: string) => {
 };
 
 export default function App() {
+  useEffect(() => {
+    // @ts-ignore
+    window.ttq?.track('ViewContent');
+  }, []);
+
   return (
     <Router>
       <Layout>
