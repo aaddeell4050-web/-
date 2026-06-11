@@ -31,8 +31,13 @@ const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${enc
 
 
 const track = (event: string) => {
+  // Map both whatsapp_click and call_click to the standard TikTok Pixel 'Contact' event (حدث الاتصال)
+  // This guarantees TikTok Ads Manager tracks and optimizes conversions perfectly for both click types.
   // @ts-ignore
-  window.ttq?.track('CustomEvent', { event });
+  window.ttq?.track('Contact', {
+    content_name: event === 'whatsapp_click' ? 'WhatsApp Chat' : 'Phone Call',
+    content_category: 'Direct Contact'
+  });
 };
 
 export default function App() {
@@ -641,18 +646,22 @@ function SleekServiceCard({ icon, bgClass, textClass, title, description }: { ic
 }
 
 function DetailServiceCard({ title, content }: { title: string, content: string }) {
+  const serviceWhatsAppUrl = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent(`السلام عليكم، أرغب في الاستفسار عن خدمة: ${title}`)}`;
+
   return (
-    <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+    <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col font-tajawal">
       <h3 className="text-2xl font-bold text-blue-900 mb-4">{title}</h3>
       <p className="text-slate-600 leading-relaxed text-sm">{content}</p>
       <div className="mt-auto pt-6 flex justify-end">
-        <Link 
-          to="/contact" 
+        <a 
+          href={serviceWhatsAppUrl}
+          target="_blank"
+          onClick={() => track('whatsapp_click')}
           className="text-blue-700 font-bold flex items-center gap-2 group"
         >
-          <span>طلب الخدمة</span>
+          <span>طلب الخدمة عبر الواتساب</span>
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-        </Link>
+        </a>
       </div>
     </div>
   );
