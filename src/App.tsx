@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import AdelLogo from './assets/images/adel_logo_a_1781790033630.jpg';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useInView, animate, useMotionValue, useTransform } from 'motion/react';
 import { 
   Phone, 
   MessageCircle, 
@@ -19,9 +20,11 @@ import {
   ChevronRight,
   Banknote,
   User,
-  Star
+  Star,
+  Clock,
+  Zap
 } from 'lucide-react';
-import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttributes } from 'react';
+import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttributes, useRef } from 'react';
 import LeadsPage from './components/LeadsPage';
 // heroGraphic removed - using static public asset for SEO persistence
 
@@ -87,8 +90,8 @@ function Layout({ children }: { children: ReactNode }) {
       >
         <div className="container mx-auto flex justify-between items-center text-right">
           <Link to="/" className="flex items-center gap-2 md:gap-3 group">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center shadow-lg shadow-blue-200 group-hover:scale-110 transition-transform">
-              <ShieldCheck className="text-white w-5 h-5 md:w-6 md:h-6" />
+            <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg overflow-hidden group-hover:scale-110 transition-transform">
+              <img src={AdelLogo} alt="عادل السداد" className="w-full h-full object-cover" />
             </div>
             <span className="text-lg md:text-2xl font-black tracking-tight text-slate-900 block group-hover:text-blue-700 transition-colors">
               عادل <span className="text-blue-700">السداد</span>
@@ -107,7 +110,7 @@ function Layout({ children }: { children: ReactNode }) {
             <a 
           href={`tel:${CONTACT_NUMBER}`} 
           onClick={() => track('call_click')}
-          className="bg-blue-700 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold hover:bg-blue-800 transition-all shadow-md active:scale-95 leading-none h-fit flex items-center gap-2 text-sm md:text-base">
+          className="bg-blue-700 text-white px-4 md:px-6 py-2 rounded-full font-bold hover:bg-blue-800 transition-all shadow-md active:scale-95 leading-none h-fit flex items-center gap-2 text-sm md:text-base">
               <Phone className="w-3.5 h-3.5 md:w-4 h-4" />
               <span>اتصل الآن</span>
             </a>
@@ -135,8 +138,8 @@ function Layout({ children }: { children: ReactNode }) {
           <div className="grid md:grid-cols-4 gap-12 text-right mb-16">
             <div className="md:col-span-1">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center">
-                  <ShieldCheck className="text-white w-5 h-5" />
+                <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center">
+                  <img src={AdelLogo} alt="عادل السداد" className="w-full h-full object-cover" />
                 </div>
                 <span className="text-xl font-bold text-white tracking-tight">عادل السداد</span>
               </div>
@@ -168,8 +171,10 @@ function Layout({ children }: { children: ReactNode }) {
               <div className="flex flex-col gap-2">
                 <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="text-white font-bold text-lg">{CONTACT_NUMBER}</a>
                 <p className="text-sm">واتساب: {CONTACT_NUMBER}</p>
-                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="text-green-500 font-bold hover:underline">المملكة العربية السعودية</a>
-                <p className="text-xs mt-2 opacity-60 flex items-center justify-end gap-1">
+                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="flex items-center justify-end gap-2 text-green-500 font-bold hover:underline">
+                  <span>المملكة العربية السعودية</span>
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4" />
+                </a>                <p className="text-xs mt-2 opacity-60 flex items-center justify-end gap-1">
                    <span>الأحد - الخميس، 8 ص - 12 م</span>
                    <Lock className="w-3 h-3" />
                 </p>
@@ -190,14 +195,16 @@ function Layout({ children }: { children: ReactNode }) {
         <motion.a 
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          animate={{ boxShadow: ["0 0 0 0 rgba(22, 163, 74, 0.5)", "0 0 0 20px rgba(22, 163, 74, 0)"] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }}
           href={WHATSAPP_URL}
           target="_blank"
           onClick={() => track('whatsapp_click')}
-          className="bg-green-600 text-white pl-6 pr-4 py-3 rounded-full shadow-2xl shadow-green-500/30 hover:bg-green-700 transition-all flex items-center gap-3 group"
+          className="bg-green-600 text-white pl-4 pr-3 py-2 rounded-full shadow-2xl shadow-green-500/30 hover:bg-green-700 transition-all flex items-center gap-3 group"
         >
           <span className="font-bold text-sm md:text-base">تواصل واتساب</span>
           <div className="bg-white/20 p-2 rounded-full">
-            <MessageCircle className="w-5 h-5 md:w-6 md:h-6" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-6 h-6 md:w-8 md:h-8" />
           </div>
         </motion.a>
       </div>
@@ -225,7 +232,7 @@ function Home() {
   ];
 
   const faqs = [
-    { q: "ما هي خدمات عادل السداد؟", a: "نقدم خدمات تسديد القروض البنكية، رفع التعثرات من سمة، فك إيقاف الخدمات، وتوفير سيولة نقدية حتى 36 راتب لجميع البنوك." },
+    { q: "ما هي خدمات عادل السداد؟", a: "نقدم خدمات تسديد القروض البنكية، رفع التعثرات من سمة، فك إيقاف الخدمات، وتوفير سيولة نقدية حتى ٣٦ راتب لجميع البنوك." },
     { q: "كيف يمكنني التواصل معكم؟", a: "يمكنكم التواصل معنا مباشرة عبر الاتصال الهاتفي أو عبر الواتساب المتاح على مدار الساعة طوال أيام الأسبوع." },
     { q: "ما هي المدة المتوقعة لتسديد القرض؟", a: "تعتمد المدة على نوع القرض والبنك، ولكننا نتميز بالسرعة الفائقة وغالباً ما يتم الإنجاز في غضون وقت قياسي." },
     { q: "هل تقدمون ضمان على الخدمة؟", a: "نعم، خدماتنا نظامية وشرعية 100% ونضمن لكم الشفافية التامة في كافة الإجراءات." },
@@ -251,7 +258,7 @@ function Home() {
           >
             <div className="relative z-10 max-w-[600px] mx-auto">
                <img 
-                 src="/og-image.png" 
+                 src="/hero-image.png" 
                  alt="عادل السداد لتسديد القروض - 36 راتب ومميزات بنكية" 
                  className="w-full h-auto hover:rotate-1 hover:scale-105 transition-all duration-700 mix-blend-multiply"
                  referrerPolicy="no-referrer"
@@ -268,35 +275,50 @@ function Home() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-4xl mx-auto"
           >
-            <h1 className="text-4xl md:text-7xl font-black text-slate-900 leading-tight mb-8">
+            <h1 className="text-3xl md:text-6xl font-black text-slate-900 leading-tight mb-8">
               عادل السداد — <span className="text-blue-700 drop-shadow-sm">حلولك المالية بين يديك</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 mb-12 leading-relaxed max-w-3xl mx-auto font-medium italic">
-              نقدم لك حلولاً مالية مبتكرة تشمل تسديد القروض البنكية حتى 36 راتب، رفع التعثرات من سمة، سداد البطاقات الائتمانية، واستخراج قروض لجميع البنوك بسرعة وسهولة.
+            <p className="text-base md:text-lg text-slate-600 mb-8 leading-relaxed max-w-3xl mx-auto font-medium italic">
+              نقدم لك حلولاً مالية مبتكرة تشمل تسديد القروض البنكية حتى ٣٦ راتب، رفع التعثرات من سمة، سداد البطاقات الائتمانية، واستخراج قروض لجميع البنوك بسرعة وسهولة.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="bg-green-600 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-xl shadow-green-200">
-                    <MessageCircle className="w-6 h-6" />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <motion.a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} animate={{ boxShadow: ["0 0 0 0 rgba(22, 163, 74, 0.5)", "0 0 0 20px rgba(22, 163, 74, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-green-600 text-white px-8 py-3 rounded-xl font-black text-base hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-200">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4" />
                     تواصل عبر الواتساب
-                </a>
-                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="bg-white border-2 border-slate-200 text-slate-900 px-10 py-5 rounded-2xl font-black text-xl hover:bg-slate-50 transition-all flex items-center justify-center gap-3">
-                    <Phone className="w-6 h-6 text-blue-700" />
+                </motion.a>
+                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} animate={{ boxShadow: ["0 0 0 0 rgba(29, 78, 216, 0.5)", "0 0 0 20px rgba(29, 78, 216, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-white border-2 border-slate-200 text-slate-900 px-8 py-3 rounded-xl font-black text-base hover:bg-slate-50 transition-all flex items-center justify-center gap-3">
+                    <Phone className="w-4 h-4 text-blue-700" />
                     اتصل بنا الآن
-                </a>
+                </motion.a>
+            </div>
+            
+            <div className="flex flex-wrap items-center justify-center gap-6 mt-6 text-sm text-slate-600">
+                <div className="flex items-center gap-1.5 font-medium">
+                    <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                    <span>+5,000 عميل سعيد</span>
+                </div>
+                <div className="flex items-center gap-1.5 font-medium">
+                    <ShieldCheck className="w-4 h-4 text-blue-600" />
+                    <span>مرخص ومعتمد</span>
+                </div>
+                <div className="flex items-center gap-1.5 font-medium">
+                    <Zap className="w-4 h-4 text-green-500 fill-green-500" />
+                    <span>خدمة فورية</span>
+                </div>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Stats Banner */}
-      <section className="bg-slate-900 py-16 px-6 md:px-12">
+      <section className="bg-slate-900 py-8 px-6 md:px-12">
         <div className="container mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-            <ModernStatItem value="+5,000" label="عميل سعيد" icon={<User className="w-6 h-6 text-blue-400" />} />
-            <ModernStatItem value="+10,000" label="خدمة منجزة" icon={<CheckCircle2 className="w-6 h-6 text-green-400" />} />
-            <ModernStatItem value="98%" label="نسبة الرضا" icon={<TrendingUp className="w-6 h-6 text-amber-400" />} />
-            <ModernStatItem value="24/7" label="دعم متواصل" icon={<Lock className="w-6 h-6 text-purple-400" />} />
+            <ModernStatItem value="+٥,٠٠٠" label="عميل سعيد" icon={<User className="w-8 h-8 text-blue-500" />} />
+            <ModernStatItem value="+١٠،٠٠٠" label="خدمة منجزة" icon={<CheckCircle2 className="w-8 h-8 text-blue-500" />} />
+            <ModernStatItem value="٩٨٪" label="نسبة الرضا" icon={<Star className="w-8 h-8 text-blue-500" />} />
+            <ModernStatItem value="٢٤/٧" label="دعم متواصل" icon={<Clock className="w-8 h-8 text-blue-500" />} />
           </div>
         </div>
       </section>
@@ -306,7 +328,7 @@ function Home() {
         <div className="container mx-auto text-center font-tajawal">
           <div className="mb-16">
             <p className="text-blue-700 font-bold mb-4">خدماتنا</p>
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-sans">ماذا نقدم لك؟</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">ماذا نقدم لك؟</h2>
             <p className="text-slate-500 max-w-2xl mx-auto italic">حلول مالية شاملة ومتكاملة تلبي جميع احتياجاتك المالية بكل احترافية وسرعة</p>
           </div>
           
@@ -347,7 +369,7 @@ function Home() {
                  textClass="text-blue-700"
             />
             <SleekServiceCard 
-                 icon={<MessageCircle className="w-8 h-8" />}
+                 icon={<CreditCard className="w-8 h-8" />}
                  title="تسديد شركات التمويل"
                  description="نتولى تسديد مديونياتك لدى شركات التمويل المختلفة وإعادة هيكلة التزاماتك المالية."
                  bgClass="bg-blue-50"
@@ -362,7 +384,7 @@ function Home() {
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <p className="text-blue-700 font-bold mb-4">لماذا نحن</p>
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-sans">مميزاتنا</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">مميزاتنا</h2>
             <p className="text-slate-500 max-w-2xl mx-auto italic">نتميز بتقديم خدمات مالية عالية الجودة تضمن رضاك الكامل</p>
           </div>
 
@@ -382,7 +404,7 @@ function Home() {
         <div className="container mx-auto">
           <div className="text-center mb-20 font-tajawal">
             <p className="text-blue-700 font-bold mb-4">كيف نعمل</p>
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-sans">خطوات بسيطة وسهلة</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">خطوات بسيطة وسهلة</h2>
             <p className="text-slate-500">نجعل الأمر سهلاً وبسيطاً</p>
           </div>
 
@@ -403,7 +425,7 @@ function Home() {
         <div className="container mx-auto">
           <div className="text-center mb-16 font-tajawal">
             <p className="text-blue-700 font-bold mb-4">آراء العملاء</p>
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-sans">ماذا يقول عملاؤنا؟</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">ماذا يقول عملاؤنا؟</h2>
             <p className="text-slate-500">نفخر بثقة عملائنا الكرام</p>
           </div>
 
@@ -438,7 +460,7 @@ function Home() {
       <section id="faq" className="py-32 px-6 md:px-12 bg-white">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-16 underline decoration-blue-200 underline-offset-8">
-            <h2 className="text-4xl font-black text-slate-900 mb-6 font-sans">الأسئلة الشائعة</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">الأسئلة الشائعة</h2>
           </div>
           
           <div className="space-y-4">
@@ -446,10 +468,10 @@ function Home() {
               <div key={idx} className="border border-slate-100 rounded-2xl overflow-hidden">
                 <button 
                   onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                  className="w-full px-8 py-6 flex items-center justify-between hover:bg-slate-50 transition-colors text-right group"
+                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors text-right group"
                 >
                   <ChevronRight className={`w-5 h-5 text-slate-400 transition-transform ${activeFaq === idx ? 'rotate-90' : ''}`} />
-                  <span className="font-bold text-slate-900 text-lg group-hover:text-blue-700 transition-colors">{faq.q}</span>
+                  <span className="font-bold text-slate-900 text-base group-hover:text-blue-700 transition-colors">{faq.q}</span>
                 </button>
                 <AnimatePresence>
                   {activeFaq === idx && (
@@ -457,7 +479,7 @@ function Home() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="px-8 pb-6 text-slate-600 leading-relaxed text-right md:text-lg"
+                      className="px-6 pb-4 text-slate-600 leading-relaxed text-right md:text-base"
                     >
                       {faq.a}
                     </motion.div>
@@ -472,17 +494,17 @@ function Home() {
       {/* Final CTA */}
       <section id="about" className="py-24 px-6 md:px-12 bg-slate-50">
         <div className="container mx-auto max-w-5xl text-center">
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 leading-tight font-sans">جاهز تبدأ؟ تواصل معنا الآن!</h2>
-            <p className="text-xl text-slate-500 mb-12 max-w-2xl mx-auto italic">فريقنا المتخصص جاهز لمساعدتك في حل جميع مشاكلك المالية. لا تتردد في التواصل معنا اليوم.</p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="bg-green-600 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-xl shadow-green-100">
-                    <MessageCircle className="w-6 h-6" />
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 leading-tight font-sans">جاهز تبدأ؟ تواصل معنا الآن!</h2>
+            <p className="text-lg text-slate-500 mb-10 max-w-2xl mx-auto italic">فريقنا المتخصص جاهز لمساعدتك في حل جميع مشاكلك المالية. لا تتردد في التواصل معنا اليوم.</p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <motion.a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} animate={{ boxShadow: ["0 0 0 0 rgba(22, 163, 74, 0.5)", "0 0 0 20px rgba(22, 163, 74, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-green-600 text-white px-8 py-3 rounded-2xl font-black text-lg hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-100">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-5 h-5" />
                     تواصل عبر الواتساب
-                </a>
-                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="bg-blue-700 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-800 transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-100">
-                    <Phone className="w-6 h-6" />
+                </motion.a>
+                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} animate={{ boxShadow: ["0 0 0 0 rgba(29, 78, 216, 0.5)", "0 0 0 20px rgba(29, 78, 216, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-blue-700 text-white px-8 py-3 rounded-2xl font-black text-lg hover:bg-blue-800 transition-all flex items-center justify-center gap-3 shadow-lg shadow-blue-100">
+                    <Phone className="w-5 h-5" />
                     اتصل بنا الآن
-                </a>
+                </motion.a>
             </div>
         </div>
       </section>
@@ -490,15 +512,51 @@ function Home() {
   );
 }
 
+
+// ... (other imports)
+
 function ModernStatItem({ value, label, icon }: { value: string, label: string, icon: ReactNode }) {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+    
+    // Parse numeric part
+    const numericMatch = value.match(/[\d٠-٩][\d٠-٩,\u060C]*/);
+    const numericValue = numericMatch ? parseInt(numericMatch[0].replace(/[,،]/g, '').replace(/[٠-٩]/g, (d) => '0123456789'['٠١٢٣٤٥٦٧٨٩'.indexOf(d)])) : 0;
+    
+    const count = useMotionValue(0);
+    
+    // Explicit conversion helper for Arabic-Indic digits with formatting
+    const toArabicDigits = (num: number) => {
+        return Math.round(num).toLocaleString('ar-SA');
+    };
+    
+    const roundedArabic = useTransform(count, toArabicDigits);
+
+    useEffect(() => {
+        if (isInView) {
+            animate(count, numericValue, { duration: 2 });
+        }
+    }, [isInView, count, numericValue]);
+
     return (
-        <div className="text-center group border-l last:border-l-0 border-white/5 py-4">
-            <div className="mb-4 inline-block p-4 rounded-3xl bg-white/5 group-hover:bg-white/10 transition-colors">
+        <motion.div 
+            ref={ref} 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center group border-l last:border-l-0 border-white/10 py-2"
+        >
+            <div className="mb-2 inline-block p-2 rounded-2xl transition-colors">
                 {icon}
             </div>
-            <div className="text-4xl md:text-5xl font-black text-white mb-2 font-sans tracking-tighter">{value}</div>
-            <div className="text-slate-400 font-bold uppercase tracking-widest text-xs md:text-sm">{label}</div>
-        </div>
+            <div className="text-3xl md:text-4xl font-black text-white mb-1 font-sans tracking-tight">
+                {value.includes('+') && '+'}
+                <motion.span>{roundedArabic}</motion.span>
+                {value.includes('%') && '٪'}
+                {value.includes('/') && value.substring(value.indexOf('/'))}
+            </div>
+            <div className="text-slate-400 font-medium text-xs md:text-sm">{label}</div>
+        </motion.div>
     );
 }
 
@@ -582,7 +640,7 @@ function ContactPage() {
             <h3 className="text-2xl font-bold mb-8 text-center">معلومات التواصل</h3>
             <div className="space-y-6">
               <ContactInfo icon={<Phone className="w-5 h-5" />} label="اتصال مباشر" value={CONTACT_NUMBER} />
-              <ContactInfo icon={<MessageCircle className="w-5 h-5 text-green-500" />} label="واتساب" value="متاح 24/7" />
+              <ContactInfo icon={<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-5 h-5" />} label="واتساب" value="متاح 24/7" />
               <ContactInfo icon={<ShieldCheck className="w-5 h-5 text-blue-600" />} label="المنطقة" value="جميع أنحاء المملكة" />
             </div>
             
