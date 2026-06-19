@@ -22,7 +22,8 @@ import {
   User,
   Star,
   Clock,
-  Zap
+  Zap,
+  X
 } from 'lucide-react';
 import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttributes, useRef } from 'react';
 import LeadsPage from './components/LeadsPage';
@@ -69,6 +70,7 @@ export default function App() {
 
 function Layout({ children }: { children: ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -99,24 +101,42 @@ function Layout({ children }: { children: ReactNode }) {
           </Link>
           
           <div className="flex items-center gap-2 md:gap-8">
+            <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 text-slate-700">
+               <div className="w-6 h-0.5 bg-slate-700 mb-1.5"></div>
+               <div className="w-6 h-0.5 bg-slate-700 mb-1.5"></div>
+               <div className="w-6 h-0.5 bg-slate-700"></div>
+            </button>
             <div className="hidden lg:flex items-center gap-6 text-slate-600 font-bold ml-8">
               <Link to="/" className="hover:text-blue-700 transition-colors">الرئيسية</Link>
-              <a href="#services" className="hover:text-blue-700 transition-colors">خدماتنا</a>
-              <a href="#features" className="hover:text-blue-700 transition-colors">مميزاتنا</a>
-              <a href="#testimonials" className="hover:text-blue-700 transition-colors">آراء العملاء</a>
-              <a href="#about" className="hover:text-blue-700 transition-colors">من نحن</a>
-              <a href="#faq" className="hover:text-blue-700 transition-colors">الدعم</a>
+              <Link to="/services" className="hover:text-blue-700 transition-colors">خدماتنا</Link>
+              <Link to="/privacy" className="hover:text-blue-700 transition-colors">سياسة الخصوصية</Link>
+              <Link to="/terms" className="hover:text-blue-700 transition-colors">شروط الخدمة</Link>
             </div>
-            <a 
-          href={`tel:${CONTACT_NUMBER}`} 
-          onClick={() => track('call_click')}
-          className="bg-blue-700 text-white px-4 md:px-6 py-2 rounded-full font-bold hover:bg-blue-800 transition-all shadow-md active:scale-95 leading-none h-fit flex items-center gap-2 text-sm md:text-base">
-              <Phone className="w-3.5 h-3.5 md:w-4 h-4" />
-              <span>اتصل الآن</span>
-            </a>
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            className="fixed inset-0 z-[60] bg-white pt-24 px-6 flex flex-col gap-6 text-right"
+          >
+             <button onClick={() => setMenuOpen(false)} className="absolute top-6 left-6"><X size={28} strokeWidth={1} /></button>
+             <Link onClick={() => setMenuOpen(false)} to="/" className="text-xl font-light text-slate-800">الرئيسية</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/services" className="text-xl font-light text-slate-800">خدماتنا</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/privacy" className="text-xl font-light text-slate-800">سياسة الخصوصية</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/terms" className="text-xl font-light text-slate-800">شروط الخدمة</Link>
+             <div className="flex flex-col gap-4 mt-6">
+                <a href={WHATSAPP_URL} target="_blank" className="bg-green-600 text-white p-4 rounded-xl text-center font-bold">واتساب</a>
+                <a href={`tel:${CONTACT_NUMBER}`} className="bg-blue-700 text-white p-4 rounded-xl text-center font-bold">اتصال</a>
+             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <main className="flex-grow pt-10">
         <AnimatePresence mode="wait">
@@ -167,17 +187,25 @@ function Layout({ children }: { children: ReactNode }) {
             
             <div>
               <h4 className="text-white font-bold mb-6">تواصل معنا</h4>
-              <p className="text-sm mb-4">نخدمكم في جميع أنحاء المملكة</p>
-              <div className="flex flex-col gap-2">
-                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="text-white font-bold text-lg">{CONTACT_NUMBER}</a>
-                <p className="text-sm">واتساب: {CONTACT_NUMBER}</p>
-                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="flex items-center justify-end gap-2 text-green-500 font-bold hover:underline">
-                  <span>المملكة العربية السعودية</span>
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4" />
-                </a>                <p className="text-xs mt-2 opacity-60 flex items-center justify-end gap-1">
-                   <span>الأحد - الخميس، 8 ص - 12 م</span>
-                   <Lock className="w-3 h-3" />
-                </p>
+              <div className="flex flex-col gap-3 font-light text-sm text-slate-300">
+                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="flex items-center gap-2 text-slate-400 hover:text-white active:text-white focus:text-white transition-colors">
+                    <Phone className="w-4 h-4" />
+                    {CONTACT_NUMBER}
+                </a>
+                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="flex items-center gap-2 text-slate-400 hover:text-white active:text-white focus:text-white transition-colors">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.67-1.613-.918-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.974c-.002 5.45-4.436 9.884-9.885 9.884z"></path>
+                    </svg>
+                    واتساب: {CONTACT_NUMBER}
+                </a>
+                <div className="flex items-center gap-2 text-slate-300">
+                    <Banknote className="w-4 h-4" />
+                    <span>المملكة العربية السعودية</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-300">
+                    <Clock className="w-4 h-4" />
+                    <span>الأحد - الخميس، 8 ص - 12 م</span>
+                </div>
               </div>
             </div>
           </div>
@@ -191,21 +219,27 @@ function Layout({ children }: { children: ReactNode }) {
       </footer>
 
       {/* Floating Buttons */}
-      <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-[99] items-end">
+      <div className="fixed bottom-8 left-8 flex flex-col gap-4 z-[99]">
         <motion.a 
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.1 }}
+          animate={{ boxShadow: ["0 0 0 0 rgba(29, 78, 216, 0.5)", "0 0 0 20px rgba(29, 78, 216, 0)"] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }}
+          href={`tel:${CONTACT_NUMBER}`}
+          onClick={() => track('call_click')}
+          className="bg-blue-700 text-white p-4 rounded-full shadow-2xl shadow-blue-500/30 hover:bg-blue-800 transition-all"
+        >
+          <Phone className="w-6 h-6" />
+        </motion.a>
+        <motion.a 
+          whileHover={{ scale: 1.1 }}
           animate={{ boxShadow: ["0 0 0 0 rgba(22, 163, 74, 0.5)", "0 0 0 20px rgba(22, 163, 74, 0)"] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }}
           href={WHATSAPP_URL}
           target="_blank"
           onClick={() => track('whatsapp_click')}
-          className="bg-green-600 text-white pl-4 pr-3 py-2 rounded-full shadow-2xl shadow-green-500/30 hover:bg-green-700 transition-all flex items-center gap-3 group"
+          className="bg-green-600 text-white p-4 rounded-full shadow-2xl shadow-green-500/30 hover:bg-green-700 transition-all"
         >
-          <span className="font-bold text-sm md:text-base">تواصل واتساب</span>
-          <div className="bg-white/20 p-2 rounded-full">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-6 h-6 md:w-8 md:h-8" />
-          </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-6 h-6" />
         </motion.a>
       </div>
     </div>
@@ -287,8 +321,8 @@ function Home() {
                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-5 h-5" />
                     تواصل عبر الواتساب
                 </motion.a>
-                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} animate={{ boxShadow: ["0 0 0 0 rgba(29, 78, 216, 0.5)", "0 0 0 20px rgba(29, 78, 216, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-white border-2 border-slate-200 text-slate-900 px-8 py-3 rounded-lg font-black text-base hover:bg-slate-50 transition-all flex items-center justify-center gap-3">
-                    <Phone className="w-4 h-4 text-blue-700" />
+                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} animate={{ boxShadow: ["0 0 0 0 rgba(29, 78, 216, 0.5)", "0 0 0 20px rgba(29, 78, 216, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="group bg-white border-2 border-slate-200 text-slate-900 px-8 py-3 rounded-lg font-black text-base hover:bg-blue-700 hover:border-blue-700 hover:text-white transition-all flex items-center justify-center gap-3">
+                    <Phone className="w-4 h-4 text-blue-700 group-hover:text-white" />
                     اتصل بنا الآن
                 </motion.a>
             </div>
