@@ -118,7 +118,7 @@ function Layout({ children }: { children: ReactNode }) {
         </div>
       </nav>
 
-      <main className="flex-grow pt-20">
+      <main className="flex-grow pt-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -248,7 +248,7 @@ function Home() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full -mr-64 -mt-64 blur-3xl -z-10 pointer-events-none"></div>
       
       {/* Hero */}
-      <section className="relative pt-12 pb-16 lg:pt-24 lg:pb-32 px-6 md:px-12 text-center overflow-hidden">
+      <section className="relative pt-4 pb-8 lg:pt-8 lg:pb-16 px-4 md:px-8 text-center overflow-hidden bg-gradient-to-l from-blue-50 to-white">
         <div className="container mx-auto">
           <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
@@ -256,7 +256,7 @@ function Home() {
             transition={{ duration: 0.8 }}
             className="mb-6 relative"
           >
-            <div className="relative z-10 max-w-[600px] mx-auto">
+            <div className="relative z-10 max-w-[320px] mx-auto mt-10">
                <img 
                  src="/hero-image.png" 
                  alt="عادل السداد لتسديد القروض - 36 راتب ومميزات بنكية" 
@@ -283,26 +283,26 @@ function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} animate={{ boxShadow: ["0 0 0 0 rgba(22, 163, 74, 0.5)", "0 0 0 20px rgba(22, 163, 74, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-green-600 text-white px-8 py-3 rounded-xl font-black text-base hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-200">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4" />
+                <motion.a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} animate={{ boxShadow: ["0 0 0 0 rgba(22, 163, 74, 0.5)", "0 0 0 20px rgba(22, 163, 74, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-3 rounded-lg font-black text-base hover:from-green-800 hover:to-green-600 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-200">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-5 h-5" />
                     تواصل عبر الواتساب
                 </motion.a>
-                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} animate={{ boxShadow: ["0 0 0 0 rgba(29, 78, 216, 0.5)", "0 0 0 20px rgba(29, 78, 216, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-white border-2 border-slate-200 text-slate-900 px-8 py-3 rounded-xl font-black text-base hover:bg-slate-50 transition-all flex items-center justify-center gap-3">
+                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} animate={{ boxShadow: ["0 0 0 0 rgba(29, 78, 216, 0.5)", "0 0 0 20px rgba(29, 78, 216, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-white border-2 border-slate-200 text-slate-900 px-8 py-3 rounded-lg font-black text-base hover:bg-slate-50 transition-all flex items-center justify-center gap-3">
                     <Phone className="w-4 h-4 text-blue-700" />
                     اتصل بنا الآن
                 </motion.a>
             </div>
             
-            <div className="flex flex-wrap items-center justify-center gap-6 mt-6 text-sm text-slate-600">
-                <div className="flex items-center gap-1.5 font-medium">
+            <div className="flex flex-row items-center justify-around gap-2 mt-6 text-xs text-slate-700 font-medium">
+                <div className="flex items-center gap-1.5">
                     <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                    <span>+5,000 عميل سعيد</span>
+                    <span className="whitespace-nowrap">+ 5,000 عميل سعيد</span>
                 </div>
-                <div className="flex items-center gap-1.5 font-medium">
+                <div className="flex items-center gap-1.5">
                     <ShieldCheck className="w-4 h-4 text-blue-600" />
                     <span>مرخص ومعتمد</span>
                 </div>
-                <div className="flex items-center gap-1.5 font-medium">
+                <div className="flex items-center gap-1.5">
                     <Zap className="w-4 h-4 text-green-500 fill-green-500" />
                     <span>خدمة فورية</span>
                 </div>
@@ -324,7 +324,7 @@ function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-32 px-6 md:px-12 bg-white">
+      <section id="services" className="py-16 px-6 md:px-8 bg-white">
         <div className="container mx-auto text-center font-tajawal">
           <div className="mb-16">
             <p className="text-blue-700 font-bold mb-4">خدماتنا</p>
@@ -380,7 +380,7 @@ function Home() {
       </section>
 
       {/* Why Us / Features */}
-      <section id="features" className="py-32 px-6 md:px-12 bg-slate-50 overflow-hidden">
+      <section id="features" className="py-16 px-6 md:px-8 bg-slate-50 overflow-hidden">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <p className="text-blue-700 font-bold mb-4">لماذا نحن</p>
@@ -400,7 +400,7 @@ function Home() {
       </section>
 
       {/* How it works */}
-      <section className="py-32 px-6 md:px-12 bg-white">
+      <section className="py-16 px-6 md:px-8 bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-20 font-tajawal">
             <p className="text-blue-700 font-bold mb-4">كيف نعمل</p>
@@ -421,7 +421,7 @@ function Home() {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-32 px-6 md:px-12 bg-slate-50 overflow-hidden">
+      <section id="testimonials" className="py-16 px-6 md:px-8 bg-slate-50 overflow-hidden">
         <div className="container mx-auto">
           <div className="text-center mb-16 font-tajawal">
             <p className="text-blue-700 font-bold mb-4">آراء العملاء</p>
@@ -434,7 +434,7 @@ function Home() {
               <motion.div 
                 key={idx}
                 whileHover={{ y: -5 }}
-                className="min-w-[300px] md:min-w-[400px] bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 snap-center"
+                className="min-w-[300px] md:min-w-[350px] bg-white p-6 rounded-2xl shadow-sm border border-slate-100 snap-center"
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-black text-xl">
@@ -457,7 +457,7 @@ function Home() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-32 px-6 md:px-12 bg-white">
+      <section id="faq" className="py-16 px-6 md:px-8 bg-white">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-16 underline decoration-blue-200 underline-offset-8">
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">الأسئلة الشائعة</h2>
@@ -492,13 +492,13 @@ function Home() {
       </section>
 
       {/* Final CTA */}
-      <section id="about" className="py-24 px-6 md:px-12 bg-slate-50">
+      <section id="about" className="py-16 px-6 md:px-8 bg-slate-50">
         <div className="container mx-auto max-w-5xl text-center">
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 leading-tight font-sans">جاهز تبدأ؟ تواصل معنا الآن!</h2>
             <p className="text-lg text-slate-500 mb-10 max-w-2xl mx-auto italic">فريقنا المتخصص جاهز لمساعدتك في حل جميع مشاكلك المالية. لا تتردد في التواصل معنا اليوم.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} animate={{ boxShadow: ["0 0 0 0 rgba(22, 163, 74, 0.5)", "0 0 0 20px rgba(22, 163, 74, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-green-600 text-white px-8 py-3 rounded-2xl font-black text-lg hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-100">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-5 h-5" />
+                <motion.a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} animate={{ boxShadow: ["0 0 0 0 rgba(22, 163, 74, 0.5)", "0 0 0 20px rgba(22, 163, 74, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-3 rounded-2xl font-black text-lg hover:from-green-800 hover:to-green-600 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-100">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-7 h-7" />
                     تواصل عبر الواتساب
                 </motion.a>
                 <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} animate={{ boxShadow: ["0 0 0 0 rgba(29, 78, 216, 0.5)", "0 0 0 20px rgba(29, 78, 216, 0)"] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", repeatType: "reverse" }} className="bg-blue-700 text-white px-8 py-3 rounded-2xl font-black text-lg hover:bg-blue-800 transition-all flex items-center justify-center gap-3 shadow-lg shadow-blue-100">
@@ -562,7 +562,7 @@ function ModernStatItem({ value, label, icon }: { value: string, label: string, 
 
 function FeatureCard({ title, description, icon }: { title: string, description: string, icon: ReactNode }) {
     return (
-        <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl transition-all group text-right">
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all group text-right">
             <div className="w-14 h-14 bg-blue-50 text-blue-700 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-blue-700 group-hover:text-white transition-colors mr-0 ml-auto">
                 {icon}
             </div>
