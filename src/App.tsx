@@ -39,14 +39,21 @@ const track = (event: string) => {
   // Map both whatsapp_click and call_click to the standard TikTok Pixel 'Contact' event (حدث الاتصال)
   // This guarantees TikTok Ads Manager tracks and optimizes conversions perfectly for both click types.
   // @ts-ignore
-  window.ttq?.track('Contact', {
-    content_name: event === 'whatsapp_click' ? 'WhatsApp Chat' : 'Phone Call',
-    content_category: 'Direct Contact'
-  });
+  if (window.ttq && typeof window.ttq.ready === 'function') {
+      // @ts-ignore
+      window.ttq.ready(() => {
+        // @ts-ignore
+        window.ttq.track('Contact', {
+          content_name: event === 'whatsapp_click' ? 'WhatsApp Chat' : 'Phone Call',
+          content_category: 'Direct Contact'
+        });
+      });
+  }
 };
 
 export default function App() {
   useEffect(() => {
+    // @ts-ignore
     // @ts-ignore
     window.ttq?.track('ViewContent');
   }, []);
@@ -132,8 +139,8 @@ function Layout({ children }: { children: ReactNode }) {
              <Link onClick={() => setMenuOpen(false)} to="/privacy" className="text-xl font-light text-slate-800">سياسة الخصوصية</Link>
              <Link onClick={() => setMenuOpen(false)} to="/terms" className="text-xl font-light text-slate-800">شروط الخدمة</Link>
              <div className="flex flex-col gap-4 mt-6">
-                <a href={WHATSAPP_URL} target="_blank" className="bg-green-600 text-white p-4 rounded-xl text-center font-bold">واتساب</a>
-                <a href={`tel:${CONTACT_NUMBER}`} className="bg-blue-700 text-white p-4 rounded-xl text-center font-bold">اتصال</a>
+                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="bg-green-600 text-white p-4 rounded-xl text-center font-bold">واتساب</a>
+                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="bg-blue-700 text-white p-4 rounded-xl text-center font-bold">اتصال</a>
              </div>
           </motion.div>
         )}

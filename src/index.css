@@ -28,12 +28,14 @@
 
 :root {
   direction: rtl;
+  touch-action: manipulation;
 }
 
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
 }
 
 @layer base {
