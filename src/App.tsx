@@ -54,8 +54,15 @@ const track = (event: string) => {
 export default function App() {
   useEffect(() => {
     // @ts-ignore
-    // @ts-ignore
-    window.ttq?.track('ViewContent');
+    if (window.ttq && typeof window.ttq.ready === 'function') {
+      // @ts-ignore
+      window.ttq.ready(() => {
+        // @ts-ignore
+        window.ttq.track('ViewContent', {
+          content_name: 'Landing Page'
+        });
+      });
+    }
   }, []);
 
   return (
