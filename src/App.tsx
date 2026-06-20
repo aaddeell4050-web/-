@@ -38,30 +38,51 @@ const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${enc
 const track = (event: string) => {
   // Map both whatsapp_click and call_click to the standard TikTok Pixel 'Contact' event (حدث الاتصال)
   // This guarantees TikTok Ads Manager tracks and optimizes conversions perfectly for both click types.
-  // @ts-ignore
-  if (window.ttq && typeof window.ttq.ready === 'function') {
-      // @ts-ignore
-      window.ttq.ready(() => {
+  try {
+    // @ts-ignore
+    if (window.ttq) {
         // @ts-ignore
         window.ttq.track('Contact', {
-          content_name: event === 'whatsapp_click' ? 'WhatsApp Chat' : 'Phone Call',
-          content_category: 'Direct Contact'
+            contents: [{
+              content_id: 'contact_' + event,
+              content_type: 'product',
+              content_name: event === 'whatsapp_click' ? 'WhatsApp Chat' : 'Phone Call',
+              quantity: 1,
+              price: 1
+            }],
+            content_type: 'product',
+            content_id: 'contact_' + event,
+            value: 1,
+            currency: 'SAR'
         });
-      });
+    }
+  } catch (error) {
+    console.error('Tracking Error', error);
   }
 };
 
 export default function App() {
   useEffect(() => {
-    // @ts-ignore
-    if (window.ttq && typeof window.ttq.ready === 'function') {
+    try {
       // @ts-ignore
-      window.ttq.ready(() => {
+      if (window.ttq) {
         // @ts-ignore
         window.ttq.track('ViewContent', {
-          content_name: 'Landing Page'
+          contents: [{
+            content_id: 'page_view',
+            content_type: 'product',
+            content_name: 'Landing Page',
+            quantity: 1,
+            price: 1
+          }],
+          content_type: 'product',
+          content_id: 'page_view',
+          value: 1,
+          currency: 'SAR'
         });
-      });
+      }
+    } catch (error) {
+      console.error('Tracking Error', error);
     }
   }, []);
 
