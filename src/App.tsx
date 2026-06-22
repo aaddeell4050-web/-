@@ -19,11 +19,13 @@ import {
   Lock,
   ChevronRight,
   Banknote,
+  MapPin,
   User,
   Star,
   Clock,
   Zap,
-  X
+  X,
+  Check
 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttributes, useRef } from 'react';
@@ -162,13 +164,13 @@ function Layout({ children }: { children: ReactNode }) {
             className="fixed inset-0 z-[60] bg-white pt-24 px-6 flex flex-col gap-6 text-right"
           >
              <button onClick={() => setMenuOpen(false)} className="absolute top-6 left-6"><X size={28} strokeWidth={1} /></button>
-             <Link onClick={() => setMenuOpen(false)} to="/" className="text-xl font-light text-slate-800">الرئيسية</Link>
-             <Link onClick={() => setMenuOpen(false)} to="/services" className="text-xl font-light text-slate-800">خدماتنا</Link>
-             <Link onClick={() => setMenuOpen(false)} to="/privacy" className="text-xl font-light text-slate-800">سياسة الخصوصية</Link>
-             <Link onClick={() => setMenuOpen(false)} to="/terms" className="text-xl font-light text-slate-800">شروط الخدمة</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/" className="text-xl font-normal text-slate-800">الرئيسية</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/services" className="text-xl font-normal text-slate-800">خدماتنا</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/privacy" className="text-xl font-normal text-slate-800">سياسة الخصوصية</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/terms" className="text-xl font-normal text-slate-800">شروط الخدمة</Link>
              <div className="flex flex-col gap-4 mt-6">
-                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="bg-green-600 text-white p-4 rounded-xl text-center font-bold">واتساب</a>
-                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="bg-blue-700 text-white p-4 rounded-xl text-center font-bold">اتصال</a>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} className="bg-green-600 text-white p-4 rounded-xl text-center font-normal">واتساب</a>
+                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="bg-blue-700 text-white p-4 rounded-xl text-center font-normal">اتصال</a>
              </div>
           </motion.div>
         )}
@@ -197,7 +199,7 @@ function Layout({ children }: { children: ReactNode }) {
                 <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center">
                   <img src={AdelLogo} alt="عادل السداد" className="w-full h-full object-cover" />
                 </div>
-                <span className="text-xl font-bold text-white tracking-tight">عادل السداد</span>
+                <span className="text-xl font-medium text-white tracking-tight">عادل السداد</span>
               </div>
               <p className="leading-relaxed text-sm">
                 شريكك المالي الموثوق في المملكة العربية السعودية لسداد القروض مع عادل السداد.
@@ -205,7 +207,7 @@ function Layout({ children }: { children: ReactNode }) {
             </div>
             
             <div>
-              <h4 className="text-white font-bold mb-6">روابط سريعة</h4>
+              <h4 className="text-white font-medium mb-6">روابط سريعة</h4>
               <ul className="space-y-4 text-sm">
                 <li><Link to="/" className="hover:text-white transition-colors">الرئيسية</Link></li>
                 <li><Link to="/services" className="hover:text-white transition-colors">خدماتنا</Link></li>
@@ -214,7 +216,7 @@ function Layout({ children }: { children: ReactNode }) {
             </div>
             
             <div>
-              <h4 className="text-white font-bold mb-6">قانوني</h4>
+              <h4 className="text-white font-medium mb-6">قانوني</h4>
               <ul className="space-y-4 text-sm">
                 <li><Link to="/privacy" className="hover:text-white transition-colors">سياسة الخصوصية</Link></li>
                 <li><Link to="/terms" className="hover:text-white transition-colors">شروط الخدمة</Link></li>
@@ -222,20 +224,20 @@ function Layout({ children }: { children: ReactNode }) {
             </div>
             
             <div>
-              <h4 className="text-white font-bold mb-6">تواصل معنا</h4>
-              <div className="flex flex-col gap-3 font-light text-sm text-slate-300">
+              <h4 className="text-white font-medium mb-6">تواصل معنا</h4>
+              <div className="flex flex-col gap-3 font-normal text-sm text-slate-300">
                 <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="flex items-center gap-2 text-slate-400 hover:text-white active:text-white focus:text-white transition-colors">
                     <Phone className="w-4 h-4" />
                     {CONTACT_NUMBER}
                 </a>
-                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="flex items-center gap-2 text-slate-400 hover:text-white active:text-white focus:text-white transition-colors">
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} className="flex items-center gap-2 text-slate-400 hover:text-white active:text-white focus:text-white transition-colors">
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.67-1.613-.918-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.974c-.002 5.45-4.436 9.884-9.885 9.884z"></path>
                     </svg>
                     واتساب: {CONTACT_NUMBER}
                 </a>
                 <div className="flex items-center gap-2 text-slate-300">
-                    <Banknote className="w-4 h-4" />
+                    <MapPin className="w-4 h-4" />
                     <span>المملكة العربية السعودية</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-300">
@@ -246,7 +248,7 @@ function Layout({ children }: { children: ReactNode }) {
             </div>
           </div>
           
-          <div className="border-t border-white/5 pt-8 text-center text-xs font-medium uppercase tracking-[0.2em] flex flex-col md:flex-row items-center justify-center gap-4">
+          <div className="border-t border-white/5 pt-8 text-center text-xs font-normal uppercase tracking-[0.2em] flex flex-col md:flex-row items-center justify-center gap-4">
             <div>
               &copy; {new Date().getFullYear()} عادل السداد. جميع الحقوق محفوظة
             </div>
@@ -265,11 +267,11 @@ function Layout({ children }: { children: ReactNode }) {
         </a>
         <a 
           href={WHATSAPP_URL}
-          target="_blank"
+          target="_blank" rel="noopener noreferrer"
           onClick={() => track('whatsapp_click')}
           className="bg-green-600 text-white p-4 rounded-full shadow-2xl shadow-green-500/30 hover:bg-green-700 transition-all hover:scale-110 active:scale-90"
         >
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-6 h-6" />
+          <FaWhatsapp size={24} color="white" />
         </a>
       </div>
     </div>
@@ -279,7 +281,46 @@ function Layout({ children }: { children: ReactNode }) {
 // --- Pages ---
 
 function Home() {
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [activeFaq, setActiveFaq] = useState<number | null>(0);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleTestimonialScroll = () => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const children = Array.from(container.children) as HTMLElement[];
+      const containerRect = container.getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+      
+      let closestIndex = 0;
+      let minDistance = Infinity;
+
+      children.forEach((child, index) => {
+        const childRect = child.getBoundingClientRect();
+        const childCenter = childRect.left + childRect.width / 2;
+        const distance = Math.abs(containerCenter - childCenter);
+        
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setActiveTestimonial(closestIndex);
+    }
+  };
+
+  const scrollToTestimonial = (index: number) => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const targetElement = container.children[index] as HTMLElement;
+      if (targetElement) {
+        // scrollIntoView with inline center works perfectly for snap containers
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        setActiveTestimonial(index);
+      }
+    }
+  };
 
   const testimonials = [
     { name: "خلود الغامدي", city: "جدة", text: "تعامل رائع وسرعة في الإنجاز، سددوا لي قرضي في وقت قياسي.", time: "قبل يوم" },
@@ -342,7 +383,7 @@ function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative overflow-hidden bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-4 rounded-lg font-black text-base hover:from-green-800 hover:to-green-600 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-200">
+                <motion.a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative overflow-hidden bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-4 rounded-lg font-medium text-base hover:from-green-800 hover:to-green-600 transition-colors flex items-center justify-center gap-3 shadow-lg shadow-green-200">
                     <motion.div
                         className="absolute inset-0 z-10 pointer-events-none"
                         style={{
@@ -354,11 +395,11 @@ function Home() {
                         transition={{ repeat: Infinity, duration: 1.5, ease: "linear", repeatDelay: 1 }}
                     />
                     <div className="relative z-20 flex items-center justify-center gap-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-5 h-5" />
+                        <FaWhatsapp size={24} color="white" />
                         تواصل عبر الواتساب
                     </div>
                 </motion.a>
-                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="group bg-white border-2 border-blue-700 text-slate-900 px-8 py-4 rounded-lg font-black text-base hover:bg-blue-700 hover:border-blue-700 active:bg-blue-700 active:border-blue-700 hover:text-white active:text-white transition-all flex items-center justify-center gap-3">
+                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="group bg-white border-2 border-blue-700 text-slate-900 px-8 py-4 rounded-lg font-medium text-base hover:bg-blue-700 hover:border-blue-700 active:bg-blue-700 active:border-blue-700 hover:text-white active:text-white transition-colors flex items-center justify-center gap-3">
                     <Phone className="w-4 h-4 text-slate-900 group-hover:text-white active:text-white" />
                     اتصل بنا الآن
                 </motion.a>
@@ -370,7 +411,9 @@ function Home() {
                     <span className="whitespace-nowrap">+ 5,000 عميل سعيد</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-blue-600" />
+                    <div className="w-4 h-4 bg-blue-600 rounded-full flex items-center justify-center">
+                        <Check strokeWidth={4} className="w-3 h-3 text-white" />
+                    </div>
                     <span>مرخص ومعتمد</span>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -396,11 +439,15 @@ function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 px-6 md:px-8 bg-white">
+      <section id="services" className="py-16 px-6 md:px-8 bg-slate-50">
         <div className="container mx-auto text-center font-tajawal">
           <div className="mb-16">
-            <p className="text-blue-700 font-bold mb-4">خدماتنا</p>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">ماذا نقدم لك؟</h2>
+            <div className="flex items-center justify-center gap-6 mb-4">
+              <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
+              <p className="text-blue-700 font-normal">خدماتنا</p>
+              <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-medium text-slate-900 mb-6 font-sans">ماذا نقدم لك؟</h2>
             <p className="text-slate-500 max-w-2xl mx-auto italic">حلول مالية شاملة ومتكاملة تلبي جميع احتياجاتك المالية بكل احترافية وسرعة</p>
           </div>
           
@@ -413,7 +460,7 @@ function Home() {
               textClass="text-blue-700"
             />
             <SleekServiceCard 
-              icon={<ShieldCheck className="w-8 h-8" />}
+              icon={<CheckCircle2 className="w-8 h-8" />}
               title="رفع التعثرات من سمة"
               description="نساعدك في رفع التعثرات وتحسين سجلك الائتماني في سمة لاستعادة قدرتك على التمويل."
               bgClass="bg-blue-50"
@@ -455,15 +502,19 @@ function Home() {
       <section id="features" className="py-16 px-6 md:px-8 bg-slate-50 overflow-hidden">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <p className="text-blue-700 font-bold mb-4">لماذا نحن</p>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">مميزاتنا</h2>
+            <div className="flex items-center justify-center gap-6 mb-4">
+              <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
+              <p className="text-blue-700 font-normal">لماذا نحن</p>
+              <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-medium text-slate-900 mb-6 font-sans">مميزاتنا</h2>
             <p className="text-slate-500 max-w-2xl mx-auto italic">نتميز بتقديم خدمات مالية عالية الجودة تضمن رضاك الكامل</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             <FeatureCard title="سرعة إنجاز فورية" description="ننجز معاملاتك في أسرع وقت ممكن بدون تأخير أو تعقيد." icon={<TrendingUp className="w-6 h-6" />} />
             <FeatureCard title="أسعار تنافسية" description="نقدم أفضل الأسعار والعروض مقارنة بالسوق مع شفافية كاملة." icon={<Scale className="w-6 h-6" />} />
-            <FeatureCard title="سرية تامة" description="نضمن لك سرية كاملة لمعلوماتك الشخصية والمالية." icon={<ShieldCheck className="w-6 h-6" />} />
+            <FeatureCard title="سرية تامة" description="نضمن لك سرية كاملة لمعلوماتك الشخصية والمالية." icon={<CheckCircle2 className="w-6 h-6" />} />
             <FeatureCard title="دعم متواصل" description="فريق دعم متخصص جاهز لمساعدتك على مدار الساعة." icon={<Phone className="w-6 h-6" />} />
             <FeatureCard title="خبرة واسعة" description="سنوات من الخبرة في مجال الحلول المالية مع آلاف العملاء الراضين." icon={<Lock className="w-6 h-6" />} />
             <FeatureCard title="حلول مرنة" description="نقدم حلولاً مالية مرنة ومخصصة تناسب وضعك المالي." icon={<TrendingUp className="w-6 h-6" />} />
@@ -472,21 +523,25 @@ function Home() {
       </section>
 
       {/* How it works */}
-      <section className="py-16 px-6 md:px-8 bg-white">
+      <section className="py-16 px-6 md:px-8 bg-slate-50">
         <div className="container mx-auto">
           <div className="text-center mb-20 font-tajawal">
-            <p className="text-blue-700 font-bold mb-4">كيف نعمل</p>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">خطوات بسيطة وسهلة</h2>
+            <div className="flex items-center justify-center gap-6 mb-4">
+              <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
+              <p className="text-blue-700 font-normal">كيف نعمل</p>
+              <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-medium text-slate-900 mb-6 font-sans">خطوات بسيطة وسهلة</h2>
             <p className="text-slate-500">نجعل الأمر سهلاً وبسيطاً</p>
           </div>
 
           <div className="relative">
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-slate-100 -translate-y-1/2 -z-10"></div>
-            <div className="grid lg:grid-cols-4 gap-12">
-              <StepItem number="1" title="تواصل معنا" description="تواصل معنا عبر الواتساب أو الاتصال المباشر" />
-              <StepItem number="2" title="نفهم احتياجاتك" description="ندرس وضعك المالي ونقدم لك أفضل الحلول" />
-              <StepItem number="3" title="ننفذ بإتقان" description="نبدأ في تنفيذ الحل المتفق عليه بسرعة ودقة" />
-              <StepItem number="4" title="نضمن رضاك" description="نتابع معك حتى إتمام الخدمة ونضمن رضاك التام" />
+            <div className="hidden lg:block absolute top-[24px] left-0 right-0 h-0.5 bg-slate-200 -z-10"></div>
+            <div className="grid lg:grid-cols-4 gap-4 md:gap-6">
+              <StepItem number="١" title="تواصل معنا" description="تواصل معنا عبر الواتساب أو الاتصال المباشر" />
+              <StepItem number="٢" title="نفهم احتياجاتك" description="ندرس وضعك المالي ونقدم لك أفضل الحلول" />
+              <StepItem number="٣" title="ننفذ بإتقان" description="نبدأ في تنفيذ الحل المتفق عليه بسرعة ودقة" />
+              <StepItem number="٤" title="نضمن رضاك" description="نتابع معك حتى إتمام الخدمة ونضمن رضاك التام" />
             </div>
           </div>
         </div>
@@ -496,43 +551,70 @@ function Home() {
       <section id="testimonials" className="py-16 px-6 md:px-8 bg-slate-50 overflow-hidden">
         <div className="container mx-auto">
           <div className="text-center mb-16 font-tajawal">
-            <p className="text-blue-700 font-bold mb-4">آراء العملاء</p>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">ماذا يقول عملاؤنا؟</h2>
+            <div className="flex items-center justify-center gap-6 mb-4">
+              <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
+              <p className="text-blue-700 font-normal">اراء عملاؤنا</p>
+              <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-medium text-slate-900 mb-6 font-sans">ماذا يقول عملاؤنا؟</h2>
             <p className="text-slate-500">نفخر بثقة عملائنا الكرام</p>
           </div>
 
-          <div className="flex overflow-x-auto pb-12 gap-8 scrollbar-hide snap-x" dir="rtl">
+          <div 
+            ref={scrollContainerRef}
+            onScroll={handleTestimonialScroll}
+            className="flex overflow-x-auto pb-4 gap-8 scrollbar-hide snap-x" 
+            dir="rtl"
+          >
             {testimonials.map((t, idx) => (
               <motion.div 
                 key={idx}
-                whileHover={{ y: -5 }}
                 className="min-w-[300px] md:min-w-[350px] bg-white p-6 rounded-2xl shadow-sm border border-slate-100 snap-center"
               >
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-black text-xl">
+                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-normal text-xl">
                     {t.name[0]}
                   </div>
                   <div className="text-right">
-                    <h4 className="font-bold text-slate-900">{t.name}</h4>
+                    <h4 className="font-medium text-slate-900">{t.name}</h4>
                     <p className="text-sm text-slate-400">{t.city}</p>
                   </div>
                 </div>
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />)}
                 </div>
-                <p className="text-slate-600 leading-relaxed italic text-right font-medium">"{t.text}"</p>
+                <p className="text-slate-600 leading-relaxed italic text-right font-normal">"{t.text}"</p>
                 <p className="text-xs text-slate-400 mt-6 text-right">{t.time}</p>
               </motion.div>
+            ))}
+          </div>
+
+          {/* Testimonial Pagination Dots */}
+          <div className="flex justify-center items-center gap-2 mt-8">
+            {testimonials.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => scrollToTestimonial(idx)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  activeTestimonial === idx ? "w-6 bg-blue-600" : "bg-blue-200 hover:bg-blue-400"
+                }`}
+                aria-label={`Go to testimonial ${idx + 1}`}
+              />
             ))}
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-16 px-6 md:px-8 bg-white">
+      <section id="faq" className="pt-16 pb-8 px-6 md:px-8 bg-slate-50">
         <div className="container mx-auto max-w-4xl">
-          <div className="text-center mb-16 underline decoration-blue-200 underline-offset-8">
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-sans">الأسئلة الشائعة</h2>
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center gap-6 mb-4">
+              <div className="h-[3px] w-12 md:w-16 bg-slate-900 rounded-full"></div>
+              <h2 className="text-3xl md:text-4xl font-medium text-slate-900 font-sans underline decoration-blue-200 underline-offset-8">الأسئلة الشائعة</h2>
+              <div className="h-[3px] w-12 md:w-16 bg-slate-900 rounded-full"></div>
+            </div>
+            <p className="text-slate-500 font-tajawal text-lg">إجابات على أكثر الأسئلة شيوعاً</p>
           </div>
           
           <div className="space-y-4">
@@ -543,7 +625,7 @@ function Home() {
                   className="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors text-right group"
                 >
                   <ChevronRight className={`w-5 h-5 text-slate-400 transition-transform ${activeFaq === idx ? 'rotate-90' : ''}`} />
-                  <span className="font-bold text-slate-900 text-base group-hover:text-blue-700 transition-colors">{faq.q}</span>
+                  <span className="font-medium text-slate-900 text-base group-hover:text-blue-700 transition-colors">{faq.q}</span>
                 </button>
                 {activeFaq === idx && (
                   <div className="px-6 pb-4 text-slate-600 leading-relaxed text-right md:text-base">
@@ -557,19 +639,45 @@ function Home() {
       </section>
 
       {/* Final CTA */}
-      <section id="about" className="py-16 px-6 md:px-8 bg-white">
-        <div className="container mx-auto max-w-5xl">
-            <div className="bg-blue-900 p-8 md:p-10 rounded-3xl shadow-2xl mt-10 border border-blue-800 relative overflow-hidden">
+      <section id="about" className="bg-slate-50">
+        <div className="w-full">
+            <div 
+               className="bg-blue-900 py-16 px-6 md:px-10 relative overflow-hidden"
+            >
                 {/* Logo background */}
                 <div className="absolute -top-16 -right-16 w-64 h-64 opacity-5 pointer-events-none">
                      <img src={AdelLogo} alt="Logo" className="w-full h-full object-contain" />
                 </div>
 
-                <h2 className="text-2xl md:text-3xl font-black text-white text-center mb-8 relative z-10 leading-tight font-sans">جاهز تبدأ؟ تواصل معنا الآن!</h2>
-                <p className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto italic relative z-10 text-center">فريقنا المتخصص جاهز لمساعدتك في حل جميع مشاكلك المالية. لا تتردد في التواصل معنا اليوم.</p>
+                <motion.h2 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="text-2xl md:text-3xl font-normal text-white text-center mb-8 relative z-10 leading-tight font-sans"
+                >
+                    جاهز تبدأ؟ تواصل معنا الآن!
+                </motion.h2>
+                <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+                    className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto italic relative z-10 text-center"
+                >
+                    فريقنا المتخصص جاهز لمساعدتك في حل جميع مشاكلك المالية. لا تتردد في التواصل معنا اليوم.
+                </motion.p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-                    <motion.a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative overflow-hidden bg-white text-blue-900 px-6 py-3 rounded-lg font-normal text-base hover:bg-blue-50 transition-all flex items-center justify-center gap-3 shadow-lg">
+                    <motion.a 
+                        href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} 
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} 
+                        className="relative overflow-hidden bg-white text-blue-900 px-6 py-3 rounded-lg font-medium text-base hover:bg-blue-50 transition-colors flex items-center justify-center gap-3 shadow-lg"
+                    >
                         <motion.div
                             className="absolute inset-0 z-10 pointer-events-none"
                             style={{
@@ -581,11 +689,19 @@ function Home() {
                             transition={{ repeat: Infinity, duration: 1.5, ease: "linear", repeatDelay: 1 }}
                         />
                         <div className="relative z-20 flex items-center justify-center gap-3">
-                            <FaWhatsapp className="w-5 h-5 text-blue-900" />
+                            <FaWhatsapp size={20} color="#1e3a8a" />
                             تواصل عبر الواتساب
                         </div>
                     </motion.a>
-                    <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-blue-800 text-white border-2 border-white px-6 py-3 rounded-lg font-normal text-base hover:bg-blue-950 transition-all flex items-center justify-center gap-3 shadow-lg">
+                    <motion.a 
+                        href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} 
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} 
+                        className="bg-blue-800 text-white border-2 border-white px-6 py-3 rounded-lg font-medium text-base hover:bg-blue-950 transition-colors flex items-center justify-center gap-3 shadow-lg"
+                    >
                             <Phone className="w-4 h-4 text-white" />
                             اتصل بنا الآن
                     </motion.a>
@@ -626,9 +742,10 @@ function ModernStatItem({ value, label, icon }: { value: string, label: string, 
     return (
         <motion.div 
             ref={ref} 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-center group py-2"
         >
             <div className="mb-2 inline-block p-2 rounded-2xl transition-colors">
@@ -647,31 +764,43 @@ function ModernStatItem({ value, label, icon }: { value: string, label: string, 
 
 function FeatureCard({ title, description, icon }: { title: string, description: string, icon: ReactNode }) {
     return (
-        <div 
-          className="bg-white p-7 rounded-2xl shadow-lg border border-slate-100 hover:border-blue-700 active:border-blue-700 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group text-right cursor-pointer"
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="bg-white p-7 rounded-2xl shadow-lg border border-slate-100 hover:border-blue-700 active:border-blue-700 transition-colors duration-300 group text-right cursor-pointer"
         >
             <div className="w-12 h-12 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-700 group-hover:text-white transition-colors mr-0 ml-auto">
                 {icon}
             </div>
-            <h3 className="font-bold text-xl text-slate-900 mb-3">{title}</h3>
+            <h3 className="font-medium text-xl text-slate-900 mb-3">{title}</h3>
             <p className="text-sm text-slate-500 leading-relaxed">{description}</p>
-        </div>
+        </motion.div>
     );
 }
 
-function StepItem({ number, title, description }: { number: string, title: string, description: string }) {
+function StepItem({ number, title, description, delay = 0 }: { number: string, title: string, description: string, delay?: number }) {
     return (
-        <div className="text-center relative group">
-            <div className="w-20 h-20 bg-slate-900 text-white rounded-full flex items-center justify-center text-3xl font-black mx-auto mb-8 shadow-xl relative z-10 group-hover:scale-110 transition-transform">
+        <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.6, delay: delay * 0.1, ease: "easeOut" }}
+            className="text-center relative group"
+        >
+            <div className="w-12 h-12 bg-slate-900 text-white rounded-full flex items-center justify-center text-xl font-black mx-auto mb-3 shadow-xl relative z-10 group-hover:scale-110 transition-transform">
                 {number}
                 <div className="absolute inset-0 bg-blue-700 rounded-full scale-0 group-hover:scale-100 -z-10 transition-transform duration-500"></div>
             </div>
-            <div className="mb-4">
-                <ChevronRight className="w-6 h-6 text-amber-500 mx-auto rotate-90" />
+            <div className="mb-2">
+                <ChevronRight className="w-5 h-5 text-amber-500 mx-auto rotate-90" />
             </div>
-            <h4 className="text-2xl font-black text-slate-900 mb-4">{title}</h4>
-            <p className="text-slate-500 italic">{description}</p>
-        </div>
+            <h4 className="text-xl font-medium text-slate-900 mb-2">{title}</h4>
+            <p className="text-sm text-slate-500 italic max-w-xs mx-auto">{description}</p>
+        </motion.div>
     );
 }
 
@@ -679,7 +808,7 @@ function ServicesPage() {
   return (
     <div className="py-24 px-6 md:px-12">
       <div className="container mx-auto text-right">
-        <h1 className="text-4xl font-black text-slate-900 mb-12">خدماتنا بالتفصيل</h1>
+        <h1 className="text-4xl font-medium text-slate-900 mb-12">خدماتنا بالتفصيل</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <DetailServiceCard 
             title="تسديد القروض البنكية"
@@ -715,28 +844,28 @@ function ServicesPage() {
 
 function ContactPage() {
   return (
-    <div className="py-24 px-6 md:px-12 bg-white">
+    <div className="py-24 px-6 md:px-12 bg-slate-50">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-black text-slate-900 mb-4">تواصل معنا الآن</h1>
+          <h1 className="text-4xl font-medium text-slate-900 mb-4">تواصل معنا الآن</h1>
           <p className="text-slate-500">نحن هنا للإجابة على استفساراتك وتقديم أفضل الحلول المالية عبر الاتصال أو الواتساب.</p>
         </div>
 
         <div className="flex justify-center">
           <div className="bg-slate-50 p-10 rounded-3xl text-right w-full max-w-lg">
-            <h3 className="text-2xl font-bold mb-8 text-center">معلومات التواصل</h3>
+            <h3 className="text-2xl font-medium mb-8 text-center">معلومات التواصل</h3>
             <div className="space-y-6">
               <ContactInfo icon={<Phone className="w-5 h-5" />} label="اتصال مباشر" value={CONTACT_NUMBER} />
-              <ContactInfo icon={<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-5 h-5" />} label="واتساب" value="متاح 24/7" />
+              <ContactInfo icon={<FaWhatsapp size={20} />} label="واتساب" value="متاح 24/7" />
               <ContactInfo icon={<ShieldCheck className="w-5 h-5 text-blue-600" />} label="المنطقة" value="جميع أنحاء المملكة" />
             </div>
             
             <div className="mt-12 p-6 bg-blue-900 text-white rounded-2xl text-center">
-              <p className="text-sm opacity-70 mb-2 font-bold uppercase tracking-wider">هل أنت مستعجل؟</p>
-              <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="text-2xl font-black block hover:text-blue-200 transition-colors">اتصل الآن ضغطة واحدة</a>
+              <p className="text-sm opacity-70 mb-2 font-normal uppercase tracking-wider">هل أنت مستعجل؟</p>
+              <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="text-2xl font-normal block hover:text-blue-200 transition-colors">اتصل الآن ضغطة واحدة</a>
             </div>
             <div className="mt-6 flex justify-center">
-                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="text-xl font-black text-green-600 block hover:text-green-700 transition-colors">تواصل واتساب</a>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} className="text-xl font-normal text-green-600 block hover:text-green-700 transition-colors">تواصل واتساب</a>
             </div>
           </div>
         </div>
@@ -747,14 +876,14 @@ function ContactPage() {
 
 function PrivacyPolicy() {
   return (
-    <div className="py-24 px-6 md:px-12 bg-white text-right">
+    <div className="py-24 px-6 md:px-12 bg-slate-50 text-right">
       <div className="container mx-auto max-w-3xl">
-        <h1 className="text-4xl font-black text-slate-900 mb-8">سياسة الخصوصية</h1>
+        <h1 className="text-4xl font-medium text-slate-900 mb-8">سياسة الخصوصية</h1>
         <div className="prose prose-slate leading-relaxed text-slate-600 space-y-6">
           <p>خصوصية عملائنا هي أهم أولوياتنا. نحن نلتزم بحماية كافة البيانات الشخصية والمالية التي يتم تقديمها لنا.</p>
-          <h3 className="text-xl font-bold text-slate-900">ما هي المعلومات التي نجمعها؟</h3>
+          <h3 className="text-xl font-medium text-slate-900">ما هي المعلومات التي نجمعها؟</h3>
           <p>نجمع المعلومات الضرورية فقط لمعالجة طلبك، مثل الاسم، رقم الهاتف، والبنك الحالي، وتفاصيل المديونية.</p>
-          <h3 className="text-xl font-bold text-slate-900">كيف نستخدم بياناتك؟</h3>
+          <h3 className="text-xl font-medium text-slate-900">كيف نستخدم بياناتك؟</h3>
           <p>تُستخدم البيانات حصرياً للتواصل معك وتقديم عروض التمويل والتسديد المناسبة لحالتك. لا نقوم بمشاركة أي من بياناتك مع أطراف ثالثة لأغراض تسويقية.</p>
         </div>
       </div>
@@ -764,9 +893,9 @@ function PrivacyPolicy() {
 
 function TermsOfUse() {
   return (
-    <div className="py-24 px-6 md:px-12 bg-white text-right">
+    <div className="py-24 px-6 md:px-12 bg-slate-50 text-right">
       <div className="container mx-auto max-w-3xl">
-        <h1 className="text-4xl font-black text-slate-900 mb-8">شروط الخدمة</h1>
+        <h1 className="text-4xl font-medium text-slate-900 mb-8">شروط الخدمة</h1>
         <div className="prose prose-slate leading-relaxed text-slate-600 space-y-6">
           <p>استخدامك لموقعنا وطلب خدماتنا يعني موافقتك على الشروط التالية:</p>
           <ul className="list-disc pr-6 space-y-4">
@@ -785,15 +914,21 @@ function TermsOfUse() {
 
 function SleekServiceCard({ icon, bgClass, textClass, title, description }: { icon: ReactNode, bgClass: string, textClass: string, title: string, description: string }) {
   return (
-    <div 
-      className="bg-white p-7 rounded-2xl shadow-lg border border-slate-100 hover:border-blue-700 active:border-blue-700 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group text-right cursor-pointer"
+    <motion.div 
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className="bg-white p-7 rounded-2xl shadow-lg border border-slate-100 hover:border-blue-700 active:border-blue-700 transition-colors duration-300 group text-right cursor-pointer"
     >
       <div className={`w-12 h-12 ${bgClass} ${textClass} rounded-xl flex items-center justify-center mb-6 transition-colors group-hover:bg-blue-700 group-hover:text-white mr-0 ml-auto`}>
         {icon}
       </div>
-      <h3 className="font-bold text-xl text-slate-900 mb-3">{title}</h3>
+      <h3 className="font-medium text-xl text-slate-900 mb-3">{title}</h3>
       <p className="text-sm text-slate-500 leading-relaxed">{description}</p>
-    </div>
+    </motion.div>
   );
 }
 
@@ -801,55 +936,74 @@ function DetailServiceCard({ title, content }: { title: string, content: string 
   const serviceWhatsAppUrl = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent(`السلام عليكم، أرغب في الاستفسار عن خدمة: ${title}`)}`;
 
   return (
-    <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col font-tajawal">
-      <h3 className="text-2xl font-bold text-blue-900 mb-4">{title}</h3>
+    <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        whileTap={{ scale: 0.98 }}
+        className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm transition-colors h-full flex flex-col font-tajawal"
+    >
+      <h3 className="text-2xl font-medium text-blue-900 mb-4">{title}</h3>
       <p className="text-slate-600 leading-relaxed text-sm">{content}</p>
       <div className="mt-auto pt-6 flex justify-end">
         <a 
           href={serviceWhatsAppUrl}
-          target="_blank"
+          target="_blank" rel="noopener noreferrer"
           onClick={() => track('whatsapp_click')}
-          className="text-blue-700 font-bold flex items-center gap-2 group"
+          className="text-blue-700 font-normal flex items-center gap-2 group"
         >
           <span>طلب الخدمة عبر الواتساب</span>
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
         </a>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function StatItem({ value, label }: { value: string, label: string }) {
   return (
-    <div className="flex items-center gap-4 border-b sm:border-b-0 sm:border-l border-white/10 pb-6 sm:pb-0 sm:pl-12 last:border-0 last:pl-0">
-      <div className="text-4xl font-bold text-amber-400">{value}</div>
-      <div className="text-sm opacity-80 leading-tight italic font-medium">{label}</div>
-    </div>
+    <motion.div 
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="flex items-center gap-4 border-b sm:border-b-0 sm:border-l border-white/10 pb-6 sm:pb-0 sm:pl-12 last:border-0 last:pl-0"
+    >
+      <div className="text-4xl font-normal text-amber-400">{value}</div>
+      <div className="text-sm opacity-80 leading-tight italic font-normal">{label}</div>
+    </motion.div>
   );
 }
 
 function ContactInfo({ icon, label, value }: { icon: ReactNode, label: string, value: string }) {
   return (
-    <div className="flex items-center gap-4 justify-start flex-row-reverse">
+    <motion.div 
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="flex items-center gap-4 justify-start flex-row-reverse"
+    >
       <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center flex-shrink-0">
         {icon}
       </div>
       <div>
-        <p className="text-xs text-slate-400 font-medium">{label}</p>
-        <p className="text-slate-900 font-bold">{value}</p>
+        <p className="text-xs text-slate-400 font-normal">{label}</p>
+        <p className="text-slate-900 font-normal">{value}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function Input({ label, name, ...props }: { label: string, name: string } & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div className="space-y-2">
-      <label className="text-sm font-bold text-slate-700 block text-right">{label}</label>
+      <label className="text-sm font-normal text-slate-700 block text-right">{label}</label>
       <input 
         name={name}
         {...props}
-        className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all font-medium"
+        className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all font-normal"
       />
     </div>
   );
@@ -857,9 +1011,15 @@ function Input({ label, name, ...props }: { label: string, name: string } & Inpu
 
 function SleekFeatureItem({ title, description }: { title: string, description: string }) {
   return (
-    <div className="flex gap-5 justify-end">
+    <motion.div 
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="flex gap-5 justify-end"
+    >
       <div className="text-right">
-        <h4 className="text-xl font-bold text-slate-900 mb-2">{title}</h4>
+        <h4 className="text-xl font-medium text-slate-900 mb-2">{title}</h4>
         <p className="text-slate-500 leading-relaxed max-w-sm">{description}</p>
       </div>
       <div className="mt-1 flex-shrink-0">
@@ -867,6 +1027,6 @@ function SleekFeatureItem({ title, description }: { title: string, description: 
           <CheckCircle2 className="w-5 h-5 text-blue-700" />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -1,0 +1,66 @@
+124:    <div className="min-h-screen bg-slate-50 font-tajawal selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden flex flex-col">
+136:            <span className="text-lg md:text-2xl font-black tracking-tight text-slate-900 block group-hover:text-blue-700 transition-colors">
+147:            <div className="hidden lg:flex items-center gap-6 text-slate-600 font-bold ml-8">
+167:             <Link onClick={() => setMenuOpen(false)} to="/" className="text-xl font-light text-slate-800">الرئيسية</Link>
+168:             <Link onClick={() => setMenuOpen(false)} to="/services" className="text-xl font-light text-slate-800">خدماتنا</Link>
+169:             <Link onClick={() => setMenuOpen(false)} to="/privacy" className="text-xl font-light text-slate-800">سياسة الخصوصية</Link>
+170:             <Link onClick={() => setMenuOpen(false)} to="/terms" className="text-xl font-light text-slate-800">شروط الخدمة</Link>
+172:                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="bg-green-600 text-white p-4 rounded-xl text-center font-bold">واتساب</a>
+173:                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="bg-blue-700 text-white p-4 rounded-xl text-center font-bold">اتصال</a>
+202:                <span className="text-xl font-bold text-white tracking-tight">عادل السداد</span>
+210:              <h4 className="text-white font-bold mb-6">روابط سريعة</h4>
+219:              <h4 className="text-white font-bold mb-6">قانوني</h4>
+227:              <h4 className="text-white font-bold mb-6">تواصل معنا</h4>
+228:              <div className="flex flex-col gap-3 font-light text-sm text-slate-300">
+251:          <div className="border-t border-white/5 pt-8 text-center text-xs font-medium uppercase tracking-[0.2em] flex flex-col md:flex-row items-center justify-center gap-4">
+378:            <h1 className="text-3xl md:text-6xl font-black text-slate-900 leading-tight mb-8">
+381:            <p className="text-base md:text-lg text-slate-600 mb-8 leading-relaxed max-w-3xl mx-auto font-medium italic">
+386:                <motion.a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative overflow-hidden bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-4 rounded-lg font-black text-base hover:from-green-800 hover:to-green-600 transition-colors flex items-center justify-center gap-3 shadow-lg shadow-green-200">
+402:                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="group bg-white border-2 border-blue-700 text-slate-900 px-8 py-4 rounded-lg font-black text-base hover:bg-blue-700 hover:border-blue-700 active:bg-blue-700 active:border-blue-700 hover:text-white active:text-white transition-colors flex items-center justify-center gap-3">
+408:            <div className="flex flex-row items-center justify-around gap-2 mt-6 text-xs text-slate-700 font-medium">
+443:        <div className="container mx-auto text-center font-tajawal">
+447:              <p className="text-blue-700 font-normal">خدماتنا</p>
+450:            <h2 className="text-3xl md:text-4xl font-normal text-slate-900 mb-6 font-sans">ماذا نقدم لك؟</h2>
+507:              <p className="text-blue-700 font-normal">لماذا نحن</p>
+510:            <h2 className="text-3xl md:text-4xl font-normal text-slate-900 mb-6 font-sans">مميزاتنا</h2>
+528:          <div className="text-center mb-20 font-tajawal">
+531:              <p className="text-blue-700 font-normal">كيف نعمل</p>
+534:            <h2 className="text-3xl md:text-4xl font-normal text-slate-900 mb-6 font-sans">خطوات بسيطة وسهلة</h2>
+553:          <div className="text-center mb-16 font-tajawal">
+556:              <p className="text-blue-700 font-normal">اراء عملاؤنا</p>
+559:            <h2 className="text-3xl md:text-4xl font-normal text-slate-900 mb-6 font-sans">ماذا يقول عملاؤنا؟</h2>
+575:                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-normal text-xl">
+579:                    <h4 className="font-normal text-slate-900">{t.name}</h4>
+586:                <p className="text-slate-600 leading-relaxed italic text-right font-normal">"{t.text}"</p>
+614:              <h2 className="text-3xl md:text-4xl font-normal text-slate-900 font-sans underline decoration-blue-200 underline-offset-8">الأسئلة الشائعة</h2>
+617:            <p className="text-slate-500 font-tajawal text-lg">إجابات على أكثر الأسئلة شيوعاً</p>
+628:                  <span className="font-normal text-slate-900 text-base group-hover:text-blue-700 transition-colors">{faq.q}</span>
+657:                    className="text-2xl md:text-3xl font-normal text-white text-center mb-8 relative z-10 leading-tight font-sans"
+679:                        className="relative overflow-hidden bg-white text-blue-900 px-6 py-3 rounded-lg font-normal text-base hover:bg-blue-50 transition-colors flex items-center justify-center gap-3 shadow-lg"
+703:                        className="bg-blue-800 text-white border-2 border-white px-6 py-3 rounded-lg font-normal text-base hover:bg-blue-950 transition-colors flex items-center justify-center gap-3 shadow-lg"
+754:            <div className="text-3xl md:text-4xl font-black text-white mb-1 font-sans tracking-tight">
+760:            <div className="text-slate-400 font-medium text-xs md:text-sm">{label}</div>
+779:            <h3 className="font-normal text-xl text-slate-900 mb-3">{title}</h3>
+794:            <div className="w-12 h-12 bg-slate-900 text-white rounded-full flex items-center justify-center text-xl font-normal mx-auto mb-3 shadow-xl relative z-10 group-hover:scale-110 transition-transform">
+801:            <h4 className="text-xl font-normal text-slate-900 mb-2">{title}</h4>
+811:        <h1 className="text-4xl font-normal text-slate-900 mb-12">خدماتنا بالتفصيل</h1>
+850:          <h1 className="text-4xl font-normal text-slate-900 mb-4">تواصل معنا الآن</h1>
+856:            <h3 className="text-2xl font-normal mb-8 text-center">معلومات التواصل</h3>
+864:              <p className="text-sm opacity-70 mb-2 font-normal uppercase tracking-wider">هل أنت مستعجل؟</p>
+865:              <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="text-2xl font-normal block hover:text-blue-200 transition-colors">اتصل الآن ضغطة واحدة</a>
+868:                <a href={WHATSAPP_URL} target="_blank" onClick={() => track('whatsapp_click')} className="text-xl font-normal text-green-600 block hover:text-green-700 transition-colors">تواصل واتساب</a>
+881:        <h1 className="text-4xl font-normal text-slate-900 mb-8">سياسة الخصوصية</h1>
+884:          <h3 className="text-xl font-normal text-slate-900">ما هي المعلومات التي نجمعها؟</h3>
+886:          <h3 className="text-xl font-normal text-slate-900">كيف نستخدم بياناتك؟</h3>
+898:        <h1 className="text-4xl font-normal text-slate-900 mb-8">شروط الخدمة</h1>
+929:      <h3 className="font-normal text-xl text-slate-900 mb-3">{title}</h3>
+945:        className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm transition-colors h-full flex flex-col font-tajawal"
+947:      <h3 className="text-2xl font-normal text-blue-900 mb-4">{title}</h3>
+954:          className="text-blue-700 font-normal flex items-center gap-2 group"
+973:      <div className="text-4xl font-normal text-amber-400">{value}</div>
+974:      <div className="text-sm opacity-80 leading-tight italic font-normal">{label}</div>
+992:        <p className="text-xs text-slate-400 font-normal">{label}</p>
+993:        <p className="text-slate-900 font-normal">{value}</p>
+1002:      <label className="text-sm font-normal text-slate-700 block text-right">{label}</label>
+1006:        className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all font-normal"
+1022:        <h4 className="text-xl font-normal text-slate-900 mb-2">{title}</h4>
