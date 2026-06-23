@@ -37,18 +37,19 @@ const CONTACT_NUMBER = "0555381525";
 const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات تسديد القروض')}`;
 
 
-const track = (event: string) => {
-  // Map both whatsapp_click and call_click to the standard TikTok Pixel 'Contact' event (حدث الاتصال)
-  // This guarantees TikTok Ads Manager tracks and optimizes conversions perfectly for both click types.
+const track = async (event: string) => {
+  const tiktokEventName = event === 'view_content' ? 'ViewContent' : 'Contact';
+  
+  // 1. Client-Side Pixel Tracking
   try {
     // @ts-ignore
     if (window.ttq) {
         // @ts-ignore
-        window.ttq.track('Contact', {
+        window.ttq.track(tiktokEventName, {
             contents: [{
               content_id: 'contact_' + event,
               content_type: 'product',
-              content_name: event === 'whatsapp_click' ? 'WhatsApp Chat' : 'Phone Call',
+              content_name: event === 'whatsapp_click' ? 'WhatsApp Chat' : (event === 'view_content' ? 'Landing Page' : 'Phone Call'),
               quantity: 1,
               price: 1
             }],
@@ -59,33 +60,90 @@ const track = (event: string) => {
         });
     }
   } catch (error) {
-    console.error('Tracking Error', error);
+    console.error('Client Tracking Error', error);
   }
+
+  // 2. Server-Side Events API Tracking
+  try {
+    await fetch('/api/tiktok-event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        eventName: tiktokEventName,
+        pageUrl: window.location.href,
+        userAgent: navigator.userAgent
+      })
+    });
+  } catch (error) {
+    console.error('Server Tracking Error', error);
+  }
+};
+
+const FloatingStars = () => {
+    const [stars, setStars] = useState<Array<{ id: number; left: number; top: number; size: number; delay: number; duration: number; rotateX: number; rotateY: number; rotateZ: number; dirX: number; dirY: number; dirZ: number; moveX: number; moveY: number }>>([]);
+    
+    useEffect(() => {
+        const generatedStars = Array.from({ length: 120 }).map((_, i) => ({
+            id: i,
+            left: Math.random() * 100,
+            top: Math.random() * 100,
+            size: Math.random() * 4 + 2, // 2px to 6px
+            delay: Math.random() * 5,
+            duration: Math.random() * 5 + 4, // 4 to 9 seconds
+            rotateX: Math.random() * 360,
+            rotateY: Math.random() * 360,
+            rotateZ: Math.random() * 360,
+            dirX: Math.random() > 0.5 ? 1 : -1,
+            dirY: Math.random() > 0.5 ? 1 : -1,
+            dirZ: Math.random() > 0.5 ? 1 : -1,
+            moveX: (Math.random() * 100 - 50), // move between -50px and 50px horizontally
+            moveY: (Math.random() * 150 + 50), // move downwards between 50px and 200px
+        }));
+        setStars(generatedStars);
+    }, []);
+
+    return (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-10 isolate" aria-hidden="true" style={{ perspective: '1000px' }}>
+            {stars.map((star) => (
+                <motion.div
+                    key={star.id}
+                    className="absolute text-[#D4AF37] drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]"
+                    style={{
+                        left: `${star.left}%`,
+                        top: `${star.top}%`,
+                        width: star.size,
+                        height: star.size,
+                        transformStyle: 'preserve-3d'
+                    }}
+                    initial={{ opacity: 0, scale: 0.8, rotateX: star.rotateX, rotateY: star.rotateY, rotateZ: star.rotateZ, x: 0, y: 0 }}
+                    animate={{
+                        opacity: [0, 0.8, 1, 0.8, 0],
+                        scale: [0.8, 1, 1.1, 1, 0.8],
+                        rotateX: [star.rotateX, star.rotateX + 180 * star.dirX],
+                        rotateY: [star.rotateY, star.rotateY + 180 * star.dirY],
+                        rotateZ: [star.rotateZ, star.rotateZ + 180 * star.dirZ],
+                        x: [0, star.moveX],
+                        y: [0, star.moveY],
+                    }}
+                    transition={{
+                        duration: star.duration,
+                        repeat: Infinity,
+                        delay: star.delay,
+                        ease: "easeOut",
+                    }}
+                >
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                </motion.div>
+            ))}
+        </div>
+    );
 };
 
 export default function App() {
   useEffect(() => {
-    try {
-      // @ts-ignore
-      if (window.ttq) {
-        // @ts-ignore
-        window.ttq.track('ViewContent', {
-          contents: [{
-            content_id: 'page_view',
-            content_type: 'product',
-            content_name: 'Landing Page',
-            quantity: 1,
-            price: 1
-          }],
-          content_type: 'product',
-          content_id: 'page_view',
-          value: 1,
-          currency: 'SAR'
-        });
-      }
-    } catch (error) {
-      console.error('Tracking Error', error);
-    }
+    track('view_content');
   }, []);
 
   return (
@@ -354,7 +412,8 @@ function Home() {
       
       {/* Hero */}
       <section className="relative pt-4 pb-8 lg:pt-8 lg:pb-16 px-4 md:px-8 text-center overflow-hidden bg-gradient-to-l from-blue-50 to-white">
-        <div className="container mx-auto">
+        <FloatingStars />
+        <div className="container mx-auto relative z-20">
           <div className="mb-6 relative">
             <div className="relative z-10 max-w-[320px] mx-auto mt-10">
                <img 
