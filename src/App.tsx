@@ -79,68 +79,6 @@ const track = async (event: string) => {
   }
 };
 
-const FloatingStars = () => {
-    const [stars, setStars] = useState<Array<{ id: number; left: number; top: number; size: number; delay: number; duration: number; rotateX: number; rotateY: number; rotateZ: number; dirX: number; dirY: number; dirZ: number; moveX: number; moveY: number }>>([]);
-    
-    useEffect(() => {
-        const generatedStars = Array.from({ length: 120 }).map((_, i) => ({
-            id: i,
-            left: Math.random() * 100,
-            top: Math.random() * 100,
-            size: Math.random() * 4 + 2, // 2px to 6px
-            delay: Math.random() * 5,
-            duration: Math.random() * 5 + 4, // 4 to 9 seconds
-            rotateX: Math.random() * 360,
-            rotateY: Math.random() * 360,
-            rotateZ: Math.random() * 360,
-            dirX: Math.random() > 0.5 ? 1 : -1,
-            dirY: Math.random() > 0.5 ? 1 : -1,
-            dirZ: Math.random() > 0.5 ? 1 : -1,
-            moveX: (Math.random() * 100 - 50), // move between -50px and 50px horizontally
-            moveY: (Math.random() * 150 + 50), // move downwards between 50px and 200px
-        }));
-        setStars(generatedStars);
-    }, []);
-
-    return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-10 isolate" aria-hidden="true" style={{ perspective: '1000px' }}>
-            {stars.map((star) => (
-                <motion.div
-                    key={star.id}
-                    className="absolute text-[#D4AF37] drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]"
-                    style={{
-                        left: `${star.left}%`,
-                        top: `${star.top}%`,
-                        width: star.size,
-                        height: star.size,
-                        transformStyle: 'preserve-3d'
-                    }}
-                    initial={{ opacity: 0, scale: 0.8, rotateX: star.rotateX, rotateY: star.rotateY, rotateZ: star.rotateZ, x: 0, y: 0 }}
-                    animate={{
-                        opacity: [0, 0.8, 1, 0.8, 0],
-                        scale: [0.8, 1, 1.1, 1, 0.8],
-                        rotateX: [star.rotateX, star.rotateX + 180 * star.dirX],
-                        rotateY: [star.rotateY, star.rotateY + 180 * star.dirY],
-                        rotateZ: [star.rotateZ, star.rotateZ + 180 * star.dirZ],
-                        x: [0, star.moveX],
-                        y: [0, star.moveY],
-                    }}
-                    transition={{
-                        duration: star.duration,
-                        repeat: Infinity,
-                        delay: star.delay,
-                        ease: "easeOut",
-                    }}
-                >
-                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                    </svg>
-                </motion.div>
-            ))}
-        </div>
-    );
-};
-
 export default function App() {
   useEffect(() => {
     track('view_content');
@@ -179,7 +117,11 @@ function Layout({ children }: { children: ReactNode }) {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-tajawal selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden flex flex-col">
+    <div className="min-h-screen bg-slate-50 font-tajawal selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden flex flex-col relative z-0">
+      {/* Background gradients: Golden on left, Blue on right, fading towards the center image */}
+      <div className="absolute top-0 right-0 w-1/2 h-[600px] bg-gradient-to-l from-blue-600 to-transparent -z-10 pointer-events-none opacity-[0.03]"></div>
+      <div className="absolute top-0 left-0 w-1/2 h-[600px] bg-gradient-to-r from-yellow-500 to-transparent -z-10 pointer-events-none opacity-5"></div>
+      
       {/* Navbar */}
       <nav 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20 flex items-center px-6 md:px-12 border-b ${
@@ -411,14 +353,13 @@ function Home() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full -mr-64 -mt-64 blur-3xl -z-10 pointer-events-none"></div>
       
       {/* Hero */}
-      <section className="relative pt-4 pb-8 lg:pt-8 lg:pb-16 px-4 md:px-8 text-center overflow-hidden bg-gradient-to-l from-blue-50 to-white">
-        <FloatingStars />
+      <section className="relative pt-4 pb-8 lg:pt-8 lg:pb-16 px-4 md:px-8 text-center overflow-hidden">
         <div className="container mx-auto relative z-20">
           <div className="mb-6 relative">
             <div className="relative z-10 max-w-[320px] mx-auto mt-10">
                <img 
                  src="/hero-image.png" 
-                 alt="عادل السداد لتسديد القروض - 36 راتب ومميزات بنكية" 
+                 alt="عادل السداد لتسديد القروض - ٣٦ راتب ومميزات بنكية" 
                  className="w-full h-auto hover:rotate-1 hover:scale-105 transition-all duration-700 mix-blend-multiply"
                  referrerPolicy="no-referrer"
                />
@@ -459,7 +400,7 @@ function Home() {
                     </div>
                 </motion.a>
                 <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="group bg-white border-2 border-blue-700 text-slate-900 px-8 py-4 rounded-lg font-medium text-base hover:bg-blue-700 hover:border-blue-700 active:bg-blue-700 active:border-blue-700 hover:text-white active:text-white transition-colors flex items-center justify-center gap-3">
-                    <Phone className="w-4 h-4 text-slate-900 group-hover:text-white active:text-white" />
+                    <Phone className="w-4 h-4 text-slate-900 group-hover:text-white group-active:text-white group-focus:text-white transition-colors" />
                     اتصل بنا الآن
                 </motion.a>
             </div>
@@ -485,7 +426,10 @@ function Home() {
       </section>
 
       {/* Stats Banner */}
-      <section className="relative bg-slate-900 py-8 px-6 md:px-12">
+      <section 
+        className="relative bg-slate-900 py-8 px-6 md:px-12"
+        style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1.5px, transparent 1.5px)', backgroundSize: '70px 70px' }}
+      >
         <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent pointer-events-none z-0" />
         <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
@@ -514,7 +458,7 @@ function Home() {
             <SleekServiceCard 
               icon={<CreditCard className="w-8 h-8" />}
               title="تسديد القروض البنكية"
-              description="نسدد قروضك البنكية حتى 36 راتب مع أفضل الحلول والعروض التنافسية لجميع البنوك السعودية."
+              description="نسدد قروضك البنكية حتى ٣٦ راتب مع أفضل الحلول والعروض التنافسية لجميع البنوك السعودية."
               bgClass="bg-blue-50"
               textClass="text-blue-700"
             />
