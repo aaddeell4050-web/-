@@ -355,10 +355,10 @@ function Home() {
       {/* Hero */}
       <section className="relative pt-4 pb-8 lg:pt-8 lg:pb-16 px-4 md:px-8 text-center overflow-hidden">
         <div className="container mx-auto relative z-20">
-          <div className="mb-6 relative">
-            <div className="relative z-10 max-w-[320px] mx-auto mt-10">
+          <div className="mb-0 relative">
+            <div className="relative z-10 max-w-[450px] md:max-w-[550px] mx-auto mt-6">
                <img 
-                 src="/hero-image.png" 
+                 src="/Photoroom_٢٠٢٦٠٦٢٤_٢٣٤٠٠٦.webp" 
                  alt="عادل السداد لتسديد القروض - ٣٦ راتب ومميزات بنكية" 
                  className="w-full h-auto hover:rotate-1 hover:scale-105 transition-all duration-700 mix-blend-multiply"
                  referrerPolicy="no-referrer"
@@ -373,7 +373,7 @@ function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-4xl mx-auto"
+            className="max-w-4xl mx-auto -mt-4 md:-mt-8 relative z-30"
           >
             <h1 className="text-3xl md:text-6xl font-black text-slate-900 leading-tight mb-8">
               عادل السداد — <span className="text-blue-700 drop-shadow-sm">حلولك المالية بين يديك</span>
