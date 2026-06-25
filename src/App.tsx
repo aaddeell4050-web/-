@@ -365,7 +365,7 @@ function Home() {
               className="lg:col-span-7 flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0 order-last lg:order-first -mt-8 lg:-mt-16"
             >
               <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-950/10 border border-blue-950/30 text-black font-medium text-sm mb-5">
-                <span>الأفضل في المملكة 🚀</span>
+                <span>🏆 الأفضل في المملكة</span>
               </div>
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight mb-5">
                 عادل السداد — <span className="text-blue-700 drop-shadow-sm">حلولك المالية بين يديك</span>
