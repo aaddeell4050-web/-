@@ -353,75 +353,82 @@ function Home() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full -mr-64 -mt-64 blur-3xl -z-10 pointer-events-none"></div>
       
       {/* Hero */}
-      <section className="relative pt-4 pb-8 lg:pt-8 lg:pb-16 px-4 md:px-8 text-center overflow-hidden">
+      <section className="relative pt-0 pb-8 lg:pt-0 lg:pb-16 px-4 md:px-8 text-center lg:text-right overflow-hidden">
         <div className="container mx-auto relative z-20">
-          <div className="mb-0 relative">
-            <div className="relative z-10 max-w-[450px] md:max-w-[550px] mx-auto mt-6">
-               <img 
-                 src="/Photoroom_٢٠٢٦٠٦٢٤_٢٣٤٠٠٦.webp" 
-                 alt="عادل السداد لتسديد القروض - ٣٦ راتب ومميزات بنكية" 
-                 className="w-full h-auto hover:rotate-1 hover:scale-105 transition-all duration-700 mix-blend-multiply"
-                 referrerPolicy="no-referrer"
-               />
-            </div>
+          <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-center">
             
-            {/* Soft shadow for the graphic itself */}
-            <div className="absolute top-[85%] left-1/2 -translate-x-1/2 w-[50%] h-[15px] bg-blue-900/10 blur-2xl rounded-full -z-10"></div>
-          </div>
+            {/* Right column: Content (Heading, Paragraph, CTA, Trust indicators) */}
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="lg:col-span-7 flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0 order-last lg:order-first mt-2 lg:mt-0"
+            >
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight mb-6">
+                عادل السداد — <span className="text-blue-700 drop-shadow-sm">حلولك المالية بين يديك</span>
+              </h1>
+              <p className="text-base md:text-lg text-slate-600 mb-8 leading-relaxed font-medium italic">
+                نقدم لك حلولاً مالية مبتكرة تشمل تسديد القروض البنكية حتى ٣٦ راتب، رفع التعثرات من سمة، سداد البطاقات الائتمانية، واستخراج قروض لجميع البنوك بسرعة وسهولة.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto mb-8">
+                  <motion.a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative overflow-hidden bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-4 rounded-lg font-medium text-base hover:from-green-800 hover:to-green-600 transition-colors flex items-center justify-center gap-3 shadow-lg shadow-green-200 w-full sm:w-auto">
+                      <motion.div
+                          className="absolute inset-0 z-10 pointer-events-none"
+                          style={{
+                              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                              width: "100%",
+                          }}
+                          initial={{ x: '-100%' }}
+                          animate={{ x: '100%' }}
+                          transition={{ repeat: Infinity, duration: 1.5, ease: "linear", repeatDelay: 1 }}
+                      />
+                      <div className="relative z-20 flex items-center justify-center gap-3">
+                          <FaWhatsapp size={24} color="white" />
+                          تواصل عبر الواتساب
+                      </div>
+                  </motion.a>
+                  <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="group bg-white border-2 border-blue-700 text-slate-900 px-8 py-4 rounded-lg font-medium text-base hover:bg-blue-700 hover:border-blue-700 active:bg-blue-700 active:border-blue-700 hover:text-white active:text-white transition-colors flex items-center justify-center gap-3 w-full sm:w-auto">
+                      <Phone className="w-4 h-4 text-slate-900 group-hover:text-white group-active:text-white group-focus:text-white transition-colors" />
+                      اتصل بنا الآن
+                  </motion.a>
+              </div>
+              
+              <div className="flex flex-row items-center justify-around lg:justify-start gap-6 text-xs text-slate-700 font-medium w-full">
+                  <div className="flex items-center gap-1.5">
+                      <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                      <span className="whitespace-nowrap">+ 5,000 عميل سعيد</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                      <div className="w-4 h-4 bg-blue-600 rounded-full flex items-center justify-center">
+                          <Check strokeWidth={4} className="w-3 h-3 text-white" />
+                      </div>
+                      <span>مرخص ومعتمد</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                      <Zap className="w-4 h-4 text-green-500 fill-green-500" />
+                      <span>خدمة فورية</span>
+                  </div>
+              </div>
+            </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-4xl mx-auto -mt-4 md:-mt-8 relative z-30"
-          >
-            <h1 className="text-3xl md:text-6xl font-black text-slate-900 leading-tight mb-8">
-              عادل السداد — <span className="text-blue-700 drop-shadow-sm">حلولك المالية بين يديك</span>
-            </h1>
-            <p className="text-base md:text-lg text-slate-600 mb-8 leading-relaxed max-w-3xl mx-auto font-medium italic">
-              نقدم لك حلولاً مالية مبتكرة تشمل تسديد القروض البنكية حتى ٣٦ راتب، رفع التعثرات من سمة، سداد البطاقات الائتمانية، واستخراج قروض لجميع البنوك بسرعة وسهولة.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative overflow-hidden bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-4 rounded-lg font-medium text-base hover:from-green-800 hover:to-green-600 transition-colors flex items-center justify-center gap-3 shadow-lg shadow-green-200">
-                    <motion.div
-                        className="absolute inset-0 z-10 pointer-events-none"
-                        style={{
-                            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
-                            width: "100%",
-                        }}
-                        initial={{ x: '-100%' }}
-                        animate={{ x: '100%' }}
-                        transition={{ repeat: Infinity, duration: 1.5, ease: "linear", repeatDelay: 1 }}
-                    />
-                    <div className="relative z-20 flex items-center justify-center gap-3">
-                        <FaWhatsapp size={24} color="white" />
-                        تواصل عبر الواتساب
-                    </div>
-                </motion.a>
-                <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="group bg-white border-2 border-blue-700 text-slate-900 px-8 py-4 rounded-lg font-medium text-base hover:bg-blue-700 hover:border-blue-700 active:bg-blue-700 active:border-blue-700 hover:text-white active:text-white transition-colors flex items-center justify-center gap-3">
-                    <Phone className="w-4 h-4 text-slate-900 group-hover:text-white group-active:text-white group-focus:text-white transition-colors" />
-                    اتصل بنا الآن
-                </motion.a>
+            {/* Left column: Image */}
+            <div className="lg:col-span-5 w-full order-first lg:order-last">
+              <div className="mb-2 lg:mb-0 relative mt-4 lg:mt-0 transform translate-y-8 lg:translate-y-10">
+                <div className="relative z-10 max-w-[320px] lg:max-w-[400px] mx-auto">
+                   <img 
+                     src="/hero-image.webp" 
+                     alt="عادل السداد لتسديد القروض - ٣٦ راتب ومميزات بنكية" 
+                     className="w-full h-auto hover:rotate-1 hover:scale-105 transition-all duration-700 mix-blend-multiply"
+                     referrerPolicy="no-referrer"
+                   />
+                </div>
+                {/* Soft shadow for the graphic itself */}
+                <div className="absolute top-[85%] left-1/2 -translate-x-1/2 w-[50%] h-[15px] bg-blue-900/10 blur-2xl rounded-full -z-10"></div>
+              </div>
             </div>
-            
-            <div className="flex flex-row items-center justify-around gap-2 mt-6 text-xs text-slate-700 font-medium">
-                <div className="flex items-center gap-1.5">
-                    <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                    <span className="whitespace-nowrap">+ 5,000 عميل سعيد</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 bg-blue-600 rounded-full flex items-center justify-center">
-                        <Check strokeWidth={4} className="w-3 h-3 text-white" />
-                    </div>
-                    <span>مرخص ومعتمد</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                    <Zap className="w-4 h-4 text-green-500 fill-green-500" />
-                    <span>خدمة فورية</span>
-                </div>
-            </div>
-          </motion.div>
+
+          </div>
         </div>
       </section>
 
@@ -435,7 +442,7 @@ function Home() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             <ModernStatItem value="+٥,٠٠٠" label="عميل سعيد" icon={<User className="w-8 h-8 text-blue-500" />} />
             <ModernStatItem value="+١٠،٠٠٠" label="خدمة منجزة" icon={<CheckCircle2 className="w-8 h-8 text-blue-500" />} />
-            <ModernStatItem value="٩٨٪" label="نسبة الرضا" icon={<Star className="w-8 h-8 text-blue-500" />} />
+            <ModernStatItem value="98%" label="نسبة الرضا" icon={<Star className="w-8 h-8 text-blue-500" />} />
             <ModernStatItem value="٢٤/٧" label="دعم متواصل" icon={<Clock className="w-8 h-8 text-blue-500" />} />
           </div>
         </div>
