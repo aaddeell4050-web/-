@@ -32,11 +32,56 @@
   touch-action: manipulation;
 }
 
+html, body {
+  overscroll-behavior-y: none;
+  overflow-x: hidden;
+  scroll-behavior: auto !important;
+}
+
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   touch-action: manipulation;
+}
+
+.gpu-accelerate {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .mobile-no-animate,
+  [style*="opacity: 0"],
+  [style*="transform: translateY"],
+  [style*="transform: scale"],
+  [style*="transform: translateX"] {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  #about,
+  #about * {
+    transition: none !important;
+    animation: none !important;
+    /* Do NOT force opacity: 1 here, to preserve opacity-5, opacity-70, etc. */
+  }
+
+  .shadow-lg, .shadow-xl, .shadow-2xl, .shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .backdrop-blur-md, .backdrop-blur-sm {
+    backdrop-filter: none !important;
+    background-color: rgba(255, 255, 255, 0.98) !important;
+  }
+}
+
+.cta-bg-logo {
+  background-color: transparent !important;
+  mix-blend-mode: multiply;
 }
 
 @layer base {

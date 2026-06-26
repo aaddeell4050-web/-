@@ -257,7 +257,7 @@ function Layout({ children }: { children: ReactNode }) {
       </footer>
 
       {/* Floating Buttons */}
-      <div className="fixed bottom-8 left-8 flex flex-col gap-4 z-[99]">
+      <div className="fixed bottom-8 left-8 flex flex-col gap-4 z-[99] gpu-accelerate">
         <a 
           href={`tel:${CONTACT_NUMBER}`}
           onClick={() => track('call_click')}
@@ -362,7 +362,7 @@ function Home() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="lg:col-span-7 flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0 order-last lg:order-first -mt-8 lg:-mt-16"
+              className="lg:col-span-7 flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0 order-last lg:order-first -mt-8 lg:-mt-16 mobile-no-animate"
             >
               <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-950/10 border border-blue-950/30 text-black font-medium text-sm mb-5">
                 <span>🏆 الأفضل في المملكة</span>
@@ -582,7 +582,7 @@ function Home() {
             {testimonials.map((t, idx) => (
               <motion.div 
                 key={idx}
-                className="min-w-[300px] md:min-w-[350px] bg-white p-6 rounded-2xl shadow-sm border border-slate-100 snap-center"
+                className="min-w-[300px] md:min-w-[350px] bg-white p-6 rounded-2xl shadow-sm border border-slate-100 snap-center mobile-no-animate"
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-normal text-xl">
@@ -659,7 +659,7 @@ function Home() {
             >
                 {/* Logo background */}
                 <div className="absolute -top-16 -right-16 w-64 h-64 opacity-5 pointer-events-none">
-                     <img src={AdelLogo} alt="Logo" className="w-full h-full object-contain" />
+                     <img src={AdelLogo} alt="Logo" className="w-full h-full object-contain cta-bg-logo" />
                 </div>
 
                 <motion.h2 
@@ -667,7 +667,7 @@ function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="text-2xl md:text-3xl font-normal text-white text-center mb-8 relative z-10 leading-tight font-sans"
+                    className="text-2xl md:text-3xl font-normal text-white text-center mb-8 relative z-10 leading-tight font-sans mobile-no-animate"
                 >
                     جاهز تبدأ؟ تواصل معنا الآن!
                 </motion.h2>
@@ -676,7 +676,7 @@ function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                    className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto italic relative z-10 text-center"
+                    className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto italic relative z-10 text-center mobile-no-animate"
                 >
                     فريقنا المتخصص جاهز لمساعدتك في حل جميع مشاكلك المالية. لا تتردد في التواصل معنا اليوم.
                 </motion.p>
@@ -689,10 +689,10 @@ function Home() {
                         viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                         whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} 
-                        className="relative overflow-hidden bg-white text-blue-900 px-6 py-3 rounded-lg font-medium text-base hover:bg-blue-50 transition-colors flex items-center justify-center gap-3 shadow-lg"
+                        className="relative overflow-hidden bg-white text-blue-900 px-6 py-3 rounded-lg font-medium text-base hover:bg-blue-50 transition-colors flex items-center justify-center gap-3 shadow-lg mobile-no-animate"
                     >
                         <motion.div
-                            className="absolute inset-0 z-10 pointer-events-none"
+                            className="absolute inset-0 z-10 pointer-events-none mobile-no-animate"
                             style={{
                                 background: "linear-gradient(90deg, transparent, rgba(30,58,138,0.1), transparent)",
                                 width: "100%",
@@ -713,7 +713,7 @@ function Home() {
                         viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
                         whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} 
-                        className="bg-blue-800 text-white border-2 border-white px-6 py-3 rounded-lg font-medium text-base hover:bg-blue-950 transition-colors flex items-center justify-center gap-3 shadow-lg"
+                        className="bg-blue-800 text-white border-2 border-white px-6 py-3 rounded-lg font-medium text-base hover:bg-blue-950 transition-colors flex items-center justify-center gap-3 shadow-lg mobile-no-animate"
                     >
                             <Phone className="w-4 h-4 text-white" />
                             اتصل بنا الآن
@@ -759,7 +759,7 @@ function ModernStatItem({ value, label, icon }: { value: string, label: string, 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-center group py-2"
+            className="text-center group py-2 mobile-no-animate"
         >
             <div className="mb-2 inline-block p-2 rounded-2xl transition-colors">
                 {icon}
@@ -782,11 +782,9 @@ function FeatureCard({ title, description, icon }: { title: string, description:
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="bg-white p-7 rounded-2xl shadow-lg border border-slate-100 hover:border-blue-700 active:border-blue-700 transition-colors duration-300 group text-right cursor-pointer"
+          className="bg-white p-7 rounded-2xl shadow-lg border border-slate-100 mobile-no-animate"
         >
-            <div className="w-12 h-12 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-700 group-hover:text-white transition-colors mr-0 ml-auto">
+            <div className="w-12 h-12 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center mb-6 mr-0 ml-auto">
                 {icon}
             </div>
             <h3 className="font-medium text-xl text-slate-900 mb-3">{title}</h3>
@@ -802,11 +800,11 @@ function StepItem({ number, title, description, delay = 0 }: { number: string, t
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, delay: delay * 0.1, ease: "easeOut" }}
-            className="text-center relative group"
+            className="text-center relative mobile-no-animate"
         >
-            <div className="w-12 h-12 bg-slate-900 text-white rounded-full flex items-center justify-center text-xl font-black mx-auto mb-3 shadow-xl relative z-10 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 bg-slate-900 text-white rounded-full flex items-center justify-center text-xl font-black mx-auto mb-3 shadow-xl relative z-10">
                 {number}
-                <div className="absolute inset-0 bg-blue-700 rounded-full scale-0 group-hover:scale-100 -z-10 transition-transform duration-500"></div>
+                <div className="absolute inset-0 bg-blue-700 rounded-full scale-0 -z-10 transition-transform duration-500"></div>
             </div>
             <div className="mb-2">
                 <ChevronRight className="w-5 h-5 text-amber-500 mx-auto rotate-90" />
@@ -932,11 +930,9 @@ function SleekServiceCard({ icon, bgClass, textClass, title, description }: { ic
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className="bg-white p-7 rounded-2xl shadow-lg border border-slate-100 hover:border-blue-700 active:border-blue-700 transition-colors duration-300 group text-right cursor-pointer"
+      className="bg-white p-7 rounded-2xl shadow-lg border border-slate-100 text-right mobile-no-animate"
     >
-      <div className={`w-12 h-12 ${bgClass} ${textClass} rounded-xl flex items-center justify-center mb-6 transition-colors group-hover:bg-blue-700 group-hover:text-white mr-0 ml-auto`}>
+      <div className={`w-12 h-12 ${bgClass} ${textClass} rounded-xl flex items-center justify-center mb-6 mr-0 ml-auto`}>
         {icon}
       </div>
       <h3 className="font-medium text-xl text-slate-900 mb-3">{title}</h3>
@@ -954,8 +950,7 @@ function DetailServiceCard({ title, content }: { title: string, content: string 
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        whileTap={{ scale: 0.98 }}
-        className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm transition-colors h-full flex flex-col font-tajawal"
+        className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm h-full flex flex-col font-tajawal mobile-no-animate"
     >
       <h3 className="text-2xl font-medium text-blue-900 mb-4">{title}</h3>
       <p className="text-slate-600 leading-relaxed text-sm">{content}</p>
@@ -981,7 +976,7 @@ function StatItem({ value, label }: { value: string, label: string }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="flex items-center gap-4 border-b sm:border-b-0 sm:border-l border-white/10 pb-6 sm:pb-0 sm:pl-12 last:border-0 last:pl-0"
+      className="flex items-center gap-4 border-b sm:border-b-0 sm:border-l border-white/10 pb-6 sm:pb-0 sm:pl-12 last:border-0 last:pl-0 mobile-no-animate"
     >
       <div className="text-4xl font-normal text-amber-400">{value}</div>
       <div className="text-sm opacity-80 leading-tight italic font-normal">{label}</div>
@@ -996,7 +991,7 @@ function ContactInfo({ icon, label, value }: { icon: ReactNode, label: string, v
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="flex items-center gap-4 justify-start flex-row-reverse"
+      className="flex items-center gap-4 justify-start flex-row-reverse mobile-no-animate"
     >
       <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center flex-shrink-0">
         {icon}
@@ -1029,7 +1024,7 @@ function SleekFeatureItem({ title, description }: { title: string, description: 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="flex gap-5 justify-end"
+      className="flex gap-5 justify-end mobile-no-animate"
     >
       <div className="text-right">
         <h4 className="text-xl font-medium text-slate-900 mb-2">{title}</h4>
