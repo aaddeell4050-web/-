@@ -55,7 +55,7 @@ body {
   [style*="opacity: 0"],
   [style*="transform: translateY"],
   [style*="transform: scale"],
-  [style*="transform: translateX"] {
+  [style*="transform: translateX"]:not(.whatsapp-shimmer) {
     transform: none !important;
     opacity: 1 !important;
     transition: none !important;
@@ -63,7 +63,7 @@ body {
   }
 
   #about,
-  #about * {
+  #about *:not(.whatsapp-shimmer) {
     transition: none !important;
     animation: none !important;
     /* Do NOT force opacity: 1 here, to preserve opacity-5, opacity-70, etc. */

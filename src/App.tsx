@@ -377,7 +377,7 @@ function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto mb-7">
                   <motion.a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative overflow-hidden bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-4 rounded-lg font-medium text-base hover:from-green-800 hover:to-green-600 transition-colors flex items-center justify-center gap-3 shadow-lg shadow-green-200 w-full sm:w-auto">
                       <motion.div
-                          className="absolute inset-0 z-10 pointer-events-none"
+                          className="absolute inset-0 z-10 pointer-events-none whatsapp-shimmer"
                           style={{
                               background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
                               width: "100%",
@@ -692,7 +692,7 @@ function Home() {
                         className="relative overflow-hidden bg-white text-blue-900 px-6 py-3 rounded-lg font-medium text-base hover:bg-blue-50 transition-colors flex items-center justify-center gap-3 shadow-lg mobile-no-animate"
                     >
                         <motion.div
-                            className="absolute inset-0 z-10 pointer-events-none mobile-no-animate"
+                            className="absolute inset-0 z-10 pointer-events-none mobile-no-animate whatsapp-shimmer"
                             style={{
                                 background: "linear-gradient(90deg, transparent, rgba(30,58,138,0.1), transparent)",
                                 width: "100%",
