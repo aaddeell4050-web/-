@@ -65,7 +65,7 @@ const track = async (event: string) => {
     if (window.snaptr) {
         if (event === 'whatsapp_click' || event === 'call_click') {
             // @ts-ignore
-            window.snaptr('track', 'CONTACT');
+            window.snaptr('track', 'SIGN_UP');
         }
     }
   } catch (error) {
