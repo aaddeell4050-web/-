@@ -63,12 +63,9 @@ const track = async (event: string) => {
     // Snap Pixel Tracking
     // @ts-ignore
     if (window.snaptr) {
-        if (event === 'whatsapp_click') {
+        if (event === 'whatsapp_click' || event === 'call_click') {
             // @ts-ignore
-            window.snaptr('track', 'CUSTOM_EVENT_1', { description: 'whatsapp_click' });
-        } else if (event === 'call_click') {
-            // @ts-ignore
-            window.snaptr('track', 'CUSTOM_EVENT_2', { description: 'call_click' });
+            window.snaptr('track', 'CONTACT');
         }
     }
   } catch (error) {
