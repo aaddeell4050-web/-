@@ -38,19 +38,8 @@ const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${enc
 
 
 const track = async (event: string) => {
-  // 1. Client-Side Pixel Tracking
-  try {
-    // Snap Pixel Tracking
-    // @ts-ignore
-    if (window.snaptr) {
-        if (event === 'whatsapp_click' || event === 'call_click') {
-            // @ts-ignore
-            window.snaptr('track', 'SIGN_UP');
-        }
-    }
-  } catch (error) {
-    console.error('Client Tracking Error', error);
-  }
+  // Tracking is now handled entirely by Google Tag Manager
+  console.log(`Event tracked via GTM: ${event}`);
 };
 
 export default function App() {
