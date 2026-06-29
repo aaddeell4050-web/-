@@ -38,8 +38,54 @@ const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${enc
 
 
 const track = async (event: string) => {
-  // Tracking is now handled entirely by Google Tag Manager
-  console.log(`Event tracked via GTM: ${event}`);
+  const tiktokEventName = event === 'view_content' ? 'ViewContent' : 'Contact';
+  
+  // 1. Client-Side Pixel Tracking
+  try {
+    // @ts-ignore
+    if (window.ttq) {
+        // @ts-ignore
+        window.ttq.track(tiktokEventName, {
+            contents: [{
+              content_id: 'contact_' + event,
+              content_type: 'product',
+              content_name: event === 'whatsapp_click' ? 'WhatsApp Chat' : (event === 'view_content' ? 'Landing Page' : 'Phone Call'),
+              quantity: 1,
+              price: 1
+            }],
+            content_type: 'product',
+            content_id: 'contact_' + event,
+            value: 1,
+            currency: 'SAR'
+        });
+    }
+
+    // Snap Pixel Tracking
+    // @ts-ignore
+    if (window.snaptr) {
+        if (event === 'whatsapp_click' || event === 'call_click') {
+            // @ts-ignore
+            window.snaptr('track', 'SIGN_UP');
+        }
+    }
+  } catch (error) {
+    console.error('Client Tracking Error', error);
+  }
+
+  // 2. Server-Side Events API Tracking
+  try {
+    await fetch('/api/tiktok-event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        eventName: tiktokEventName,
+        pageUrl: window.location.href,
+        userAgent: navigator.userAgent
+      })
+    });
+  } catch (error) {
+    console.error('Server Tracking Error', error);
+  }
 };
 
 export default function App() {
