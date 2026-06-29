@@ -1,20 +1,14 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# عادل لتسديد القروض
 
-# Run and deploy your AI Studio app
+حلول تمويلية وتسديد قروض لجميع البنوك مع عادل لتسديد القروض، فك إيقاف الخدمات، وتحديث تقارير سمة في جميع أنحاء المملكة.
 
-This contains everything you need to run your app locally.
+## المميزات
+* تسديد قروض لجميع البنوك
+* فك إيقاف الخدمات
+* تحديث تقارير سمة
+* حلول تمويلية متكاملة
 
-View your app in AI Studio: https://ai.studio/apps/472ad91d-a78a-436d-b06c-ca03ddaa7739
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## التشغيل محلياً
+لتشغيل المشروع على جهازك:
+1. `npm install`
+2. `npm run dev`
