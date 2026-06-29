@@ -59,6 +59,18 @@ const track = async (event: string) => {
             currency: 'SAR'
         });
     }
+
+    // Snap Pixel Tracking
+    // @ts-ignore
+    if (window.snaptr) {
+        if (event === 'whatsapp_click') {
+            // @ts-ignore
+            window.snaptr('track', 'CUSTOM_EVENT_1', { description: 'whatsapp_click' });
+        } else if (event === 'call_click') {
+            // @ts-ignore
+            window.snaptr('track', 'CUSTOM_EVENT_2', { description: 'call_click' });
+        }
+    }
   } catch (error) {
     console.error('Client Tracking Error', error);
   }
