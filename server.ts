@@ -64,55 +64,6 @@ async function startServer() {
       res.status(200).send("OK");
     });
 
-    // TikTok Events API Route
-    expressApp.post("/api/tiktok-event", async (req, res) => {
-      try {
-        const { eventName, eventId, pageUrl, userAgent } = req.body;
-        
-        // Using your specific Pixel Code and Access Token
-        const pixelCode = process.env.TIKTOK_PIXEL_ID || "D84DP5BC77U6NFPBOU0G";
-        const accessToken = process.env.TIKTOK_ACCESS_TOKEN || "15852e1345b5248126f0a5ec318323f6cda676d7";
-        
-        const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "";
-        const formattedIp = typeof clientIp === "string" ? clientIp.split(",")[0].trim() : "127.0.0.1";
-
-        const payload = {
-          pixel_code: pixelCode,
-          data: [
-            {
-              event: eventName, // e.g., "ViewContent", "Contact", "SubmitForm"
-              event_time: Math.floor(Date.now() / 1000),
-              event_id: eventId || crypto.randomUUID(),
-              user: {
-                client_ip_address: formattedIp,
-                client_user_agent: userAgent || req.headers["user-agent"] || "Mozilla/5.0"
-              },
-              page: {
-                url: pageUrl || req.headers.referer || "https://adelsaddad.com/"
-              }
-            }
-          ]
-        };
-
-        const response = await fetch("https://business-api.tiktok.com/open_api/v1.3/event/track/", {
-          method: "POST",
-          headers: {
-            "Access-Token": accessToken,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-        console.log(`[TikTok API] Event '${eventName}' sent. Response:`, JSON.stringify(data));
-
-        res.json({ success: true, response: data });
-      } catch (error) {
-        console.error("[TikTok API] Error:", error);
-        res.status(500).json({ success: false, message: "Failed to send TikTok event" });
-      }
-    });
-
     // API Route - Handling contact form submission
     expressApp.post("/api/contact", async (req, res) => {
       console.log("--- CONTACT API CALLED ---", req.body);
