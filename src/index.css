@@ -33,7 +33,6 @@
 }
 
 html, body {
-  overscroll-behavior-y: none;
   overflow-x: hidden;
   scroll-behavior: auto !important;
 }
