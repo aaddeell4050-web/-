@@ -2,8 +2,6 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import nodemailer from "nodemailer";
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { readFileSync, existsSync } from "fs";
 import { config } from "dotenv";
 import cors from "cors";
@@ -11,21 +9,6 @@ import crypto from "crypto";
 import cookieParser from "cookie-parser";
 
 config();
-
-
-// Initialize Firebase
-let firebaseConfig;
-try {
-  const configPath = path.join(process.cwd(), "firebase-applet-config.json");
-  console.log("Reading firebase config from:", configPath);
-  firebaseConfig = JSON.parse(readFileSync(configPath, "utf-8"));
-} catch (error) {
-  console.error("Critical error reading firebase-applet-config.json:", error);
-  process.exit(1);
-}
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 
 // Email Transporter
 let transporter: nodemailer.Transporter | null = null;
@@ -77,20 +60,10 @@ async function startServer() {
 
         console.log("Contact Request Processing:", { fullName, phone, bankType, salary, message, eventId });
 
-        // 1. Save to Firestore
-        await addDoc(collection(db, "requests"), {
-          fullName,
-          phone,
-          bankType,
-          salary,
-          message,
-          createdAt: new Date().toISOString(),
-          eventId: eventId || null
-        });
-
         // 2. Send Email
         const transporter = getTransporter();
         let emailSent = false;
+
         if (transporter) {
           console.log("Attempting to send email via SMTP, user:", process.env.SMTP_USER);
           try {
@@ -105,7 +78,6 @@ async function startServer() {
             console.log("Email sent successfully!");
           } catch (mailError) {
             console.error("Failed to send email via SMTP:", mailError);
-            // We still have the data in Firestore, but notice the failure
           }
         } else {
           console.error("CRITICAL: SMTP is not configured! Email notification was skipped.");
@@ -114,10 +86,10 @@ async function startServer() {
         if (emailSent) {
           res.json({ success: true, message: "تم إرسال طلبك بنجاح. سنتواصل معك." });
         } else {
-          // If Firestore worked but email didn't, we still return successfully to user 
-          res.json({ 
-            success: true, 
-            message: "تم استلام طلبك بنجاح (تنبيه: تعذر إرسال الإشعار البريدي حالياً ولكن طلبك محفوظ).",
+          // If email didn't work, we still return successfully to user 
+           res.json({ 
+             success: true, 
+             message: "تم استلام طلبك بنجاح (تنبيه: تعذر إرسال الإشعار البريدي حالياً ولكن طلبك محفوظ).",
           });
         }
       } catch (error) {
@@ -129,11 +101,9 @@ async function startServer() {
     // API Route - Get all leads (Secured by a simple check or just public for now for dev)
     expressApp.get("/api/leads", async (req, res) => {
       try {
-        const { getDocs, query, orderBy } = await import("firebase/firestore");
-        const q = query(collection(db, "requests"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(q);
-        const leads = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        res.json(leads);
+        // We don't have leads stored persistently here.
+        // Returning an empty array.
+        res.json([]);
       } catch (error) {
         console.error("Error fetching leads:", error);
         res.status(500).json({ success: false, message: "Failed to fetch leads" });
