@@ -96,7 +96,7 @@ function Layout({ children }: { children: ReactNode }) {
             <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg overflow-hidden group-hover:scale-110 transition-transform">
               <img src={AdelLogo} alt="عادل السداد" className="w-full h-full object-cover" />
             </div>
-            <span className="text-lg md:text-2xl font-black tracking-tight text-slate-900 block group-hover:text-blue-700 transition-colors">
+            <span className="text-lg md:text-2xl font-bold tracking-tight text-slate-900 block group-hover:text-blue-700 transition-colors">
               عادل <span className="text-blue-700">السداد</span>
             </span>
           </Link>
@@ -140,17 +140,7 @@ function Layout({ children }: { children: ReactNode }) {
       </AnimatePresence>
 
       <main className="flex-grow pt-10">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+        {children}
       </main>
 
       {/* Footer */}
@@ -172,17 +162,17 @@ function Layout({ children }: { children: ReactNode }) {
             <div>
               <h4 className="text-white font-medium mb-6">روابط سريعة</h4>
               <ul className="space-y-4 text-sm">
-                <li><Link to="/" className="hover:text-white transition-colors">الرئيسية</Link></li>
-                <li><Link to="/services" className="hover:text-white transition-colors">خدماتنا</Link></li>
-                <li><Link to="/contact" className="hover:text-white transition-colors">اتصل بنا</Link></li>
+                <li><Link to="/" className="hover:text-white active:text-white focus:text-white transition-colors">الرئيسية</Link></li>
+                <li><Link to="/services" className="hover:text-white active:text-white focus:text-white transition-colors">خدماتنا</Link></li>
+                <li><Link to="/contact" className="hover:text-white active:text-white focus:text-white transition-colors">اتصل بنا</Link></li>
               </ul>
             </div>
             
             <div>
               <h4 className="text-white font-medium mb-6">قانوني</h4>
               <ul className="space-y-4 text-sm">
-                <li><Link to="/privacy" className="hover:text-white transition-colors">سياسة الخصوصية</Link></li>
-                <li><Link to="/terms" className="hover:text-white transition-colors">شروط الخدمة</Link></li>
+                <li><Link to="/privacy" className="hover:text-white active:text-white focus:text-white transition-colors">سياسة الخصوصية</Link></li>
+                <li><Link to="/terms" className="hover:text-white active:text-white focus:text-white transition-colors">شروط الخدمة</Link></li>
               </ul>
             </div>
             
@@ -316,29 +306,27 @@ function Home() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full -mr-64 -mt-64 blur-3xl -z-10 pointer-events-none"></div>
       
       {/* Hero */}
-      <section className="relative pt-12 pb-20 lg:pt-24 lg:pb-32 px-4 md:px-8 text-center lg:text-right overflow-hidden min-h-[85vh] flex flex-col justify-center">
+      <section className="relative pt-6 pb-12 lg:pt-20 lg:pb-24 px-4 md:px-8 text-center lg:text-right overflow-hidden min-h-[75vh] flex flex-col justify-center">
         <div className="container mx-auto relative z-20">
-          <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-center">
+          <div className="grid lg:grid-cols-12 gap-4 lg:gap-10 items-center">
             
             {/* Right column: Content (Heading, Paragraph, CTA, Trust indicators) */}
             <motion.div 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="lg:col-span-7 flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0 order-last lg:order-first -mt-8 lg:-mt-16 mobile-no-animate"
+              className="lg:col-span-7 flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0 order-last lg:order-first mobile-no-animate w-full"
             >
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-950/10 border border-blue-950/30 text-black font-medium text-sm mb-5">
-                <span>🏆 الأفضل في المملكة</span>
-              </div>
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight mb-5">
-                عادل السداد — <span className="text-blue-700 drop-shadow-sm">حلولك المالية بين يديك</span>
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-4 text-center w-full">
+                عادل السداد - <span className="text-blue-700 drop-shadow-sm">حلولك المالية</span> <br />
+                <span className="text-blue-700 drop-shadow-sm block mt-2 text-center w-full">بين يديك</span>
               </h1>
-              <p className="text-base md:text-lg text-slate-600 mb-7 leading-relaxed font-medium italic">
+              <p className="text-sm md:text-base text-slate-600 mb-5 leading-relaxed font-medium italic">
                 نقدم لك حلولاً مالية مبتكرة تشمل تسديد القروض البنكية حتى ٣٦ راتب، رفع التعثرات من سمة، سداد البطاقات الائتمانية، واستخراج قروض لجميع البنوك بسرعة وسهولة.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto mb-7">
-                  <motion.a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative overflow-hidden bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-4 rounded-lg font-medium text-base hover:from-green-800 hover:to-green-600 transition-colors flex items-center justify-center gap-3 shadow-lg shadow-green-200 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto mb-6">
+                  <motion.a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative overflow-hidden bg-gradient-to-r from-green-700 to-green-500 text-white px-8 py-4 rounded-xl font-bold text-base hover:from-green-800 hover:to-green-600 transition-colors flex items-center justify-center gap-3 shadow-lg shadow-green-200 w-full sm:w-auto">
                       <motion.div
                           className="absolute inset-0 z-10 pointer-events-none whatsapp-shimmer"
                           style={{
@@ -349,30 +337,30 @@ function Home() {
                           animate={{ x: '100%' }}
                           transition={{ repeat: Infinity, duration: 1.5, ease: "linear", repeatDelay: 1 }}
                       />
-                      <div className="relative z-20 flex items-center justify-center gap-3">
+                      <div className="relative z-20 flex items-center justify-center gap-2">
                           <FaWhatsapp size={24} color="white" />
                           تواصل عبر الواتساب
                       </div>
                   </motion.a>
-                  <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="group bg-white border-2 border-blue-700 text-slate-900 px-8 py-4 rounded-lg font-medium text-base hover:bg-blue-700 hover:border-blue-700 active:bg-blue-700 active:border-blue-700 hover:text-white active:text-white transition-colors flex items-center justify-center gap-3 w-full sm:w-auto">
-                      <Phone className="w-4 h-4 text-slate-900 group-hover:text-white group-active:text-white group-focus:text-white transition-colors" />
+                  <motion.a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="group bg-white border-[3px] border-blue-700 text-slate-900 px-8 py-4 rounded-xl font-bold text-base hover:bg-blue-700 hover:border-blue-700 active:bg-blue-700 active:border-blue-700 hover:text-white active:text-white transition-colors flex items-center justify-center gap-3 w-full sm:w-auto">
+                      <Phone className="w-5 h-5 text-slate-900 group-hover:text-white group-active:text-white group-focus:text-white transition-colors" />
                       اتصل بنا الآن
                   </motion.a>
               </div>
               
-              <div className="flex flex-row items-center justify-around lg:justify-start gap-6 text-xs text-slate-700 font-medium w-full">
-                  <div className="flex items-center gap-1.5">
-                      <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+              <div className="flex flex-row items-center justify-around lg:justify-start gap-4 text-[11px] sm:text-xs text-slate-700 font-medium w-full">
+                  <div className="flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
                       <span className="whitespace-nowrap">+ 5,000 عميل سعيد</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                      <div className="w-4 h-4 bg-blue-600 rounded-full flex items-center justify-center">
-                          <Check strokeWidth={4} className="w-3 h-3 text-white" />
+                  <div className="flex items-center gap-1">
+                      <div className="w-3.5 h-3.5 bg-blue-600 rounded-full flex items-center justify-center">
+                          <Check strokeWidth={4} className="w-2.5 h-2.5 text-white" />
                       </div>
                       <span>مرخص ومعتمد</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                      <Zap className="w-4 h-4 text-green-500 fill-green-500" />
+                  <div className="flex items-center gap-1">
+                      <Zap className="w-3.5 h-3.5 text-green-500 fill-green-500" />
                       <span>خدمة فورية</span>
                   </div>
               </div>
@@ -380,8 +368,16 @@ function Home() {
 
             {/* Left column: Image */}
             <div className="lg:col-span-5 w-full order-first lg:order-last">
-              <div className="mb-2 lg:mb-0 relative mt-4 lg:mt-0">
-                <div className="relative z-10 max-w-[380px] lg:max-w-[480px] mx-auto">
+              <div className="mb-2 lg:mb-0 relative mt-6 lg:mt-10 flex flex-col items-center">
+                <div className="w-full flex justify-center mb-4 translate-y-2">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gradient-to-r from-amber-500 via-amber-300 to-amber-500 border border-amber-400 text-black font-bold shadow-sm transform lg:-translate-x-4">
+                    <span className="flex items-center gap-1.5 text-sm sm:text-base font-bold">
+                      <span className="text-lg drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">⚠️</span> 
+                      تنويه: نعتذر عن خدمة موظفي القطاع الخاص
+                    </span>
+                  </div>
+                </div>
+                <div className="relative z-10 max-w-[340px] sm:max-w-[420px] lg:max-w-[560px] mx-auto translate-y-2">
                    <img 
                      src="/hero-image.webp" 
                      alt="عادل السداد لتسديد القروض - ٣٦ راتب ومميزات بنكية" 
@@ -390,7 +386,7 @@ function Home() {
                    />
                 </div>
                 {/* Soft shadow for the graphic itself */}
-                <div className="absolute top-[85%] left-1/2 -translate-x-1/2 w-[50%] h-[15px] bg-blue-900/10 blur-2xl rounded-full -z-10"></div>
+                <div className="absolute top-[85%] left-1/2 -translate-x-1/2 w-[50%] h-[15px] bg-blue-900/10 blur-2xl rounded-full -z-10 translate-y-2"></div>
               </div>
             </div>
 
@@ -694,7 +690,7 @@ function Home() {
 
 function ModernStatItem({ value, label, icon }: { value: string, label: string, icon: ReactNode }) {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true });
+    const isInView = useInView(ref, { once: true, amount: "all" });
     
     // Parse numeric part
     const numericMatch = value.match(/[\d٠-٩][\d٠-٩,\u060C]*/);
@@ -711,7 +707,7 @@ function ModernStatItem({ value, label, icon }: { value: string, label: string, 
 
     useEffect(() => {
         if (isInView) {
-            animate(count, numericValue, { duration: 2 });
+            animate(count, numericValue, { duration: 2.5, ease: "easeOut" });
         }
     }, [isInView, count, numericValue]);
 
@@ -720,7 +716,7 @@ function ModernStatItem({ value, label, icon }: { value: string, label: string, 
             ref={ref} 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: true, amount: "all" }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-center group py-2 mobile-no-animate"
         >
