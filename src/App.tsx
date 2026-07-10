@@ -313,14 +313,14 @@ function Home() {
             
             {/* Right column: Content (Heading, Paragraph, CTA, Trust indicators) */}
             <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              
+              
+              
               className="lg:col-span-7 flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0 order-last lg:order-first mobile-no-animate w-full"
             >
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-4 text-center w-full">
-                عادل السداد - <span className="text-blue-700 drop-shadow-sm font-bold">حلولك المالية</span> <br />
-                <span className="text-blue-700 drop-shadow-sm block mt-2 text-center w-full font-bold">بين يديك</span>
+                عادل السداد - <span className="bg-gradient-to-l from-blue-950 to-blue-500 bg-clip-text text-transparent drop-shadow-sm font-bold">حلولك المالية</span> <br />
+                <span className="bg-gradient-to-l from-blue-950 to-blue-500 bg-clip-text text-transparent drop-shadow-sm block mt-2 text-center w-full font-bold">بين يديك</span>
               </h1>
               <p className="text-sm md:text-base text-slate-600 mb-5 leading-relaxed font-medium italic">
                 نقدم لك حلولاً مالية مبتكرة تشمل تسديد القروض البنكية حتى ٣٦ راتب، رفع التعثرات من سمة، سداد البطاقات الائتمانية، واستخراج قروض لجميع البنوك بسرعة وسهولة.
@@ -382,7 +382,7 @@ function Home() {
                     </div>
                   </div>
                   
-                  <div className="inline-flex items-center justify-center gap-3 md:gap-4 px-5 py-3 md:px-6 md:py-3.5 rounded-xl bg-blue-700 shadow-md transform lg:-translate-x-4">
+                  <div className="inline-flex items-center justify-center gap-3 md:gap-4 px-5 py-3 md:px-6 md:py-3.5 rounded-xl bg-gradient-to-r from-blue-500 via-blue-950 to-blue-500 shadow-md transform lg:-translate-x-4">
                     <div className="flex flex-col justify-center items-center font-bold text-lg md:text-2xl lg:text-3xl leading-tight">
                       <span className="text-white text-center">عروض خاصة لمنسوبي الصحة والتعليم والعسكر</span>
                       <span className="text-white mt-2 text-center">والمدنيين</span>
