@@ -25,7 +25,8 @@ import {
   Clock,
   Zap,
   X,
-  Check
+  Check,
+  AlertTriangle
 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useState, useEffect, type ReactNode, type FormEvent, type InputHTMLAttributes, useRef } from 'react';
@@ -127,13 +128,13 @@ function Layout({ children }: { children: ReactNode }) {
             className="fixed inset-0 z-[60] bg-white pt-24 px-6 flex flex-col gap-6 text-right"
           >
              <button onClick={() => setMenuOpen(false)} className="absolute top-6 left-6"><X size={28} strokeWidth={1} /></button>
-             <Link onClick={() => setMenuOpen(false)} to="/" className="text-xl font-normal text-slate-800">الرئيسية</Link>
-             <Link onClick={() => setMenuOpen(false)} to="/services" className="text-xl font-normal text-slate-800">خدماتنا</Link>
-             <Link onClick={() => setMenuOpen(false)} to="/privacy" className="text-xl font-normal text-slate-800">سياسة الخصوصية</Link>
-             <Link onClick={() => setMenuOpen(false)} to="/terms" className="text-xl font-normal text-slate-800">شروط الخدمة</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/" className="text-xl font-medium text-slate-800">الرئيسية</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/services" className="text-xl font-medium text-slate-800">خدماتنا</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/privacy" className="text-xl font-medium text-slate-800">سياسة الخصوصية</Link>
+             <Link onClick={() => setMenuOpen(false)} to="/terms" className="text-xl font-medium text-slate-800">شروط الخدمة</Link>
              <div className="flex flex-col gap-4 mt-6">
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} className="bg-green-600 text-white p-4 rounded-xl text-center font-normal">واتساب</a>
-                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="bg-blue-700 text-white p-4 rounded-xl text-center font-normal">اتصال</a>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} className="bg-green-600 text-white p-4 rounded-xl text-center font-bold">واتساب</a>
+                <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="bg-blue-700 text-white p-4 rounded-xl text-center font-bold">اتصال</a>
              </div>
           </motion.div>
         )}
@@ -152,15 +153,15 @@ function Layout({ children }: { children: ReactNode }) {
                 <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center">
                   <img src={AdelLogo} alt="عادل السداد" className="w-full h-full object-cover" />
                 </div>
-                <span className="text-xl font-medium text-white tracking-tight">عادل السداد</span>
+                <span className="text-xl font-bold text-white tracking-tight">عادل السداد</span>
               </div>
-              <p className="leading-relaxed text-sm">
+              <p className="leading-relaxed text-sm font-medium">
                 شريكك المالي الموثوق في المملكة العربية السعودية لسداد القروض مع عادل السداد.
               </p>
             </div>
             
             <div>
-              <h4 className="text-white font-medium mb-6">روابط سريعة</h4>
+              <h4 className="text-white font-bold mb-6">روابط سريعة</h4>
               <ul className="space-y-4 text-sm">
                 <li><Link to="/" className="hover:text-white active:text-white focus:text-white transition-colors">الرئيسية</Link></li>
                 <li><Link to="/services" className="hover:text-white active:text-white focus:text-white transition-colors">خدماتنا</Link></li>
@@ -169,7 +170,7 @@ function Layout({ children }: { children: ReactNode }) {
             </div>
             
             <div>
-              <h4 className="text-white font-medium mb-6">قانوني</h4>
+              <h4 className="text-white font-bold mb-6">قانوني</h4>
               <ul className="space-y-4 text-sm">
                 <li><Link to="/privacy" className="hover:text-white active:text-white focus:text-white transition-colors">سياسة الخصوصية</Link></li>
                 <li><Link to="/terms" className="hover:text-white active:text-white focus:text-white transition-colors">شروط الخدمة</Link></li>
@@ -177,8 +178,8 @@ function Layout({ children }: { children: ReactNode }) {
             </div>
             
             <div>
-              <h4 className="text-white font-medium mb-6">تواصل معنا</h4>
-              <div className="flex flex-col gap-3 font-normal text-sm text-slate-300">
+              <h4 className="text-white font-bold mb-6">تواصل معنا</h4>
+              <div className="flex flex-col gap-3 font-medium text-sm text-slate-300">
                 <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="flex items-center gap-2 text-slate-400 hover:text-white active:text-white focus:text-white transition-colors">
                     <Phone className="w-4 h-4" />
                     {CONTACT_NUMBER}
@@ -201,7 +202,7 @@ function Layout({ children }: { children: ReactNode }) {
             </div>
           </div>
           
-          <div className="border-t border-white/5 pt-8 text-center text-xs font-normal uppercase tracking-[0.2em] flex flex-col md:flex-row items-center justify-center gap-4">
+          <div className="border-t border-white/5 pt-8 text-center text-xs font-medium uppercase tracking-[0.2em] flex flex-col md:flex-row items-center justify-center gap-4">
             <div>
               &copy; {new Date().getFullYear()} عادل السداد. جميع الحقوق محفوظة
             </div>
@@ -318,8 +319,8 @@ function Home() {
               className="lg:col-span-7 flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0 order-last lg:order-first mobile-no-animate w-full"
             >
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-4 text-center w-full">
-                عادل السداد - <span className="text-blue-700 drop-shadow-sm">حلولك المالية</span> <br />
-                <span className="text-blue-700 drop-shadow-sm block mt-2 text-center w-full">بين يديك</span>
+                عادل السداد - <span className="text-blue-700 drop-shadow-sm font-bold">حلولك المالية</span> <br />
+                <span className="text-blue-700 drop-shadow-sm block mt-2 text-center w-full font-bold">بين يديك</span>
               </h1>
               <p className="text-sm md:text-base text-slate-600 mb-5 leading-relaxed font-medium italic">
                 نقدم لك حلولاً مالية مبتكرة تشمل تسديد القروض البنكية حتى ٣٦ راتب، رفع التعثرات من سمة، سداد البطاقات الائتمانية، واستخراج قروض لجميع البنوك بسرعة وسهولة.
@@ -369,12 +370,23 @@ function Home() {
             {/* Left column: Image */}
             <div className="lg:col-span-5 w-full order-first lg:order-last">
               <div className="mb-2 lg:mb-0 relative mt-6 lg:mt-10 flex flex-col items-center">
-                <div className="w-full flex justify-center mb-4 translate-y-2">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gradient-to-r from-amber-500 via-amber-300 to-amber-500 border border-amber-400 text-black font-bold shadow-sm transform lg:-translate-x-4">
-                    <span className="flex items-center gap-1.5 text-sm sm:text-base font-bold">
-                      <span className="text-lg drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">⚠️</span> 
-                      تنويه: نعتذر عن خدمة موظفي القطاع الخاص
-                    </span>
+                <div className="w-full flex flex-col items-center mb-6 translate-y-2 gap-3">
+                  <div className="inline-flex items-center justify-center gap-3 md:gap-4 px-5 py-3 md:px-6 md:py-3.5 rounded-xl bg-white/10 backdrop-blur-md border border-blue-700 shadow-sm transform lg:-translate-x-4">
+                    <div className="flex-shrink-0 flex items-center justify-center">
+                      <AlertTriangle className="w-6 h-6 md:w-7 md:h-7 text-blue-700 drop-shadow-sm" strokeWidth={2.5} />
+                    </div>
+                    <div className="flex items-center justify-center font-bold text-base md:text-xl lg:text-2xl leading-tight">
+                      <span className="text-black md:whitespace-nowrap">
+                        للقطاع الحكومي فقط <span className="text-blue-700">ونعتذر عن القطاع الخاص</span>
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="inline-flex items-center justify-center gap-3 md:gap-4 px-5 py-3 md:px-6 md:py-3.5 rounded-xl bg-blue-700 shadow-md transform lg:-translate-x-4">
+                    <div className="flex flex-col justify-center items-center font-bold text-lg md:text-2xl lg:text-3xl leading-tight">
+                      <span className="text-white text-center">عروض خاصة لمنسوبي الصحة والتعليم والعسكر</span>
+                      <span className="text-white mt-2 text-center">والمدنيين</span>
+                    </div>
                   </div>
                 </div>
                 <div className="relative z-10 max-w-[340px] sm:max-w-[420px] lg:max-w-[560px] mx-auto translate-y-2">
@@ -416,11 +428,11 @@ function Home() {
           <div className="mb-16">
             <div className="flex items-center justify-center gap-6 mb-4">
               <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
-              <p className="text-blue-700 font-normal">خدماتنا</p>
+              <p className="text-blue-700 font-medium">خدماتنا</p>
               <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-medium text-slate-900 mb-6 font-sans">ماذا نقدم لك؟</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto italic">حلول مالية شاملة ومتكاملة تلبي جميع احتياجاتك المالية بكل احترافية وسرعة</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-sans">ماذا نقدم لك؟</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto italic font-medium">حلول مالية شاملة ومتكاملة تلبي جميع احتياجاتك المالية بكل احترافية وسرعة</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -476,11 +488,11 @@ function Home() {
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-6 mb-4">
               <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
-              <p className="text-blue-700 font-normal">لماذا نحن</p>
+              <p className="text-blue-700 font-medium">لماذا نحن</p>
               <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-medium text-slate-900 mb-6 font-sans">مميزاتنا</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto italic">نتميز بتقديم خدمات مالية عالية الجودة تضمن رضاك الكامل</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-sans">مميزاتنا</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto italic font-medium">نتميز بتقديم خدمات مالية عالية الجودة تضمن رضاك الكامل</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -500,11 +512,11 @@ function Home() {
           <div className="text-center mb-20 font-tajawal">
             <div className="flex items-center justify-center gap-6 mb-4">
               <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
-              <p className="text-blue-700 font-normal">كيف نعمل</p>
+              <p className="text-blue-700 font-medium">كيف نعمل</p>
               <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-medium text-slate-900 mb-6 font-sans">خطوات بسيطة وسهلة</h2>
-            <p className="text-slate-500">نجعل الأمر سهلاً وبسيطاً</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-sans">خطوات بسيطة وسهلة</h2>
+            <p className="text-slate-500 font-medium">نجعل الأمر سهلاً وبسيطاً</p>
           </div>
 
           <div className="relative">
@@ -525,11 +537,11 @@ function Home() {
           <div className="text-center mb-16 font-tajawal">
             <div className="flex items-center justify-center gap-6 mb-4">
               <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
-              <p className="text-blue-700 font-normal">اراء عملاؤنا</p>
+              <p className="text-blue-700 font-medium">اراء عملاؤنا</p>
               <div className="h-[2px] w-12 bg-blue-700/60 rounded-full"></div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-medium text-slate-900 mb-6 font-sans">ماذا يقول عملاؤنا؟</h2>
-            <p className="text-slate-500">نفخر بثقة عملائنا الكرام</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-sans">ماذا يقول عملاؤنا؟</h2>
+            <p className="text-slate-500 font-medium">نفخر بثقة عملائنا الكرام</p>
           </div>
 
           <div 
@@ -544,19 +556,19 @@ function Home() {
                 className="min-w-[300px] md:min-w-[350px] bg-white p-6 rounded-2xl shadow-sm border border-slate-100 snap-center mobile-no-animate"
               >
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-normal text-xl">
+                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-medium text-xl">
                     {t.name[0]}
                   </div>
                   <div className="text-right">
-                    <h4 className="font-medium text-slate-900">{t.name}</h4>
-                    <p className="text-sm text-slate-400">{t.city}</p>
+                    <h4 className="font-bold text-slate-900">{t.name}</h4>
+                    <p className="text-sm text-slate-400 font-medium">{t.city}</p>
                   </div>
                 </div>
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />)}
                 </div>
-                <p className="text-slate-600 leading-relaxed italic text-right font-normal">"{t.text}"</p>
-                <p className="text-xs text-slate-400 mt-6 text-right">{t.time}</p>
+                <p className="text-slate-600 leading-relaxed italic text-right font-medium">"{t.text}"</p>
+                <p className="text-xs text-slate-400 mt-6 text-right font-medium">{t.time}</p>
               </motion.div>
             ))}
           </div>
@@ -583,7 +595,7 @@ function Home() {
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-6 mb-4">
               <div className="h-[3px] w-12 md:w-16 bg-slate-900 rounded-full"></div>
-              <h2 className="text-3xl md:text-4xl font-medium text-slate-900 font-sans underline decoration-blue-200 underline-offset-8">الأسئلة الشائعة</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 font-sans underline decoration-blue-200 underline-offset-8">الأسئلة الشائعة</h2>
               <div className="h-[3px] w-12 md:w-16 bg-slate-900 rounded-full"></div>
             </div>
             <p className="text-slate-500 font-tajawal text-lg">إجابات على أكثر الأسئلة شيوعاً</p>
@@ -600,7 +612,7 @@ function Home() {
                   <span className="font-medium text-slate-900 text-base group-hover:text-blue-700 transition-colors">{faq.q}</span>
                 </button>
                 {activeFaq === idx && (
-                  <div className="px-6 pb-4 text-slate-600 leading-relaxed text-right md:text-base">
+                  <div className="px-6 pb-4 text-slate-600 leading-relaxed text-right md:text-base font-medium">
                     {faq.a}
                   </div>
                 )}
@@ -626,7 +638,7 @@ function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="text-2xl md:text-3xl font-normal text-white text-center mb-8 relative z-10 leading-tight font-sans mobile-no-animate"
+                    className="text-2xl md:text-3xl font-medium text-white text-center mb-8 relative z-10 leading-tight font-sans mobile-no-animate"
                 >
                     جاهز تبدأ؟ تواصل معنا الآن!
                 </motion.h2>
@@ -648,7 +660,7 @@ function Home() {
                         viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                         whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} 
-                        className="relative overflow-hidden bg-white text-blue-900 px-6 py-3 rounded-lg font-medium text-base hover:bg-blue-50 transition-colors flex items-center justify-center gap-3 shadow-lg mobile-no-animate"
+                        className="relative overflow-hidden bg-white text-blue-900 px-6 py-3 rounded-lg font-bold text-base hover:bg-blue-50 transition-colors flex items-center justify-center gap-3 shadow-lg mobile-no-animate"
                     >
                         <motion.div
                             className="absolute inset-0 z-10 pointer-events-none mobile-no-animate whatsapp-shimmer"
@@ -672,7 +684,7 @@ function Home() {
                         viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
                         whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} 
-                        className="bg-blue-800 text-white border-2 border-white px-6 py-3 rounded-lg font-medium text-base hover:bg-blue-950 transition-colors flex items-center justify-center gap-3 shadow-lg mobile-no-animate"
+                        className="bg-blue-800 text-white border-2 border-white px-6 py-3 rounded-lg font-bold text-base hover:bg-blue-950 transition-colors flex items-center justify-center gap-3 shadow-lg mobile-no-animate"
                     >
                             <Phone className="w-4 h-4 text-white" />
                             اتصل بنا الآن
@@ -746,8 +758,8 @@ function FeatureCard({ title, description, icon }: { title: string, description:
             <div className="w-12 h-12 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center mb-6 mr-0 ml-auto">
                 {icon}
             </div>
-            <h3 className="font-medium text-xl text-slate-900 mb-3">{title}</h3>
-            <p className="text-sm text-slate-500 leading-relaxed">{description}</p>
+            <h3 className="font-bold text-xl text-slate-900 mb-3">{title}</h3>
+            <p className="text-sm text-slate-500 leading-relaxed font-medium">{description}</p>
         </motion.div>
     );
 }
@@ -768,8 +780,8 @@ function StepItem({ number, title, description, delay = 0 }: { number: string, t
             <div className="mb-2">
                 <ChevronRight className="w-5 h-5 text-amber-500 mx-auto rotate-90" />
             </div>
-            <h4 className="text-xl font-medium text-slate-900 mb-2">{title}</h4>
-            <p className="text-sm text-slate-500 italic max-w-xs mx-auto">{description}</p>
+            <h4 className="text-xl font-bold text-slate-900 mb-2">{title}</h4>
+            <p className="text-sm text-slate-500 italic max-w-xs mx-auto font-medium">{description}</p>
         </motion.div>
     );
 }
@@ -778,7 +790,7 @@ function ServicesPage() {
   return (
     <div className="py-24 px-6 md:px-12">
       <div className="container mx-auto text-right">
-        <h1 className="text-4xl font-medium text-slate-900 mb-12">خدماتنا بالتفصيل</h1>
+        <h1 className="text-4xl font-bold text-slate-900 mb-12">خدماتنا بالتفصيل</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <DetailServiceCard 
             title="تسديد القروض البنكية"
@@ -817,13 +829,13 @@ function ContactPage() {
     <div className="py-24 px-6 md:px-12 bg-slate-50">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-medium text-slate-900 mb-4">تواصل معنا الآن</h1>
-          <p className="text-slate-500">نحن هنا للإجابة على استفساراتك وتقديم أفضل الحلول المالية عبر الاتصال أو الواتساب.</p>
+          <h1 className="text-4xl font-bold text-slate-900 mb-4">تواصل معنا الآن</h1>
+          <p className="text-slate-500 font-medium">نحن هنا للإجابة على استفساراتك وتقديم أفضل الحلول المالية عبر الاتصال أو الواتساب.</p>
         </div>
 
         <div className="flex justify-center">
           <div className="bg-slate-50 p-10 rounded-3xl text-right w-full max-w-lg">
-            <h3 className="text-2xl font-medium mb-8 text-center">معلومات التواصل</h3>
+            <h3 className="text-2xl font-bold mb-8 text-center">معلومات التواصل</h3>
             <div className="space-y-6">
               <ContactInfo icon={<Phone className="w-5 h-5" />} label="اتصال مباشر" value={CONTACT_NUMBER} />
               <ContactInfo icon={<FaWhatsapp size={20} />} label="واتساب" value="متاح 24/7" />
@@ -831,11 +843,11 @@ function ContactPage() {
             </div>
             
             <div className="mt-12 p-6 bg-blue-900 text-white rounded-2xl text-center">
-              <p className="text-sm opacity-70 mb-2 font-normal uppercase tracking-wider">هل أنت مستعجل؟</p>
-              <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="text-2xl font-normal block hover:text-blue-200 transition-colors">اتصل الآن ضغطة واحدة</a>
+              <p className="text-sm opacity-70 mb-2 font-bold uppercase tracking-wider">هل أنت مستعجل؟</p>
+              <a href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} className="text-2xl font-bold block hover:text-blue-200 transition-colors">اتصل الآن ضغطة واحدة</a>
             </div>
             <div className="mt-6 flex justify-center">
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} className="text-xl font-normal text-green-600 block hover:text-green-700 transition-colors">تواصل واتساب</a>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} className="text-xl font-bold text-green-600 block hover:text-green-700 transition-colors">تواصل واتساب</a>
             </div>
           </div>
         </div>
@@ -848,12 +860,12 @@ function PrivacyPolicy() {
   return (
     <div className="py-24 px-6 md:px-12 bg-slate-50 text-right">
       <div className="container mx-auto max-w-3xl">
-        <h1 className="text-4xl font-medium text-slate-900 mb-8">سياسة الخصوصية</h1>
-        <div className="prose prose-slate leading-relaxed text-slate-600 space-y-6">
+        <h1 className="text-4xl font-bold text-slate-900 mb-8">سياسة الخصوصية</h1>
+        <div className="prose prose-slate leading-relaxed text-slate-600 space-y-6 font-medium">
           <p>خصوصية عملائنا هي أهم أولوياتنا. نحن نلتزم بحماية كافة البيانات الشخصية والمالية التي يتم تقديمها لنا.</p>
-          <h3 className="text-xl font-medium text-slate-900">ما هي المعلومات التي نجمعها؟</h3>
+          <h3 className="text-xl font-bold text-slate-900">ما هي المعلومات التي نجمعها؟</h3>
           <p>نجمع المعلومات الضرورية فقط لمعالجة طلبك، مثل الاسم، رقم الهاتف، والبنك الحالي، وتفاصيل المديونية.</p>
-          <h3 className="text-xl font-medium text-slate-900">كيف نستخدم بياناتك؟</h3>
+          <h3 className="text-xl font-bold text-slate-900">كيف نستخدم بياناتك؟</h3>
           <p>تُستخدم البيانات حصرياً للتواصل معك وتقديم عروض التمويل والتسديد المناسبة لحالتك. لا نقوم بمشاركة أي من بياناتك مع أطراف ثالثة لأغراض تسويقية.</p>
         </div>
       </div>
@@ -865,8 +877,8 @@ function TermsOfUse() {
   return (
     <div className="py-24 px-6 md:px-12 bg-slate-50 text-right">
       <div className="container mx-auto max-w-3xl">
-        <h1 className="text-4xl font-medium text-slate-900 mb-8">شروط الخدمة</h1>
-        <div className="prose prose-slate leading-relaxed text-slate-600 space-y-6">
+        <h1 className="text-4xl font-bold text-slate-900 mb-8">شروط الخدمة</h1>
+        <div className="prose prose-slate leading-relaxed text-slate-600 space-y-6 font-medium">
           <p>استخدامك لموقعنا وطلب خدماتنا يعني موافقتك على الشروط التالية:</p>
           <ul className="list-disc pr-6 space-y-4">
             <li>يجب أن تكون جميع المعلومات المقدمة من قبلك دقيقة وصحيحة تماماً.</li>
@@ -894,8 +906,8 @@ function SleekServiceCard({ icon, bgClass, textClass, title, description }: { ic
       <div className={`w-12 h-12 ${bgClass} ${textClass} rounded-xl flex items-center justify-center mb-6 mr-0 ml-auto`}>
         {icon}
       </div>
-      <h3 className="font-medium text-xl text-slate-900 mb-3">{title}</h3>
-      <p className="text-sm text-slate-500 leading-relaxed">{description}</p>
+      <h3 className="font-bold text-xl text-slate-900 mb-3">{title}</h3>
+      <p className="text-sm text-slate-500 leading-relaxed font-medium">{description}</p>
     </motion.div>
   );
 }
@@ -911,14 +923,14 @@ function DetailServiceCard({ title, content }: { title: string, content: string 
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm h-full flex flex-col font-tajawal mobile-no-animate"
     >
-      <h3 className="text-2xl font-medium text-blue-900 mb-4">{title}</h3>
-      <p className="text-slate-600 leading-relaxed text-sm">{content}</p>
+      <h3 className="text-2xl font-bold text-blue-900 mb-4">{title}</h3>
+      <p className="text-slate-600 leading-relaxed text-sm font-medium">{content}</p>
       <div className="mt-auto pt-6 flex justify-end">
         <a 
           href={serviceWhatsAppUrl}
           target="_blank" rel="noopener noreferrer"
           onClick={() => track('whatsapp_click')}
-          className="text-blue-700 font-normal flex items-center gap-2 group"
+          className="text-blue-700 font-medium flex items-center gap-2 group"
         >
           <span>طلب الخدمة عبر الواتساب</span>
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -937,8 +949,8 @@ function StatItem({ value, label }: { value: string, label: string }) {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="flex items-center gap-4 border-b sm:border-b-0 sm:border-l border-white/10 pb-6 sm:pb-0 sm:pl-12 last:border-0 last:pl-0 mobile-no-animate"
     >
-      <div className="text-4xl font-normal text-amber-400">{value}</div>
-      <div className="text-sm opacity-80 leading-tight italic font-normal">{label}</div>
+      <div className="text-4xl font-medium text-amber-400">{value}</div>
+      <div className="text-sm opacity-80 leading-tight italic font-medium">{label}</div>
     </motion.div>
   );
 }
@@ -956,8 +968,8 @@ function ContactInfo({ icon, label, value }: { icon: ReactNode, label: string, v
         {icon}
       </div>
       <div>
-        <p className="text-xs text-slate-400 font-normal">{label}</p>
-        <p className="text-slate-900 font-normal">{value}</p>
+        <p className="text-xs text-slate-400 font-medium">{label}</p>
+        <p className="text-slate-900 font-medium">{value}</p>
       </div>
     </motion.div>
   );
@@ -966,11 +978,11 @@ function ContactInfo({ icon, label, value }: { icon: ReactNode, label: string, v
 function Input({ label, name, ...props }: { label: string, name: string } & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div className="space-y-2">
-      <label className="text-sm font-normal text-slate-700 block text-right">{label}</label>
+      <label className="text-sm font-medium text-slate-700 block text-right">{label}</label>
       <input 
         name={name}
         {...props}
-        className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all font-normal"
+        className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-right focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all font-medium"
       />
     </div>
   );
@@ -986,8 +998,8 @@ function SleekFeatureItem({ title, description }: { title: string, description: 
       className="flex gap-5 justify-end mobile-no-animate"
     >
       <div className="text-right">
-        <h4 className="text-xl font-medium text-slate-900 mb-2">{title}</h4>
-        <p className="text-slate-500 leading-relaxed max-w-sm">{description}</p>
+        <h4 className="text-xl font-bold text-slate-900 mb-2">{title}</h4>
+        <p className="text-slate-500 leading-relaxed max-w-sm font-medium">{description}</p>
       </div>
       <div className="mt-1 flex-shrink-0">
         <div className="bg-blue-50 p-2 rounded-xl">
