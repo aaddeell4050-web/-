@@ -89,7 +89,7 @@ function Layout({ children }: { children: ReactNode }) {
       {/* Navbar */}
       <nav 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20 flex items-center px-6 md:px-12 border-b ${
-          scrolled ? 'bg-white/95 backdrop-blur-md border-slate-200 shadow-sm' : 'bg-white/50 backdrop-blur-sm border-transparent'
+          scrolled ? 'bg-white border-slate-200 shadow-sm' : 'bg-transparent border-transparent'
         }`}
       >
         <div className="container mx-auto flex justify-between items-center text-right">
