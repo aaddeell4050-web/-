@@ -73,7 +73,7 @@ function Layout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     // Scroll to top on route change
     window.scrollTo(0, 0); 
     
@@ -88,9 +88,10 @@ function Layout({ children }: { children: ReactNode }) {
       
       {/* Navbar */}
       <nav 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20 flex items-center px-6 md:px-12 border-b ${
-          scrolled ? 'bg-white border-slate-200 shadow-sm' : 'bg-transparent border-transparent'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out h-20 flex items-center px-6 md:px-12 border-b transform-gpu ${
+          scrolled ? 'bg-white/80 backdrop-blur-[40px] border-slate-200 shadow-sm' : 'bg-transparent border-transparent'
         }`}
+        style={{ willChange: 'background-color, backdrop-filter' }}
       >
         <div className="container mx-auto flex justify-between items-center text-right">
           <Link to="/" className="flex items-center gap-2 md:gap-3 group">
@@ -104,9 +105,9 @@ function Layout({ children }: { children: ReactNode }) {
           
           <div className="flex items-center gap-2 md:gap-8">
             <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 text-slate-700">
-               <div className="w-6 h-0.5 bg-slate-700 mb-1.5"></div>
-               <div className="w-6 h-0.5 bg-slate-700 mb-1.5"></div>
-               <div className="w-6 h-0.5 bg-slate-700"></div>
+               <div className="w-5 h-[2px] bg-slate-700 rounded-full mb-1"></div>
+               <div className="w-5 h-[2px] bg-slate-700 rounded-full mb-1"></div>
+               <div className="w-5 h-[2px] bg-slate-700 rounded-full"></div>
             </button>
             <div className="hidden lg:flex items-center gap-6 text-slate-600 font-bold ml-8">
               <Link to="/" className="hover:text-blue-700 transition-colors">الرئيسية</Link>
@@ -630,7 +631,7 @@ function Home() {
             >
                 {/* Logo background */}
                 <div className="absolute -top-16 -right-16 w-64 h-64 opacity-5 pointer-events-none">
-                     <img src={AdelLogo} alt="Logo" className="w-full h-full object-contain cta-bg-logo" />
+                     <img src={AdelLogo} alt="Logo" className="w-full h-full object-contain cta-bg-logo" loading="lazy" />
                 </div>
 
                 <motion.h2 
@@ -700,26 +701,33 @@ function Home() {
 
 // ... (other imports)
 
+let hasAnimatedStats = false;
+
 function ModernStatItem({ value, label, icon }: { value: string, label: string, icon: ReactNode }) {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: "all" });
+    const isInView = useInView(ref, { once: true, amount: 0.1 });
     
     // Parse numeric part
     const numericMatch = value.match(/[\d٠-٩][\d٠-٩,\u060C]*/);
     const numericValue = numericMatch ? parseInt(numericMatch[0].replace(/[,،]/g, '').replace(/[٠-٩]/g, (d) => '0123456789'['٠١٢٣٤٥٦٧٨٩'.indexOf(d)])) : 0;
     
-    const count = useMotionValue(0);
+    const count = useMotionValue(hasAnimatedStats ? numericValue : 0);
     
     // Explicit conversion helper for Arabic-Indic digits with formatting
     const toArabicDigits = (num: number) => {
-        return Math.round(num).toLocaleString('ar-SA');
+        let s = Math.round(num).toString();
+        s = s.replace(/\B(?=(\d{3})+(?!\d))/g, "٬");
+        const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+        return s.replace(/\d/g, (d) => arabicDigits[parseInt(d)]);
     };
     
     const roundedArabic = useTransform(count, toArabicDigits);
 
     useEffect(() => {
-        if (isInView) {
-            animate(count, numericValue, { duration: 2.5, ease: "easeOut" });
+        if (isInView && !hasAnimatedStats) {
+            animate(count, numericValue, { duration: 2.5, ease: "easeOut" }).then(() => {
+                hasAnimatedStats = true;
+            });
         }
     }, [isInView, count, numericValue]);
 
@@ -728,14 +736,14 @@ function ModernStatItem({ value, label, icon }: { value: string, label: string, 
             ref={ref} 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: "all" }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-center group py-2 mobile-no-animate"
         >
             <div className="mb-2 inline-block p-2 rounded-2xl transition-colors">
                 {icon}
             </div>
-            <div className="text-3xl md:text-4xl font-black text-white mb-1 font-sans tracking-tight">
+            <div className="text-3xl md:text-4xl font-black text-white mb-1 font-sans tracking-tight" style={{ fontVariantNumeric: 'tabular-nums' }}>
                 {value.includes('+') && '+'}
                 <motion.span>{roundedArabic}</motion.span>
                 {value.includes('%') && '٪'}

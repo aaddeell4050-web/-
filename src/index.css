@@ -51,10 +51,7 @@ body {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
   }
 
-  .backdrop-blur-md, .backdrop-blur-sm {
-    backdrop-filter: none !important;
-    background-color: rgba(255, 255, 255, 0.98) !important;
-  }
+
 }
 
 .cta-bg-logo {
