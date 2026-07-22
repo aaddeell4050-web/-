@@ -458,16 +458,8 @@ function Home() {
                   </span>
                 </div>
 
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5, rotate: -15, y: -20 }}
-                  animate={{ opacity: 1, scale: 1, rotate: -4, y: 0 }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 15,
-                    delay: 0.3
-                  }}
-                  className="mt-6 mb-4 relative z-10 flex flex-col items-center"
+                <div
+                  className="mt-6 mb-4 relative z-10 flex flex-col items-center transform -rotate-2"
                 >
                   <div className="mb-0 rounded-full p-[1px] bg-gradient-to-r from-[#25D366]/20 to-blue-900/20 shadow-sm">
                     <div className="flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-900/5 to-[#25D366]/5 backdrop-blur-md">
@@ -484,7 +476,7 @@ function Home() {
                   >
                     36 راتب
                   </h2>
-                </motion.div>
+                </div>
               </div>
 
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-4 text-center w-full">
