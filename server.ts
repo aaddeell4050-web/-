@@ -98,24 +98,13 @@ async function startServer() {
       }
     });
 
-    // API Route - Get all leads (Secured by a simple check or just public for now for dev)
-    expressApp.get("/api/leads", async (req, res) => {
-      try {
-        // We don't have leads stored persistently here.
-        // Returning an empty array.
-        res.json([]);
-      } catch (error) {
-        console.error("Error fetching leads:", error);
-        res.status(500).json({ success: false, message: "Failed to fetch leads" });
-      }
-    });
 
     // Check SMTP on startup
     const t = getTransporter();
     if (t) {
       t.verify((error) => {
         if (error) {
-          console.error("SMTP Verification Error:", error);
+          console.log("SMTP Verification Warning: Could not verify SMTP credentials. Please ensure your SMTP_USER and SMTP_PASS are correct in the environment settings.");
         } else {
           console.log("SMTP Server is ready to take our messages");
         }
