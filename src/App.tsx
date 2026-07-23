@@ -44,15 +44,7 @@ const CONTACT_NUMBER = "0555381525";
 const WHATSAPP_URL = `https://wa.me/966${CONTACT_NUMBER.substring(1)}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات تسديد القروض')}`;
 
 
-// Store triggered events to prevent duplicate clicks
-let lastEventTime = 0;
-
-const track = async (event: string, action?: string) => {
-  const now = Date.now();
-  // Prevent duplicate events within 1 second
-  if (now - lastEventTime < 1000 && event !== 'view_content') return;
-  lastEventTime = now;
-  
+const track = (event: string, action?: string) => {
   // @ts-ignore
   window.dataLayer = window.dataLayer || [];
   // @ts-ignore
@@ -60,8 +52,6 @@ const track = async (event: string, action?: string) => {
     event: event,
     page_path: action || window.location.pathname,
   });
-  
-  console.log(`Event tracked via GTM: ${event} ${action || ''}`);
 };
 
 function PageTracker() {
