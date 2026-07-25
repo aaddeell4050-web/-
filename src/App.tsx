@@ -461,8 +461,7 @@ function Home() {
                     </div>
                   </div>
                   <h2 
-                    className="text-6xl md:text-8xl font-black bg-gradient-to-r from-blue-950 via-[#128C7E] to-[#25D366] text-transparent bg-clip-text inline-block transform-gpu pb-4 leading-normal pt-4"
-                    style={{ filter: 'drop-shadow(0px 15px 25px rgba(37,211,102,0.5)) drop-shadow(0px 5px 10px rgba(30,58,138,0.4))' }}
+                    className="text-6xl md:text-8xl font-black bg-gradient-to-r from-blue-950 via-[#128C7E] to-[#25D366] text-transparent bg-clip-text inline-block transform-gpu pb-4 leading-normal pt-4 drop-shadow-md"
                   >
                     36 راتب
                   </h2>
