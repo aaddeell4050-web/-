@@ -21,7 +21,7 @@ export default defineConfig(({mode}) => {
       hmr: process.env.DISABLE_HMR !== 'true',
     },
     build: {
-      target: 'es2022',
+      target: 'esnext',
       minify: 'esbuild',
       cssMinify: true,
       sourcemap: false,
