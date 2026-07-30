@@ -5,6 +5,7 @@ import nodemailer from "nodemailer";
 import { readFileSync, existsSync } from "fs";
 import { config } from "dotenv";
 import cors from "cors";
+import compression from "compression";
 import crypto from "crypto";
 import cookieParser from "cookie-parser";
 
@@ -38,6 +39,7 @@ async function startServer() {
     const PORT = isNaN(portEnv) ? 3000 : portEnv;
 
     // Middleware
+    expressApp.use(compression());
     expressApp.use(cors()); // Allow all origins for the API to work across domains
     expressApp.use(express.json());
     expressApp.use(cookieParser());
@@ -121,7 +123,7 @@ async function startServer() {
     } else {
       // Static file serving for production
       const distPath = path.join(process.cwd(), "dist");
-      expressApp.use(express.static(distPath));
+      expressApp.use(express.static(distPath, { maxAge: "1y" }));
       expressApp.get("*", (req, res) => {
         res.sendFile(path.join(distPath, "index.html"));
       });

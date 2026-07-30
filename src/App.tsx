@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import AdelLogo from './assets/images/adel_logo_a_1781790033630.jpg';
+import AdelLogo from './assets/images/adel_logo_final.webp';
 
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 
@@ -128,14 +128,11 @@ function Layout({ children }: { children: ReactNode }) {
         style={{ willChange: 'background-color, backdrop-filter' }}
       >
         <div className="container mx-auto flex justify-between items-center text-right">
-          <Link to="/" className="flex items-center gap-2 md:gap-3 group">
-            <div className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-md overflow-hidden group-hover:scale-110 transition-transform animate-shimmer-slow">
-              <div className="relative w-full h-full">
-                  <img src={AdelLogo} alt="عادل السداد" fetchPriority="high" decoding="sync" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-blue-950 mix-blend-color pointer-events-none"></div>
-                </div>
+          <Link to="/" className="flex items-center gap-2.5 md:gap-3 group">
+            <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-xl overflow-hidden shadow-sm border border-slate-200/60 bg-white group-hover:scale-105 transition-transform shrink-0">
+              <img src={AdelLogo} width="512" height="512" alt="عادل السداد" fetchPriority="high" decoding="sync" className="w-full h-full object-contain p-1" />
             </div>
-            <span className="text-base md:text-lg font-bold tracking-tight text-slate-800 block group-hover:text-blue-900 transition-colors">
+            <span className="text-lg md:text-xl font-bold tracking-tight text-slate-800 block group-hover:text-blue-900 transition-colors">
               عادل <span className="text-blue-800">السداد</span>
             </span>
           </Link>
@@ -172,11 +169,8 @@ function Layout({ children }: { children: ReactNode }) {
          
          {/* Logo and Name in Mobile Menu */}
              <div className="flex items-center gap-3 mb-4 justify-start">
-               <div className="w-10 h-10 flex items-center justify-center rounded-md overflow-hidden shadow-lg shadow-blue-800/40">
-                 <div className="relative w-full h-full">
-                  <img src={AdelLogo} alt="عادل السداد" loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-blue-950 mix-blend-color pointer-events-none"></div>
-                </div>
+               <div className="w-10 h-10 flex items-center justify-center rounded-xl overflow-hidden shadow-md shadow-blue-800/20 border border-slate-100 bg-white shrink-0">
+                 <img src={AdelLogo} width="512" height="512" alt="عادل السداد" loading="lazy" decoding="async" className="w-full h-full object-contain p-1" />
                </div>
                <span className="text-xl font-bold tracking-tight text-slate-800">
                  عادل <span className="text-blue-800">السداد</span>
@@ -203,11 +197,8 @@ function Layout({ children }: { children: ReactNode }) {
           <div className="grid md:grid-cols-4 gap-6 text-right mb-8">
             <div className="md:col-span-1">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-md overflow-hidden flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                  <img src={AdelLogo} alt="عادل السداد" loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-blue-950 mix-blend-color pointer-events-none"></div>
-                </div>
+                <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-md border border-slate-700 bg-white shrink-0">
+                  <img src={AdelLogo} width="512" height="512" alt="عادل السداد" loading="lazy" decoding="async" className="w-full h-full object-contain p-1" />
                 </div>
                 <span className="text-xl font-bold text-white tracking-tight">عادل السداد</span>
               </div>
@@ -749,11 +740,8 @@ function Home() {
                className="relative border border-blue-900/40 rounded-3xl bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 backdrop-blur-[40px] shadow-xl shadow-blue-950/15 py-8 px-6 md:px-10 overflow-hidden text-center"
             >
                 {/* Logo background */}
-                <div className="absolute -top-16 -right-16 w-64 h-64 opacity-5 pointer-events-none">
-                     <div className="relative w-full h-full">
-                  <img src={AdelLogo} alt="عادل السداد" loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-blue-950 mix-blend-color pointer-events-none"></div>
-                </div>
+                <div className="absolute -top-16 -right-16 w-64 h-64 opacity-10 pointer-events-none rounded-full overflow-hidden">
+                  <img src={AdelLogo} width="512" height="512" alt="عادل السداد" loading="lazy" decoding="async" className="w-full h-full object-contain p-1" />
                 </div>
 
                 <motion.h2 
