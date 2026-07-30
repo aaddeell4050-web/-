@@ -391,7 +391,7 @@ function Home() {
         <motion.div
           initial={{ opacity: 0, y: -50, rotate: 15 }}
           animate={{ opacity: 0.15, y: [0, 20, 0], rotate: [15, -10, 15] }}
-          transition={{ duration: 5, ease: "easeInOut", repeat: Infinity, delay: 1, opacity: { duration: 1.5, repeat: 0 } }}
+          transition={{ duration: 5, ease: "easeInOut", repeat: Infinity, opacity: { duration: 1.5, repeat: 0 } }}
           className="absolute bottom-[5%] right-[2%] md:bottom-[10%] md:right-[5%] z-0 pointer-events-none text-blue-800"
         >
           <Wallet className="w-8 h-8 md:w-12 md:h-12" />
@@ -400,7 +400,7 @@ function Home() {
         <motion.div
           initial={{ opacity: 0, y: 30, rotate: -10 }}
           animate={{ opacity: 0.15, y: [0, -15, 0], rotate: [-10, 10, -10] }}
-          transition={{ duration: 7, ease: "easeInOut", repeat: Infinity, delay: 2, opacity: { duration: 1.5, repeat: 0 } }}
+          transition={{ duration: 7, ease: "easeInOut", repeat: Infinity, opacity: { duration: 1.5, repeat: 0 } }}
           className="absolute top-[15%] left-[2%] md:top-[15%] md:left-[5%] z-0 pointer-events-none text-blue-800"
         >
           <Banknote className="w-10 h-10 md:w-14 md:h-14" />
@@ -745,7 +745,7 @@ function Home() {
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "0px" }}
-                    transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
                     className="text-base md:text-lg text-blue-100/90 mb-10 max-w-2xl mx-auto relative z-10 text-center font-medium"
                 >
                     فريقنا المتخصص جاهز لمساعدتك في حل جميع مشاكلك المالية. لا تتردد في التواصل معنا اليوم.
@@ -757,7 +757,7 @@ function Home() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        transition={{ duration: 0.5, }}
                         whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} 
                         className="relative overflow-hidden bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white px-8 py-4 rounded-2xl font-bold text-base hover:from-[#128C7E] hover:to-[#075E54] transition-colors flex items-center justify-center gap-3 shadow-md w-full sm:w-1/2 animate-shimmer-slow"
                     >
@@ -771,7 +771,7 @@ function Home() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         
-                        transition={{ duration: 0.5, delay: 0.3 }}
+                        transition={{ duration: 0.5, }}
                         whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} 
                         className="relative overflow-hidden bg-gradient-to-r from-blue-950 to-blue-900 hover:from-blue-800 hover:to-blue-950 text-white border border-blue-900/30 px-8 py-4 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-3 shadow-md w-full sm:w-1/2 animate-shimmer-slow"
                     >
