@@ -5,7 +5,7 @@
 
 
 
-import AdelLogo from "./assets/images/adel_logo_final.webp";
+import AdelLogo from "./assets/images/adel_logo.png";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 
 import React, { useState, useEffect, useRef, ReactNode, FormEvent, InputHTMLAttributes } from 'react';
