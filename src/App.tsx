@@ -9,7 +9,7 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 
 import React, { useState, useEffect, useRef, ReactNode, FormEvent, InputHTMLAttributes } from 'react';
-import { motion, AnimatePresence, useInView, animate, useMotionValue, useTransform } from 'motion/react';
+import { m, LazyMotion, AnimatePresence, useInView, animate, useMotionValue, useTransform } from 'motion/react';
 import {
   Phone, 
   MessageCircle, 
@@ -63,13 +63,17 @@ function PageTracker() {
   return null;
 }
 
+const loadFeatures = () => import('motion/react').then(res => res.domAnimation);
+
 export default function App() {
   return (
     <Router>
       <PageTracker />
-      <Layout>
-        <AnimatedRoutes />
-      </Layout>
+      <LazyMotion features={loadFeatures}>
+        <Layout>
+          <AnimatedRoutes />
+        </Layout>
+      </LazyMotion>
     </Router>
   );
 }
@@ -78,7 +82,7 @@ function AnimatedRoutes() {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait">
-      <motion.div
+      <m.div
         key={location.pathname}
         initial={{ opacity: 0, filter: 'blur(12px)', scale: 0.96 }}
         animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
@@ -93,7 +97,7 @@ function AnimatedRoutes() {
           <Route path="/terms" element={<TermsOfUse />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   );
 }
@@ -150,7 +154,7 @@ function Layout({ children }: { children: ReactNode }) {
       </nav>
 
       {/* Mobile Menu */}
-      <motion.div 
+      <m.div 
         initial={false}
         animate={{ 
           opacity: menuOpen ? 1 : 0, 
@@ -180,7 +184,7 @@ function Layout({ children }: { children: ReactNode }) {
                 <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => { track('whatsapp_click'); setMenuOpen(false); }} className="relative overflow-hidden bg-[#25D366] text-white p-4 rounded-xl text-center font-bold animate-shimmer-slow">واتساب</a>
                 <a href={`tel:${CONTACT_NUMBER}`} onClick={() => { track('call_click'); setMenuOpen(false); }} className="relative overflow-hidden bg-blue-900 text-white p-4 rounded-xl text-center font-bold animate-shimmer-slow">اتصال</a>
              </div>
-          </motion.div>
+          </m.div>
 
       <main className="flex-grow pt-4">
         {children}
@@ -379,32 +383,32 @@ function Home() {
       <section className="relative pt-24 pb-8 lg:pt-32 lg:pb-12 px-4 md:px-8 text-center lg:text-right overflow-hidden min-h-[60vh] flex flex-col justify-center">
         
         {/* Floating Icons */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 50, rotate: -15 }}
           animate={{ opacity: 0.15, y: [0, -20, 0], rotate: [-15, 5, -15] }}
           transition={{ duration: 6, ease: "easeInOut", repeat: Infinity, opacity: { duration: 1.5, repeat: 0 } }}
           className="absolute top-[10%] right-[2%] md:top-[10%] md:right-[5%] z-0 pointer-events-none text-blue-800"
         >
           <TrendingUp className="w-8 h-8 md:w-12 md:h-12" />
-        </motion.div>
+        </m.div>
         
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -50, rotate: 15 }}
           animate={{ opacity: 0.15, y: [0, 20, 0], rotate: [15, -10, 15] }}
           transition={{ duration: 5, ease: "easeInOut", repeat: Infinity, opacity: { duration: 1.5, repeat: 0 } }}
           className="absolute bottom-[5%] right-[2%] md:bottom-[10%] md:right-[5%] z-0 pointer-events-none text-blue-800"
         >
           <Wallet className="w-8 h-8 md:w-12 md:h-12" />
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 30, rotate: -10 }}
           animate={{ opacity: 0.15, y: [0, -15, 0], rotate: [-10, 10, -10] }}
           transition={{ duration: 7, ease: "easeInOut", repeat: Infinity, opacity: { duration: 1.5, repeat: 0 } }}
           className="absolute top-[15%] left-[2%] md:top-[15%] md:left-[5%] z-0 pointer-events-none text-blue-800"
         >
           <Banknote className="w-10 h-10 md:w-14 md:h-14" />
-        </motion.div>
+        </m.div>
 
         <div className="container mx-auto relative z-20">
           <div className="grid lg:grid-cols-12 gap-4 lg:gap-10 items-center">
@@ -699,7 +703,7 @@ function Home() {
                 </button>
                 <AnimatePresence initial={false}>
                   {activeFaq === idx && (
-                    <motion.div
+                    <m.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
@@ -709,7 +713,7 @@ function Home() {
                       <div className="px-6 pb-5 pt-1 text-slate-600 leading-relaxed text-right md:text-base font-medium">
                         {faq.a}
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </div>
@@ -725,7 +729,7 @@ function Home() {
                className="relative border border-blue-900/40 rounded-3xl bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 backdrop-blur-[40px] shadow-xl shadow-blue-950/15 py-8 px-6 md:px-10 overflow-hidden text-center"
             >
 
-                <motion.h2 
+                <m.h2 
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "0px" }}
@@ -733,8 +737,8 @@ function Home() {
                     className="text-2xl md:text-3xl font-bold text-white text-center mb-6 relative z-10 leading-tight font-sans"
                 >
                     جاهز تبدأ؟ تواصل معنا الآن!
-                </motion.h2>
-                <motion.p 
+                </m.h2>
+                <m.p 
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "0px" }}
@@ -742,10 +746,10 @@ function Home() {
                     className="text-base md:text-lg text-blue-100/90 mb-10 max-w-2xl mx-auto relative z-10 text-center font-medium"
                 >
                     فريقنا المتخصص جاهز لمساعدتك في حل جميع مشاكلك المالية. لا تتردد في التواصل معنا اليوم.
-                </motion.p>
+                </m.p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10 max-w-lg mx-auto">
-                    <motion.a 
+                    <m.a 
                         href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')} 
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -758,8 +762,8 @@ function Home() {
                             <FaWhatsapp size={20} color="white" />
                             تواصل عبر الواتساب
                         </div>
-                    </motion.a>
-                    <motion.a 
+                    </m.a>
+                    <m.a 
                         href={`tel:${CONTACT_NUMBER}`} onClick={() => track('call_click')} 
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -770,7 +774,7 @@ function Home() {
                     >
                             <Phone className="w-5 h-5 text-white" />
                             اتصل بنا الآن
-                    </motion.a>
+                    </m.a>
                 </div>
             </div>
         </div>
@@ -821,7 +825,7 @@ function ModernStatItem({ value, label, icon }: { value: string, label: string, 
     }, [isInView, count, numericValue]);
 
     return (
-        <motion.div
+        <m.div
             layout
             ref={ref}
       initial={{ opacity: 0 }}
@@ -834,12 +838,12 @@ function ModernStatItem({ value, label, icon }: { value: string, label: string, 
             </div>
             {gradientSvg}<div className="text-3xl md:text-4xl font-black mb-1 font-sans tracking-tight text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>
                 {value.includes('+') && '+'}
-                <motion.span>{roundedArabic}</motion.span>
+                <m.span>{roundedArabic}</m.span>
                 {value.includes('%') && '٪'}
                 {value.includes('/') && value.substring(value.indexOf('/'))}
             </div>
             <div className="text-blue-200/90 font-medium text-xs md:text-sm">{label}</div>
-        </motion.div>
+        </m.div>
     );
 }
 
@@ -869,7 +873,7 @@ function FeatureCard({ title, description, icon, colorTheme = 'blue', onClick }:
 
 function StepItem({ number, title, description, delay = 0 }: { number: string, title: string, description: string, delay?: number }) {
     return (
-        <motion.div 
+        <m.div 
             layout
             transition={{ duration: 0.8, delay: delay * 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-center relative"
@@ -883,7 +887,7 @@ function StepItem({ number, title, description, delay = 0 }: { number: string, t
             </div>
             <h4 className="text-xl font-bold text-slate-900 mb-2">{title}</h4>
             <p className="text-sm text-slate-500 max-w-xs mx-auto font-medium">{description}</p>
-        </motion.div>
+        </m.div>
     );
 }
 
@@ -1112,7 +1116,7 @@ function DetailServiceCard({ title, content, isActive, onClick }: { title: strin
 
 function StatItem({ value, label }: { value: string, label: string }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -1120,13 +1124,13 @@ function StatItem({ value, label }: { value: string, label: string }) {
     >
       <div className="text-4xl font-medium text-amber-400">{value}</div>
       <div className="text-sm opacity-80 leading-tight font-medium">{label}</div>
-    </motion.div>
+    </m.div>
   );
 }
 
 function ContactInfo({ icon, label, value }: { icon: ReactNode, label: string, value: string }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -1139,7 +1143,7 @@ function ContactInfo({ icon, label, value }: { icon: ReactNode, label: string, v
         <p className="text-xs text-slate-400 font-medium">{label}</p>
         <p className="text-slate-900 font-medium">{value}</p>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -1158,7 +1162,7 @@ function Input({ label, name, ...props }: { label: string, name: string } & Inpu
 
 function SleekFeatureItem({ title, description }: { title: string, description: string }) {
   return (
-    <motion.div 
+    <m.div 
       
       
       
@@ -1174,7 +1178,7 @@ function SleekFeatureItem({ title, description }: { title: string, description: 
           <CheckCircle2 className="w-5 h-5 text-blue-950" />
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
