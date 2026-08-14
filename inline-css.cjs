@@ -5,26 +5,19 @@ const htmlPath = path.join(__dirname, 'dist', 'index.html');
 let html = fs.readFileSync(htmlPath, 'utf8');
 
 // Find the CSS file injected by Vite
-const cssLinkRegex = /<link rel="stylesheet" crossorigin href="\/assets\/(index-[^"]+\.css)">/;
+const cssLinkRegex = /<link rel="stylesheet" crossorigin href="(\/assets\/index-[^"]+\.css)">/;
 const match = html.match(cssLinkRegex);
 
 if (match) {
   const cssFileName = match[1];
-  const cssPath = path.join(__dirname, 'dist', 'assets', cssFileName);
   
-  if (fs.existsSync(cssPath)) {
-    const cssContent = fs.readFileSync(cssPath, 'utf8');
-    
-    // Replace the link tag with the inline style
-    const styleTag = `<style>${cssContent}</style>`;
-    html = html.replace(cssLinkRegex, styleTag);
-    
-    // Optionally delete the CSS file if it's not needed by anything else, but let's keep it safe
-    fs.writeFileSync(htmlPath, html, 'utf8');
-    console.log(`Successfully inlined ${cssFileName} into index.html`);
-  } else {
-    console.warn(`CSS file not found: ${cssPath}`);
-  }
+  // Make the CSS non-blocking
+  const nonBlockingLink = `<link rel="preload" as="style" href="${cssFileName}">\n<link rel="stylesheet" href="${cssFileName}" media="print" onload="this.media='all'">\n<noscript><link rel="stylesheet" href="${cssFileName}"></noscript>`;
+  html = html.replace(match[0], nonBlockingLink);
+  
+  fs.writeFileSync(htmlPath, html, 'utf8');
+  console.log(`Made ${cssFileName} non-blocking in index.html`);
 } else {
-  console.log('No CSS link found to inline.');
+  // If already modified or not found
+  console.log('No standard CSS link found to make non-blocking.');
 }
