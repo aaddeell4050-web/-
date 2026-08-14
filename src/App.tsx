@@ -81,7 +81,7 @@ export default function App() {
 function AnimatedRoutes() {
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <m.div
         key={location.pathname}
         initial={{ opacity: 0, filter: 'blur(12px)', scale: 0.96 }}
@@ -119,7 +119,7 @@ function Layout({ children }: { children: ReactNode }) {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-tajawal selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden flex flex-col relative z-0">
+    <div className="min-h-screen bg-slate-50  selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden flex flex-col relative z-0">
       {/* Global Background Elements from Hero, now applied to the whole site */}
       <div className="fixed top-0 right-0 w-full md:w-1/2 h-screen bg-gradient-to-l from-blue-900 to-transparent -z-10 pointer-events-none opacity-[0.03]"></div>
       <div className="fixed top-0 left-0 w-full md:w-1/2 h-screen bg-gradient-to-r from-yellow-500 to-transparent -z-10 pointer-events-none opacity-5"></div>
@@ -324,7 +324,7 @@ function TestimonialsSection() {
   return (
     <section id="testimonials" className="py-10 px-6 md:px-8 overflow-hidden">
       <div className="container mx-auto max-w-7xl">
-        <div className="text-center mb-8 font-tajawal">
+        <div className="text-center mb-8 ">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full text-blue-950 text-xs font-bold mb-4">
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-900 opacity-75"></span>
@@ -415,7 +415,7 @@ function Home() {
             
             {/* Right column: Content (Heading, Paragraph, CTA, Trust indicators) */}
             <div 
-              className="lg:col-span-12 flex flex-col items-center max-w-4xl mx-auto w-full animate-fade-in"
+              className="lg:col-span-12 flex flex-col items-center max-w-4xl mx-auto w-full"
             >
               {/* Badges Stack */}
               <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 mb-6 w-full">
@@ -534,7 +534,7 @@ function Home() {
 
       {/* Services Section */}
       <section id="services" className="py-8 px-6 md:px-8">
-        <div className="container mx-auto text-center font-tajawal">
+        <div className="container mx-auto text-center ">
           <div className="mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full text-blue-950 text-xs font-bold mb-4">
               <span className="flex h-2 w-2 relative">
@@ -649,7 +649,7 @@ function Home() {
       {/* How it works */}
       <section className="py-8 px-6 md:px-8">
         <div className="container mx-auto">
-          <div className="text-center mb-10 font-tajawal">
+          <div className="text-center mb-10 ">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full text-blue-950 text-xs font-bold mb-4">
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-900 opacity-75"></span>
@@ -688,7 +688,7 @@ function Home() {
               <span>الأسئلة الشائعة</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-sans">إجابات على استفساراتكم</h2>
-            <p className="text-slate-500 font-tajawal text-lg">إجابات على أكثر الأسئلة شيوعاً</p>
+            <p className="text-slate-500  text-lg">إجابات على أكثر الأسئلة شيوعاً</p>
           </div>
           
           <div className="space-y-4">
@@ -1095,7 +1095,7 @@ function DetailServiceCard({ title, content, isActive, onClick }: { title: strin
   return (
     <div
       onClick={onClick}
-      className={`animate-fade-in cursor-pointer group hover:bg-white p-8 rounded-3xl border shadow-sm hover:shadow-xl  h-full flex flex-col font-tajawal transition-all duration-300 ${isActive ? "bg-white border-transparent shadow-xl shadow-blue-800/40" : "bg-slate-50 border-transparent hover:shadow-xl hover:shadow-blue-800/20"}`}
+      className={`animate-fade-in cursor-pointer group hover:bg-white p-8 rounded-3xl border shadow-sm hover:shadow-xl  h-full flex flex-col  transition-all duration-300 ${isActive ? "bg-white border-transparent shadow-xl shadow-blue-800/40" : "bg-slate-50 border-transparent hover:shadow-xl hover:shadow-blue-800/20"}`}
     >
       <h3 className={`text-2xl font-bold mb-4 transition-colors ${isActive ? "text-blue-900" : "text-blue-900 group-hover:text-blue-950"}`}>{title}</h3>
       <p className="text-slate-600 leading-relaxed text-sm font-medium">{content}</p>
