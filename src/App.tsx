@@ -81,24 +81,14 @@ export default function App() {
 function AnimatedRoutes() {
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <m.div
-        key={location.pathname}
-        initial={{ opacity: 0, filter: 'blur(12px)', scale: 0.96 }}
-        animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
-        exit={{ opacity: 0, filter: 'blur(8px)', scale: 1.04 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<TermsOfUse />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </m.div>
-    </AnimatePresence>
+    <Routes location={location}>
+      <Route path="/" element={<Home />} />
+      <Route path="/services" element={<ServicesPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<TermsOfUse />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 
