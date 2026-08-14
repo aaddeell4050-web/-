@@ -410,11 +410,8 @@ function Home() {
           <div className="grid lg:grid-cols-12 gap-4 lg:gap-10 items-center">
             
             {/* Right column: Content (Heading, Paragraph, CTA, Trust indicators) */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              
-              className="lg:col-span-12 flex flex-col items-center max-w-4xl mx-auto w-full"
+            <div 
+              className="lg:col-span-12 flex flex-col items-center max-w-4xl mx-auto w-full animate-fade-in"
             >
               {/* Badges Stack */}
               <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 mb-6 w-full">
@@ -461,14 +458,12 @@ function Home() {
               
               {/* Square CTA Buttons Side-By-Side */}
               <div className="grid grid-cols-2 gap-4 w-full max-w-xl mb-6">
-                  <motion.a 
+                  <a 
                     href={WHATSAPP_URL} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     onClick={() => track('whatsapp_click')} 
-                    whileHover={{ scale: 1.03 }} 
-                    whileTap={{ scale: 0.97 }} 
-                    className="relative overflow-hidden bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white p-4 md:p-6 rounded-3xl flex flex-col items-center justify-center gap-3 shadow-xl shadow-[#25D366]/10 hover:from-[#128C7E] hover:to-[#075E54] transition-all text-center aspect-square md:aspect-auto md:h-44 animate-shimmer-slow"
+                    className="relative overflow-hidden bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white p-4 md:p-6 rounded-3xl flex flex-col items-center justify-center gap-3 shadow-xl shadow-[#25D366]/10 hover:from-[#128C7E] hover:to-[#075E54] transition-all transform hover:scale-105 active:scale-95 text-center aspect-square md:aspect-auto md:h-44 animate-shimmer-slow"
                   >
                       <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/20 flex items-center justify-center shrink-0 border border-white/30 backdrop-blur-sm">
                         <FaWhatsapp className="w-7 h-7 md:w-8 md:h-8" color="white" />
@@ -477,13 +472,11 @@ function Home() {
                           <span className="leading-tight text-lg md:text-2xl font-bold mb-1 block">تواصل واتساب</span>
                           <span className="text-[10px] md:text-sm font-bold opacity-90 block">رد فوري ومباشر</span>
                       </div>
-                  </motion.a>
-                  <motion.a 
+                  </a>
+                  <a 
                     href={`tel:${CONTACT_NUMBER}`} 
                     onClick={() => track('call_click')} 
-                    whileHover={{ scale: 1.03 }} 
-                    whileTap={{ scale: 0.97 }} 
-                    className="relative overflow-hidden bg-gradient-to-br from-blue-900 to-blue-800 text-white p-4 md:p-6 rounded-3xl flex flex-col items-center justify-center gap-3 shadow-xl shadow-blue-900/15 hover:from-blue-950 hover:to-blue-900 transition-all text-center aspect-square md:aspect-auto md:h-44 animate-shimmer-slow"
+                    className="relative overflow-hidden bg-gradient-to-br from-blue-900 to-blue-800 text-white p-4 md:p-6 rounded-3xl flex flex-col items-center justify-center gap-3 shadow-xl shadow-blue-900/15 hover:from-blue-950 hover:to-blue-900 transition-all transform hover:scale-105 active:scale-95 text-center aspect-square md:aspect-auto md:h-44 animate-shimmer-slow"
                   >
                       <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20 backdrop-blur-sm">
                         <Phone className="w-7 h-7 md:w-8 md:h-8 text-white" />
@@ -492,7 +485,7 @@ function Home() {
                           <span className="leading-tight text-lg md:text-2xl font-bold mb-1 text-white block">اتصل</span>
                           <span className="text-[10px] md:text-sm font-bold opacity-90 text-white block">اتصال هاتفي مباشر</span>
                       </div>
-                  </motion.a>
+                  </a>
               </div>
               
               <div className="flex flex-row items-center justify-center gap-6 md:gap-8 text-[11px] sm:text-xs text-slate-700 font-medium w-full">
@@ -511,7 +504,7 @@ function Home() {
                       <span>خدمة فورية</span>
                   </div>
               </div>
-            </motion.div>
+            </div>
 
 
 
