@@ -34,7 +34,8 @@ import {
   Menu,
   Wallet,
   Landmark,
-  Gift
+  Gift,
+  Sparkles
 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -110,6 +111,20 @@ function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-slate-50  selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden flex flex-col relative z-0">
+      {/* Global SVG Gradients */}
+      <svg width="0" height="0" className="absolute pointer-events-none" aria-hidden="true">
+        <defs>
+          <linearGradient id="blue-green-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop stopColor="#25D366" offset="0%" />
+            <stop stopColor="#3b82f6" offset="100%" />
+          </linearGradient>
+          <linearGradient id="soft-blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop stopColor="#60a5fa" offset="0%" />
+            <stop stopColor="#2563eb" offset="100%" />
+          </linearGradient>
+        </defs>
+      </svg>
+
       {/* Global Background Elements from Hero, now applied to the whole site */}
       <div className="fixed top-0 right-0 w-full md:w-1/2 h-screen bg-gradient-to-l from-blue-900 to-transparent -z-10 pointer-events-none opacity-[0.03]"></div>
       <div className="fixed top-0 left-0 w-full md:w-1/2 h-screen bg-gradient-to-r from-yellow-500 to-transparent -z-10 pointer-events-none opacity-5"></div>
@@ -124,8 +139,54 @@ function Layout({ children }: { children: ReactNode }) {
       >
         <div className="container mx-auto flex justify-between items-center text-right">
           <Link to="/" className="flex items-center gap-2.5 md:gap-3 group">
-            <span className="text-lg md:text-xl font-bold tracking-tight text-slate-800 block group-hover:text-blue-900 transition-colors">
-              عادل <span className="text-blue-800">السداد</span>
+            {/* Modern Layered Fintech Logo in comfortable calm deep navy/sapphire blue */}
+            <div className="relative flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-2xl bg-gradient-to-br from-[#25D366] via-[#128C7E] to-[#3b82f6] border border-white/20 shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-all duration-300 overflow-hidden shrink-0">
+              {/* Layered Isometric Fintech Stack */}
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 relative z-10 drop-shadow-sm">
+                <defs>
+                  <linearGradient id="logo-mid-layer" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#FBBF24" />
+                    <stop offset="100%" stopColor="#F59E0B" />
+                  </linearGradient>
+                  <linearGradient id="logo-bot-layer" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#6EE7B7" />
+                    <stop offset="100%" stopColor="#34D399" />
+                  </linearGradient>
+                </defs>
+                
+                {/* Top Layer: Isometric Rhombus in Crisp White */}
+                <path 
+                  d="M12 4.2L19 8L12 11.8L5 8L12 4.2Z" 
+                  stroke="#FFFFFF" 
+                  strokeWidth="2.2" 
+                  strokeLinejoin="round" 
+                  fill="white" 
+                  fillOpacity="0.15"
+                />
+                
+                {/* Middle Layer */}
+                <path 
+                  d="M5 12.2L12 16L19 12.2" 
+                  stroke="#FFFFFF" 
+                  strokeWidth="2.2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  opacity="0.9"
+                />
+                
+                {/* Bottom Layer */}
+                <path 
+                  d="M5 16.2L12 20L19 16.2" 
+                  stroke="#FFFFFF" 
+                  strokeWidth="2.2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  opacity="0.8"
+                />
+              </svg>
+            </div>
+            <span className="text-lg md:text-xl font-bold tracking-tight block group-hover:opacity-80 transition-opacity">
+              <span className="text-slate-900">عادل</span> <span className="bg-gradient-to-r from-[#128C7E] to-[#064E3B] text-transparent bg-clip-text font-extrabold">السداد</span>
             </span>
           </Link>
           
@@ -160,11 +221,18 @@ function Layout({ children }: { children: ReactNode }) {
             </button>
          
          {/* Logo and Name in Mobile Menu */}
-             <div className="flex items-center gap-3 mb-4 justify-start">
-               <span className="text-xl font-bold tracking-tight text-slate-800">
-                 عادل <span className="text-blue-800">السداد</span>
-               </span>
-             </div>
+         <div className="flex items-center gap-3 mb-4 justify-start">
+           <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br from-[#25D366] via-[#128C7E] to-[#3b82f6] border border-white/20 shadow-md shadow-emerald-500/20 overflow-hidden shrink-0">
+             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5 relative z-10 drop-shadow-sm">
+               <path d="M12 4.2L19 8L12 11.8L5 8L12 4.2Z" stroke="#FFFFFF" strokeWidth="2.2" strokeLinejoin="round" fill="white" fillOpacity="0.15" />
+               <path d="M5 12.2L12 16L19 12.2" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
+               <path d="M5 16.2L12 20L19 16.2" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
+             </svg>
+           </div>
+           <span className="text-xl font-bold tracking-tight">
+             <span className="text-slate-900">عادل</span> <span className="bg-gradient-to-r from-[#128C7E] to-[#064E3B] text-transparent bg-clip-text font-extrabold">السداد</span>
+           </span>
+         </div>
 
              <Link onClick={() => setMenuOpen(false)} to="/" className="text-xl font-medium text-slate-800">الرئيسية</Link>
              <Link onClick={() => setMenuOpen(false)} to="/services" className="text-xl font-medium text-slate-800">خدماتنا</Link>
@@ -186,7 +254,16 @@ function Layout({ children }: { children: ReactNode }) {
           <div className="grid md:grid-cols-4 gap-6 text-right mb-8">
             <div className="md:col-span-1">
               <div className="flex items-center gap-3 mb-6">
-                <span className="text-xl font-bold text-white tracking-tight">عادل السداد</span>
+                <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br from-[#25D366] via-[#128C7E] to-[#3b82f6] border border-white/20 shadow-md shadow-emerald-500/20 overflow-hidden shrink-0">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5 relative z-10 drop-shadow-sm">
+                    <path d="M12 4.2L19 8L12 11.8L5 8L12 4.2Z" stroke="#FFFFFF" strokeWidth="2.2" strokeLinejoin="round" fill="white" fillOpacity="0.15" />
+                    <path d="M5 12.2L12 16L19 12.2" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
+                    <path d="M5 16.2L12 20L19 16.2" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
+                  </svg>
+                </div>
+                <span className="text-xl font-bold tracking-tight">
+                  <span className="text-white">عادل</span> <span className="bg-gradient-to-r from-[#25D366] to-[#128C7E] text-transparent bg-clip-text font-extrabold">السداد</span>
+                </span>
               </div>
               <p className="leading-relaxed text-sm font-medium">
                 شريكك المالي الموثوق في المملكة العربية السعودية لسداد القروض مع عادل السداد.
@@ -408,47 +485,142 @@ function Home() {
               className="lg:col-span-12 flex flex-col items-center max-w-4xl mx-auto w-full"
             >
               {/* Badges Stack */}
-              <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 mb-6 w-full">
-                <div className="inline-flex items-center justify-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-blue-950 text-xs md:text-sm font-bold shadow-sm">
-                  <AlertTriangle className="w-4 h-4 shrink-0 text-blue-900" strokeWidth={2.5} />
+              <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 mb-3 w-full">
+                <div className="inline-flex items-center justify-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-xl text-black text-xs md:text-sm font-bold shadow-sm">
+                  <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="url(#alert-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <defs>
+                      <linearGradient id="alert-gradient" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#25D366" offset="0%" />
+                        <stop stopColor="#3b82f6" offset="100%" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                  </svg>
                   <span className="whitespace-nowrap">
                     للقطاع الحكومي فقط ونعتذر عن القطاع الخاص
                   </span>
                 </div>
-
-                <div className="inline-flex items-center justify-center gap-2 md:gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-950 to-blue-800 shadow-lg transform-gpu hover:scale-105 transition-transform">
-                  <span className="font-bold text-sm md:text-base leading-tight text-white text-center whitespace-nowrap">
-                    عروض خاصة لمنسوبي الصحة والتعليم والعسكر والمدنيين
-                  </span>
-                </div>
-
-                <div
-                  className="mt-6 mb-4 relative z-10 flex flex-col items-center transform -rotate-2"
-                >
-                  <div className="mb-0 rounded-full p-[1px] bg-gradient-to-r from-[#25D366]/20 to-blue-900/20 shadow-sm">
-                    <div className="flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-900/5 to-[#25D366]/5 backdrop-blur-md">
-                      <span className="flex h-2.5 w-2.5 relative">
-                        <span className="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75 blur-[2px]"></span>
-                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#25D366]"></span>
-                      </span>
-                      <span className="text-xs md:text-sm font-bold bg-gradient-to-r from-blue-950 to-[#128C7E] text-transparent bg-clip-text leading-loose py-0.5">حصرياً لعملائنا</span>
-                    </div>
-                  </div>
-                  <h2 
-                    className="text-6xl md:text-8xl font-black bg-gradient-to-r from-blue-950 via-[#128C7E] to-[#25D366] text-transparent bg-clip-text inline-block transform-gpu pb-4 leading-normal pt-4 drop-shadow-md"
-                  >
-                    36 راتب
-                  </h2>
-                </div>
               </div>
 
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-4 text-center w-full">
-                عادل السداد - <span className="bg-gradient-to-l from-blue-950 to-blue-800 bg-clip-text text-transparent drop-shadow-sm font-bold">حلولك المالية</span> <br />
-                <span className="bg-gradient-to-l from-blue-950 to-blue-800 bg-clip-text text-transparent drop-shadow-sm block mt-2 text-center w-full font-bold">بين يديك</span>
-              </h1>
-              <p className="text-sm md:text-base text-slate-600 mb-5 leading-relaxed font-medium ">
-                نقدم لك حلولاً مالية مبتكرة تشمل تسديد القروض البنكية حتى ٣٦ راتب، رفع التعثرات من سمة، سداد البطاقات الائتمانية، واستخراج قروض لجميع البنوك بسرعة وسهولة.
-              </p>
+              {/* Main Headline */}
+              <div className="relative z-10 flex flex-col items-center w-full">
+                <div className="mb-4 flex items-center justify-center">
+                  <div className="relative flex items-center justify-center">
+                    {/* Smooth ambient glowing pulse rings */}
+                    <div className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-[#25D366] to-[#3b82f6] opacity-40 blur-md animate-pulse"></div>
+                    <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-[#25D366] via-[#128C7E] to-[#3b82f6] shadow-lg shadow-emerald-500/30 transition-transform duration-300 hover:scale-105 flex items-center justify-center p-2">
+                      {/* Check icon with circular white outline border enclosing the checkmark */}
+                      <svg 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className="w-full h-full drop-shadow-sm"
+                      >
+                        {/* Circular white border around checkmark */}
+                        <circle 
+                          cx="12" 
+                          cy="12" 
+                          r="9.5" 
+                          stroke="white" 
+                          strokeWidth="2" 
+                        />
+                        {/* Checkmark path matching icon design */}
+                        <path 
+                          d="M8.2 12.5L10.8 15.1L15.8 9.5" 
+                          stroke="white" 
+                          strokeWidth="2.4" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <h1 
+                  className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black inline-block transform-gpu leading-tight pb-4 drop-shadow-md text-center text-black tracking-tight"
+                >
+                  <span>تسديد القروض حتى </span>
+                  <span className="bg-gradient-to-r from-[#25D366] to-[#128C7E] text-transparent bg-clip-text font-black">
+                    36
+                  </span>
+                  <span> راتب</span>
+                </h1>
+              </div>
+
+              {/* Feature Badges Grid */}
+              <div className="w-full max-w-xl mb-5 space-y-3">
+                {/* First 4 Badges */}
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full">
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/30 backdrop-blur-md border border-blue-900/25 shadow-2xs hover:bg-white/45 transition-colors">
+                    <CheckCircle2 className="w-5 h-5 shrink-0" style={{ stroke: "url(#blue-green-gradient)" }} />
+                    <span className="text-xs sm:text-sm font-bold text-black text-right leading-tight">
+                      تسديد القروض البنكية
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/30 backdrop-blur-md border border-blue-900/25 shadow-2xs hover:bg-white/45 transition-colors">
+                    <CheckCircle2 className="w-5 h-5 shrink-0" style={{ stroke: "url(#blue-green-gradient)" }} />
+                    <span className="text-xs sm:text-sm font-bold text-black text-right leading-tight">
+                      سداد البطاقات الائتمانية
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/30 backdrop-blur-md border border-blue-900/25 shadow-2xs hover:bg-white/45 transition-colors">
+                    <CheckCircle2 className="w-5 h-5 shrink-0" style={{ stroke: "url(#blue-green-gradient)" }} />
+                    <span className="text-xs sm:text-sm font-bold text-black text-right leading-tight">
+                      رفع التعثرات من سمة
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/30 backdrop-blur-md border border-blue-900/25 shadow-2xs hover:bg-white/45 transition-colors">
+                    <CheckCircle2 className="w-5 h-5 shrink-0" style={{ stroke: "url(#blue-green-gradient)" }} />
+                    <span className="text-xs sm:text-sm font-bold text-black text-right leading-tight">
+                      سداد إيقاف الخدمات
+                    </span>
+                  </div>
+                </div>
+
+                {/* Divider Badge without horizontal line */}
+                <div className="flex items-center justify-center my-1.5">
+                  <div className="inline-flex items-center px-4 py-1 rounded-full bg-gradient-to-r from-[#25D366] to-[#3b82f6] text-white shadow-md shadow-emerald-500/20 text-xs font-bold tracking-wide">
+                    <span>بالإضافة إلى</span>
+                  </div>
+                </div>
+
+                {/* Next 4 Badges */}
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full">
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/30 backdrop-blur-md border border-blue-900/25 shadow-2xs hover:bg-white/45 transition-colors">
+                    <CheckCircle2 className="w-5 h-5 shrink-0" style={{ stroke: "url(#blue-green-gradient)" }} />
+                    <span className="text-xs sm:text-sm font-bold text-black text-right leading-tight">
+                      تسديد شركات التمويل
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/30 backdrop-blur-md border border-blue-900/25 shadow-2xs hover:bg-white/45 transition-colors">
+                    <CheckCircle2 className="w-5 h-5 shrink-0" style={{ stroke: "url(#blue-green-gradient)" }} />
+                    <span className="text-xs sm:text-sm font-bold text-black text-right leading-tight">
+                      أفضل واسرع الحلول
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/30 backdrop-blur-md border border-blue-900/25 shadow-2xs hover:bg-white/45 transition-colors">
+                    <CheckCircle2 className="w-5 h-5 shrink-0" style={{ stroke: "url(#blue-green-gradient)" }} />
+                    <span className="text-xs sm:text-sm font-bold text-black text-right leading-tight">
+                      حلول مالية مرنة
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/30 backdrop-blur-md border border-blue-900/25 shadow-2xs hover:bg-white/45 transition-colors">
+                    <CheckCircle2 className="w-5 h-5 shrink-0" style={{ stroke: "url(#blue-green-gradient)" }} />
+                    <span className="text-xs sm:text-sm font-bold text-black text-right leading-tight">
+                      سرعة إنجاز فوري
+                    </span>
+                  </div>
+                </div>
+              </div>
               
               {/* Square CTA Buttons Side-By-Side */}
               <div className="grid grid-cols-2 gap-4 w-full max-w-xl mb-6">
@@ -498,9 +670,16 @@ function Home() {
                       <span>خدمة فورية</span>
                   </div>
               </div>
+
+              {/* Disclaimer text in transparent pill */}
+              <div className="mt-3 w-full max-w-xl flex items-center justify-center">
+                <div className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-gradient-to-r from-blue-500/[0.04] via-sky-500/[0.02] to-transparent backdrop-blur-xs border border-blue-900/15 hover:border-blue-900/25 transition-colors w-full text-center">
+                  <span className="text-[11px] sm:text-xs font-light text-slate-500 leading-snug">
+                    تخضع جميع الخدمات لجميع الشروط والأحكام - الخدمة استشارية وتسهيل إجراءات ولسنا جهة إقراض
+                  </span>
+                </div>
+              </div>
             </div>
-
-
 
           </div>
         </div>
@@ -509,7 +688,7 @@ function Home() {
       {/* Stats Banner (Floating Blue Glassmorphic Card synchronized in style) */}
       <section className="px-4">
         <div 
-          className="relative max-w-7xl mx-auto my-12 py-10 px-6 md:px-12 border border-blue-900/40 rounded-3xl bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 backdrop-blur-[40px] shadow-xl shadow-blue-950/15 overflow-hidden"
+          className="relative max-w-7xl mx-auto my-4 sm:my-6 py-10 px-6 md:px-12 border border-blue-900/40 rounded-3xl bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 backdrop-blur-[40px] shadow-xl shadow-blue-950/15 overflow-hidden"
         >
           <div className="container mx-auto relative z-10">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">

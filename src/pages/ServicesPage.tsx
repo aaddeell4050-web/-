@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { DetailServiceCard } from "../components/Cards";
+
+function DetailServiceCard({ title, content }: { title: string; content: string }) {
+  return (
+    <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-right hover:shadow-md transition-shadow">
+      <h3 className="text-xl font-bold text-slate-800 mb-2">{title}</h3>
+      <p className="text-slate-600 text-sm leading-relaxed">{content}</p>
+    </div>
+  );
+}
 
 export default function ServicesPage() {
   const [activeDetail, setActiveDetail] = useState<number | null>(null);
